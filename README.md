@@ -1,69 +1,62 @@
-# ro-app-template
+# ro-widgets
 
-Canonical GitHub Template Repository for new Ro-ASD application repositories.
+Ro Desktop'un Plasma widget'ları. Her üst düzey klasör bir Plasma widget paketidir (plasmoid).
 
-## Purpose
+| Klasör | Widget kimliği | Ne |
+|---|---|---|
+| `ro-launcher/` | `org.ro.launcher` | Ro panelinin uygulama başlatıcısı (Plasma Kickoff tabanlı) |
 
-This repository provides the common application governance and release contract for
-Project-Ro-ASD. It standardizes the stable CI interface (`ro-app-gate`) and the
-Producer V2 release bundle format without granting production trust by itself.
+## Tema ile ilişki
 
-A repository created from this template must replace the placeholders in
-`.roasd/app.json` and implement the two project-specific hooks:
+Görsel kurallar Ro-Theme'in karar belgesindedir (Ro-Theme-Docs · 21 widget sözleşmesi, `WGT-*`). Kısaca:
 
-- `tools/project-ci`
-- `tools/build-rpm`
+- **Renkler** yalnızca `Kirigami.Theme`'den gelir; elle hex ya da sabit `Qt.rgba` yok (WGT-03). Kullanıcı vurgu
+  rengini değiştirirse widget de değişir.
+- **Popup'ın dış köşesini, gölgesini ve camını** widget değil Plasma stili çizer (WGT-04).
+- **Stil nesneleri** popup'ın görsel ağacı içinde oluşturulur; panel bağlamında oluşturulan stil yanlış renk
+  setini alır (WGT-07).
+- **Singleton'lar** `qmldir` ile kaydedilir; `qmldir` varken kayıtsız tipler görünmez (WGT-08).
+- **Köşe, boşluk ve süreler** Ro token'larından gelir: Ro-Theme paketi `/usr/share/ro-theme/qml/RoTokens.qml`
+  kurar (WGT-02). Ölçüler `Kirigami.Units` ya da token; sabit piksel yok (WGT-09).
+- Düğme, alan ve liste için Plasma bileşenleri kullanılır (WGT-11).
 
-Until those hooks are implemented, copied application repositories fail closed.
+Ro-Theme bu pakete bağımlı değildir. Ro'nun panel yerleşim betiği `org.ro.launcher` kuruluysa onu, değilse
+Kickoff'u kullanır (WGT-14).
 
-## Stable CI contract
+## Denetim ve derleme
 
-`.github/workflows/ci.yml` always ends in the status check:
-
-    ro-app-gate
-
-Application-specific build, test, lint and validation logic belongs behind
-`tools/project-ci`. Organization/repository policy should depend on `ro-app-gate`,
-not on internal job names.
-
-## Release contract
-
-`.github/workflows/release.yml` runs only for exact `v*` tags. It:
-
-1. validates `.roasd/app.json`,
-2. verifies the tag resolves to the workflow commit,
-3. builds Fedora 44 RPMs for the declared architectures through `tools/build-rpm`,
-4. verifies package name, version, `.fc44`, architecture and SRPM parity,
-5. creates a draft GitHub Release,
-6. generates `SHA256SUMS` and `component-artifact-manifest-v1.json`,
-7. creates GitHub artifact attestations,
-8. verifies the exact release asset set,
-9. publishes the release.
-
-The workflow does not contain or receive Ro-ASD production signing private keys.
-Production signing remains centralized in Ro-Repo.
-
-## Production trust
-
-Creating a repository from this template, or setting `roasd_type=application`, does
-**not** make it an official package producer. Official producer onboarding remains a
-reviewed change to:
-
-    Project-Ro-ASD/Ro-Repo/config/producers-v1.yaml
-
-The registry binds the exact repository, allowed package names, architectures,
-Fedora release and trusted release workflow.
-
-## Template metadata
-
-The template intentionally contains placeholders:
-
-```json
-{
-  "component": "__ROASD_COMPONENT__",
-  "package_names": ["__ROASD_PACKAGE__"]
-}
+```sh
+python3 tools/check-widgets.py      # widget sözleşmesi (SPDX, qmldir, elle renk, default/ yok)
+tools/project-ci                    # CI: sözleşme + QML sözdizimi + RPM (Fedora 44 konteyneri)
+tools/build-rpm 0.1.0 x86_64 out/   # ro-widgets RPM ve SRPM
 ```
 
-The future Ro-ASD repository bootstrap tool will replace these during repository
-creation. Manual users must replace them before application CI can pass.
+Yerel deneme (yalnız kendi kullanıcınız):
+
+```sh
+kpackagetool6 --type Plasma/Applet --upgrade ro-launcher || kpackagetool6 --type Plasma/Applet --install ro-launcher
+```
+
+Paket kurulunca `~/.local/share/plasma/plasmoids/org.ro.launcher` silinmeli; kullanıcı klasöründeki kopya sistem
+paketini gölgeler.
+
+## Yeni widget eklemek
+
+1. `ro-<ad>/` klasörü: `metadata.json` (`KPlugin.Id` = `org.ro.<ad>`) ve `contents/`.
+2. Her `.qml`/`.js` dosyasında SPDX lisans başlığı.
+3. `packaging/ro-widgets.spec` içindeki `%files` listesine `%{_datadir}/plasma/plasmoids/org.ro.<ad>` eklenir.
+4. `python3 tools/check-widgets.py` temiz olmalı.
+
+## Açık konular
+
+- **Mimari:** Widget'lar `noarch` paket üretir; `ro-app-template` sözleşmesi şimdilik yalnız `x86_64`/`aarch64`
+  kabul ediyor. Ro-Repo yayın kaydından önce `noarch` desteği netleşmeli.
+- **Token bağı:** `ro-launcher/contents/ui/Style.qml` köşeleri hâlâ elle tutuyor; `RoTokens.qml`'e geçiş ve iç köşe
+  kuralı (WGT-05: kart 12, küçük öğe 8) sonraki adım.
+- **Sabit ölçüler:** popup 640×560, başlık 54, kutucuk 90×94, güç menüsü 410×108; %150–%200 ölçekte test edilip
+  `Kirigami.Units`'e taşınmalı (WGT-09).
+
+## Lisans
+
+Kickoff'tan gelen dosyalar kendi SPDX başlıklarındaki lisansla (GPL-2.0-or-later, LGPL-2.0-or-later); Ro'nun
+eklediği dosyalar GPL-2.0-or-later. Paket bütünü GPL-3.0-or-later olarak dağıtılır.
