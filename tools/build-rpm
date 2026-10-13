@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+VERSION="${1:-}"
+ARCH="${2:-}"
+OUTDIR="${3:-}"
+
+if [[ -z "${VERSION}" || -z "${ARCH}" || -z "${OUTDIR}" ]]; then
+  echo "usage: tools/build-rpm <version> <arch> <output-dir>" >&2
+  exit 2
+fi
+
+if [[ "${GITHUB_REPOSITORY:-}" == "Project-Ro-ASD/ro-app-template" ]]; then
+  echo "Template repository does not build an RPM payload." >&2
+  echo "Copied application repositories must replace tools/build-rpm." >&2
+  exit 1
+fi
+
+echo "RPM build hook is not configured for this application." >&2
+echo "Implement tools/build-rpm so it writes the exact Fedora 44 RPM/SRPM set to: ${OUTDIR}" >&2
+exit 1

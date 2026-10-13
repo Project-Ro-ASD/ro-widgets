@@ -1,0 +1,14 @@
+{
+  "schema_version": 1,
+  "component": "__ROASD_COMPONENT__",
+  "package_names": [
+    "__ROASD_PACKAGE__"
+  ],
+  "fedora_release": 44,
+  "architectures": [
+    "x86_64",
+    "aarch64"
+  ],
+  "source_rpm": true,
+  "trusted_release_workflow": ".github/workflows/release.yml"
+}

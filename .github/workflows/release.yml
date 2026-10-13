@@ -1,0 +1,202 @@
+name: Ro-ASD Application Release
+
+on:
+  push:
+    tags:
+      - "v*"
+
+permissions:
+  contents: write
+  id-token: write
+  attestations: write
+  artifact-metadata: write
+
+concurrency:
+  group: ro-app-release-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  metadata:
+    name: Resolve release metadata
+    runs-on: ubuntu-24.04
+    outputs:
+      version: ${{ steps.meta.outputs.version }}
+      matrix: ${{ steps.meta.outputs.matrix }}
+    steps:
+      - name: Checkout trusted workflow source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Validate application metadata
+        run: python3 tools/validate-roasd-app.py
+      - name: Resolve exact tag and architecture matrix
+        id: meta
+        shell: bash
+        run: |
+          set -euo pipefail
+          TAG="${GITHUB_REF_NAME}"
+          VERSION="${TAG#v}"
+          [[ "${TAG}" == "v${VERSION}" ]]
+          [[ -n "${VERSION}" ]]
+          [[ "$(git rev-parse HEAD)" == "${GITHUB_SHA}" ]]
+          [[ "$(git rev-parse "refs/tags/${TAG}^{commit}")" == "${GITHUB_SHA}" ]]
+          MATRIX="$(python3 - <<'PY'
+          import json
+          d=json.load(open('.roasd/app.json'))
+          runners={'x86_64':'ubuntu-24.04','aarch64':'ubuntu-24.04-arm'}
+          print(json.dumps({'include':[{'arch':a,'runner':runners[a]} for a in d['architectures']]}))
+          PY
+          )"
+          echo "version=${VERSION}" >> "${GITHUB_OUTPUT}"
+          echo "matrix=${MATRIX}" >> "${GITHUB_OUTPUT}"
+
+  rpm:
+    name: Build Fedora 44 RPM (${{ matrix.arch }})
+    needs: metadata
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 60
+    container:
+      image: fedora:44
+    strategy:
+      fail-fast: false
+      matrix: ${{ fromJSON(needs.metadata.outputs.matrix) }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Install RPM validation tools
+        run: dnf install -y rpm python3
+      - name: Build exact RPM output
+        env:
+          VERSION: ${{ needs.metadata.outputs.version }}
+          RPM_ARCH: ${{ matrix.arch }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p release-rpms
+          bash tools/build-rpm "${VERSION}" "${RPM_ARCH}" "${PWD}/release-rpms"
+          test -n "$(find release-rpms -maxdepth 1 -type f -name '*.rpm' -print -quit)"
+          python3 - <<'PY'
+          import json, pathlib, subprocess, os
+          cfg=json.load(open('.roasd/app.json'))
+          allowed=set(cfg['package_names'])
+          arch=os.environ['RPM_ARCH']
+          rpms=sorted(pathlib.Path('release-rpms').glob('*.rpm'))
+          binaries=[]
+          for p in rpms:
+              q=subprocess.check_output(['rpm','-qp','--qf','%{NAME}\t%{VERSION}\t%{RELEASE}\t%{ARCH}\t%|SOURCEPACKAGE?{true}:{false}|',str(p)],text=True).split('\t')
+              name,version,release,rpmarch,is_source=q
+              if name not in allowed: raise SystemExit(f'unexpected package name: {name}')
+              if version != os.environ['VERSION']: raise SystemExit(f'version mismatch: {p}')
+              if not release.endswith('.fc44'): raise SystemExit(f'non-fc44 release: {p}')
+              if is_source != 'true':
+                  if rpmarch != arch: raise SystemExit(f'arch mismatch: {p}')
+                  binaries.append(p)
+          if not binaries: raise SystemExit('no binary RPM produced for architecture')
+          PY
+      - name: Upload RPM bundle part
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7
+        with:
+          name: ro-app-rpms-${{ matrix.arch }}-${{ needs.metadata.outputs.version }}
+          path: release-rpms/*.rpm
+          if-no-files-found: error
+          retention-days: 14
+
+  release:
+    name: Publish Producer V2 release bundle
+    needs: [metadata, rpm]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    env:
+      GH_TOKEN: ${{ github.token }}
+      VERSION: ${{ needs.metadata.outputs.version }}
+      TAG: ${{ github.ref_name }}
+    steps:
+      - name: Checkout trusted workflow source
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Download exact RPM set
+        uses: actions/download-artifact@3e5f45b2cfb9172054b4087a40e8e0b5a5461e7c # v8
+        with:
+          pattern: ro-app-rpms-*-${{ needs.metadata.outputs.version }}
+          path: bundle
+          merge-multiple: true
+      - name: Install release validation tools
+        run: sudo apt-get update && sudo apt-get install -y rpm jq
+      - name: Validate complete release bundle
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 - <<'PY'
+          import json, pathlib, subprocess, os
+          cfg=json.load(open('.roasd/app.json'))
+          allowed=set(cfg['package_names'])
+          required=set(cfg['architectures'])
+          seen=set(); src=[]; binaries=[]
+          for p in sorted(pathlib.Path('bundle').glob('*.rpm')):
+              q=subprocess.check_output(['rpm','-qp','--qf','%{NAME}\t%{VERSION}\t%{RELEASE}\t%{ARCH}\t%{SOURCERPM}\t%|SOURCEPACKAGE?{true}:{false}|',str(p)],text=True).split('\t')
+              name,version,release,arch,sourcerpm,is_source=q
+              if name not in allowed: raise SystemExit(f'unexpected package: {name}')
+              if version != os.environ['VERSION']: raise SystemExit(f'version mismatch: {p}')
+              if not release.endswith('.fc44'): raise SystemExit(f'non-fc44 release: {p}')
+              if is_source == 'true': src.append(p.name)
+              else:
+                  seen.add(arch); binaries.append((p.name,sourcerpm))
+          if seen != required: raise SystemExit(f'architecture set mismatch: {seen} != {required}')
+          if cfg.get('source_rpm', True) and len(src) != 1: raise SystemExit('expected exactly one SRPM')
+          if src:
+              for name,sourcerpm in binaries:
+                  if sourcerpm != src[0]: raise SystemExit(f'SRPM parity mismatch: {name}')
+          PY
+      - name: Create clean draft release
+        id: draft
+        shell: bash
+        run: |
+          set -euo pipefail
+          EXISTING="$(gh api "repos/${GITHUB_REPOSITORY}/releases/tags/${TAG}" 2>/dev/null || true)"
+          if [[ -n "${EXISTING}" ]]; then
+            ID="$(jq -r '.id' <<<"${EXISTING}")"
+            [[ "$(jq -r '.draft' <<<"${EXISTING}")" == "true" ]] || { echo "Published release reuse is forbidden" >&2; exit 1; }
+            gh api --method DELETE "repos/${GITHUB_REPOSITORY}/releases/${ID}"
+          fi
+          RELEASE_JSON="$(gh api --method POST "repos/${GITHUB_REPOSITORY}/releases" -f tag_name="${TAG}" -f target_commitish="${GITHUB_SHA}" -f name="${TAG}" -F draft=true -F generate_release_notes=true)"
+          RELEASE_ID="$(jq -r '.id' <<<"${RELEASE_JSON}")"
+          test -n "${RELEASE_ID}"
+          echo "release_id=${RELEASE_ID}" >> "${GITHUB_OUTPUT}"
+      - name: Generate SHA256SUMS and component manifest
+        env:
+          RELEASE_ID: ${{ steps.draft.outputs.release_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd bundle
+          mapfile -t RPMS < <(find . -maxdepth 1 -type f -name '*.rpm' -printf '%f\n' | sort)
+          sha256sum "${RPMS[@]}" > SHA256SUMS
+          python3 - <<'PY'
+          import hashlib,json,os,pathlib,subprocess
+          cfg=json.load(open('../.roasd/app.json'))
+          artifacts=[]
+          q='%{NAME}\t%{EPOCHNUM}\t%{VERSION}\t%{RELEASE}\t%{ARCH}\t%{SOURCERPM}\t%|SOURCEPACKAGE?{true}:{false}|'
+          for p in sorted(pathlib.Path('.').glob('*.rpm')):
+              name,epoch,version,release,arch,sourcerpm,is_source=subprocess.check_output(['rpm','-qp','--qf',q,str(p)],text=True).split('\t')
+              if is_source == 'true': arch='src'; sourcerpm=None
+              artifacts.append({'filename':p.name,'name':name,'epoch':int(epoch or 0),'version':version,'release':release,'architecture':arch,'source_rpm':sourcerpm,'producer_artifact_sha256':hashlib.sha256(p.read_bytes()).hexdigest()})
+          manifest={'schema_version':1,'component':cfg['component'],'source_repository':os.environ['GITHUB_REPOSITORY'],'source_commit':os.environ['GITHUB_SHA'],'release_tag':os.environ['TAG'],'release_id':int(os.environ['RELEASE_ID']),'workflow_run':int(os.environ['GITHUB_RUN_ID']),'fedora_release':44,'artifacts':artifacts,'provenance':{'provider':'github','subject_digest':'sha256'},'attestation':{'provider':'github','verification':'gh attestation verify'}}
+          pathlib.Path('component-artifact-manifest-v1.json').write_text(json.dumps(manifest,indent=2,sort_keys=True)+'\n')
+          PY
+          sha256sum -c SHA256SUMS
+      - name: Attest exact release bundle
+        uses: actions/attest@1e69f48acb82d1966a394da916b4c1698aa569d6 # v4
+        with:
+          subject-path: |
+            bundle/*.rpm
+            bundle/SHA256SUMS
+            bundle/component-artifact-manifest-v1.json
+      - name: Upload immutable release assets
+        run: gh release upload "${TAG}" bundle/*.rpm bundle/SHA256SUMS bundle/component-artifact-manifest-v1.json --repo "${GITHUB_REPOSITORY}"
+      - name: Verify exact asset set and publish
+        env:
+          RELEASE_ID: ${{ steps.draft.outputs.release_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          mapfile -t EXPECTED < <({ find bundle -maxdepth 1 -type f -name '*.rpm' -printf '%f\n'; printf '%s\n' SHA256SUMS component-artifact-manifest-v1.json; } | sort)
+          mapfile -t ACTUAL < <(gh api "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets" --paginate --jq '.[].name' | sort)
+          diff -u <(printf '%s\n' "${EXPECTED[@]}") <(printf '%s\n' "${ACTUAL[@]}")
+          gh api --method PATCH "repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}" -F draft=false >/dev/null

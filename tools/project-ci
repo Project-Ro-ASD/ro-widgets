@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+if [[ "${GITHUB_REPOSITORY:-}" == "Project-Ro-ASD/ro-app-template" ]]; then
+  echo "Template repository self-check: no project-specific build is required."
+  exit 0
+fi
+
+echo "Project-specific CI is not configured yet." >&2
+echo "Replace tools/project-ci with the application's real build/test/lint commands." >&2
+exit 1

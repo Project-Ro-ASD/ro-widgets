@@ -1,0 +1,50 @@
+name: Ro-ASD Application CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ro-app-ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  contract:
+    name: ro-app-contract
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Validate Ro-ASD application contract
+        run: python3 tools/validate-roasd-app.py
+
+  project-ci:
+    name: ro-app-project-ci
+    runs-on: ubuntu-24.04
+    container:
+      image: fedora:44
+    steps:
+      - name: Checkout
+        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+      - name: Run project CI hook
+        run: bash tools/project-ci
+
+  ro-app-gate:
+    name: ro-app-gate
+    if: always()
+    needs: [contract, project-ci]
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Enforce final application gate
+        env:
+          CONTRACT_RESULT: ${{ needs.contract.result }}
+          PROJECT_RESULT: ${{ needs.project-ci.result }}
+        run: |
+          set -euo pipefail
+          [[ "${CONTRACT_RESULT}" == "success" ]]
+          [[ "${PROJECT_RESULT}" == "success" ]]
