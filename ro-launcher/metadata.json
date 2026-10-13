@@ -1,0 +1,21 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Id": "org.ro.launcher",
+        "Name": "ro-Launcher",
+        "Description": "Ro Desktop application launcher (based on Plasma Kickoff)",
+        "Authors": [
+            {
+                "Name": "Hasan OKSUZ"
+            }
+        ],
+        "Website": "https://github.com/Project-Ro-ASD",
+        "Category": "Application Launchers",
+        "Icon": "start-here",
+        "License": "GPL-3.0-or-later"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0",
+    "X-Plasma-Provides": [
+        "org.kde.plasma.launchermenu"
+    ]
+}

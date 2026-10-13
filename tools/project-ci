@@ -1,11 +1,27 @@
 #!/usr/bin/env bash
+# ro-widgets CI (Fedora 44 konteyneri): widget sözleşmesi, QML sözdizimi, RPM derleme.
 set -euo pipefail
+cd "$(dirname "$0")/.."
 
-if [[ "${GITHUB_REPOSITORY:-}" == "Project-Ro-ASD/ro-app-template" ]]; then
-  echo "Template repository self-check: no project-specific build is required."
-  exit 0
+if command -v dnf >/dev/null 2>&1 && [[ "$(id -u)" -eq 0 ]]; then
+  dnf -y -q install python3 qt6-qtdeclarative-devel rpm-build tar >/dev/null
 fi
 
-echo "Project-specific CI is not configured yet." >&2
-echo "Replace tools/project-ci with the application's real build/test/lint commands." >&2
-exit 1
+python3 tools/check-widgets.py
+
+QMLFORMAT="$(command -v qmlformat-qt6 || command -v qmlformat || echo /usr/lib64/qt6/bin/qmlformat)"
+if [[ -x "$QMLFORMAT" ]]; then
+  fail=0
+  while IFS= read -r f; do
+    "$QMLFORMAT" "$f" >/dev/null 2>"/tmp/qmlformat.err" || { echo "[FAIL] QML sözdizimi: $f"; cat /tmp/qmlformat.err; fail=1; }
+  done < <(find . -path ./.git -prune -o -name '*.qml' -print | sort)
+  [[ "$fail" -eq 0 ]] && echo "QML sözdizimi: tamam"
+  [[ "$fail" -eq 0 ]]
+else
+  echo "qmlformat bulunamadı; QML sözdizimi denetimi atlandı" >&2
+  [[ -z "${CI:-}" ]] || exit 1
+fi
+
+out="$(mktemp -d)"
+tools/build-rpm 0.0.0 x86_64 "$out"
+ls "$out"

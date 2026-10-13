@@ -1,13 +1,12 @@
 {
   "schema_version": 1,
-  "component": "__ROASD_COMPONENT__",
+  "component": "ro-widgets",
   "package_names": [
-    "__ROASD_PACKAGE__"
+    "ro-widgets"
   ],
   "fedora_release": 44,
   "architectures": [
-    "x86_64",
-    "aarch64"
+    "x86_64"
   ],
   "source_rpm": true,
   "trusted_release_workflow": ".github/workflows/release.yml"
