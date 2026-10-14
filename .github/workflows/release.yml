@@ -24,7 +24,7 @@ jobs:
       matrix: ${{ steps.meta.outputs.matrix }}
     steps:
       - name: Checkout trusted workflow source
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Validate application metadata
         run: python3 tools/validate-roasd-app.py
       - name: Resolve exact tag and architecture matrix
@@ -60,7 +60,7 @@ jobs:
       matrix: ${{ fromJSON(needs.metadata.outputs.matrix) }}
     steps:
       - name: Checkout
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Install RPM validation tools
         run: dnf install -y rpm python3
       - name: Build exact RPM output
@@ -110,7 +110,7 @@ jobs:
       TAG: ${{ github.ref_name }}
     steps:
       - name: Checkout trusted workflow source
-        uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
       - name: Download exact RPM set
         uses: actions/download-artifact@9000827ccba6bdab643e8b6fd33ac0654aef8333 # v8
         with:
