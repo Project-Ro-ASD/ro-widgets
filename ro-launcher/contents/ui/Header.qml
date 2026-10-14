@@ -130,7 +130,7 @@ Item {
             Layout.alignment: Qt.AlignVCenter
             Layout.preferredWidth: 38
             Layout.preferredHeight: 38
-            radius: root.st.radiusMedium
+            radius: root.st.radiusItem
             color: sHov.pressed ? root.st.pressed : (sHov.containsMouse ? root.st.hover : "transparent")
 
             Behavior on color { ColorAnimation { duration: root.st.durationShort } }

@@ -16,8 +16,10 @@ Görsel kurallar Ro-Theme'in karar belgesindedir (Ro-Theme-Docs · 21 widget sö
 - **Stil nesneleri** popup'ın görsel ağacı içinde oluşturulur; panel bağlamında oluşturulan stil yanlış renk
   setini alır (WGT-07).
 - **Singleton'lar** `qmldir` ile kaydedilir; `qmldir` varken kayıtsız tipler görünmez (WGT-08).
-- **Köşe, boşluk ve süreler** Ro token'larından gelir: Ro-Theme paketi `/usr/share/ro-theme/qml/RoTokens.qml`
-  kurar (WGT-02). Ölçüler `Kirigami.Units` ya da token; sabit piksel yok (WGT-09).
+- **Köşe, boşluk ve süreler** Ro token'larından gelir (WGT-02). Ro-Theme'in ürettiği `RoTokens.qml` widget'ın
+  `contents/ui/` klasörüne kopyalanır ve `qmldir`'de singleton olarak kaydedilir; widget Ro-Theme kurulu olmasa da
+  çalışır. İç köşeler: kart `RoTokens.radiusMd` (12), kart içindeki öğe `RoTokens.radiusSm` (8) (WGT-05). Ölçüler
+  `Kirigami.Units` ya da token; sabit piksel yok (WGT-09).
 - Düğme, alan ve liste için Plasma bileşenleri kullanılır (WGT-11).
 
 Ro-Theme bu pakete bağımlı değildir. Ro'nun panel yerleşim betiği `org.ro.launcher` kuruluysa onu, değilse
@@ -26,7 +28,9 @@ Kickoff'u kullanır (WGT-14).
 ## Denetim ve derleme
 
 ```sh
-python3 tools/check-widgets.py      # widget sözleşmesi (SPDX, qmldir, elle renk, default/ yok)
+python3 tools/check-widgets.py      # widget sözleşmesi (SPDX, qmldir, elle renk, default/ yok, token köşeleri)
+tools/sync-tokens                   # Ro-Theme token'ları değişince: RoTokens.qml kopyalarını ../Ro-Theme'den güncelle
+tools/sync-tokens --check           # kopyalar Ro-Theme main ile aynı mı (CI'da uyarı)
 tools/project-ci                    # CI: sözleşme + QML sözdizimi + RPM (Fedora 44 konteyneri)
 tools/build-rpm 0.1.0 x86_64 out/   # ro-widgets RPM ve SRPM
 ```
@@ -51,8 +55,6 @@ paketini gölgeler.
 
 - **Mimari:** Widget'lar `noarch` paket üretir; `ro-app-template` sözleşmesi şimdilik yalnız `x86_64`/`aarch64`
   kabul ediyor. Ro-Repo yayın kaydından önce `noarch` desteği netleşmeli.
-- **Token bağı:** `ro-launcher/contents/ui/Style.qml` köşeleri hâlâ elle tutuyor; `RoTokens.qml`'e geçiş ve iç köşe
-  kuralı (WGT-05: kart 12, küçük öğe 8) sonraki adım.
 - **Sabit ölçüler:** popup 640×560, başlık 54, kutucuk 90×94, güç menüsü 410×108; %150–%200 ölçekte test edilip
   `Kirigami.Units`'e taşınmalı (WGT-09).
 

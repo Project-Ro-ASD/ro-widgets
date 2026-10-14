@@ -76,7 +76,7 @@ Item {
         anchors.bottom: powerTrigger.bottom
         width: 410
         height: 108
-        radius: root.st.radiusLarge
+        radius: root.st.radiusCard
         color: root.st.surfaceSolid
         border.color: root.st.borderStrong
         border.width: root.st.borderWidth

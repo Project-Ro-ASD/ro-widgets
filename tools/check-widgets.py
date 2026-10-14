@@ -6,7 +6,8 @@ Her üst düzey klasör bir Plasma widget'ıdır (metadata.json + contents/). De
 - contents/ui/qmldir varsa klasördeki her .qml orada kayıtlı (WGT-08);
 - her .qml/.js dosyasında SPDX lisans başlığı;
 - QML'de elle renk yok: hex renk ve Qt.rgba(sayı...) yasak, renkler Kirigami.Theme'den (WGT-03);
-- widget paketinde gereksiz tema kopyası (default/) yok (WGT-13).
+- widget paketinde gereksiz tema kopyası (default/) yok (WGT-13);
+- RoTokens.qml varsa Ro-Theme'in ürettiği kopyadır ve Style.qml köşeleri sayı değil token'dır (WGT-02/05).
 """
 import json
 import re
@@ -47,6 +48,18 @@ for w in sorted(widgets):
         for q in ui.glob('*.qml'):
             if q.name not in listed and q.name not in ('main.qml', 'config.qml', 'ConfigGeneral.qml'):
                 err(f'{name}: {q.name} qmldir içinde kayıtlı değil (WGT-08)')
+    tokens = ui / 'RoTokens.qml'
+    if tokens.is_file():
+        text = tokens.read_text(encoding='utf-8')
+        if 'pragma Singleton' not in text or 'generate-theme.sh' not in text:
+            err(f'{name}: RoTokens.qml Ro-Theme çıktısı değil; tools/sync-tokens ile kopyalayın')
+        if not qmldir.is_file() or not re.search(r'^singleton RoTokens \S+ RoTokens\.qml$', qmldir.read_text(encoding='utf-8'), re.M):
+            err(f'{name}: RoTokens qmldir içinde singleton olarak kayıtlı değil (WGT-08)')
+    style = ui / 'Style.qml'
+    if style.is_file():
+        for i, line in enumerate(style.read_text(encoding='utf-8').splitlines(), 1):
+            if re.match(r'\s*readonly property real radius\w*:\s*[0-9.]+\s*$', line):
+                err(f'{style.relative_to(ROOT)}:{i}: köşe sayı olarak yazılmış; RoTokens kullanın (WGT-05)')
     for f in sorted(list(w.rglob('*.qml')) + list(w.rglob('*.js'))):
         rel = f.relative_to(ROOT)
         text = f.read_text(encoding='utf-8')

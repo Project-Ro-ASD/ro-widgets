@@ -9,6 +9,9 @@ fi
 
 python3 tools/check-widgets.py
 
+# Token kopyası Ro-Theme main ile aynı mı: ağ ya da Ro-Theme'deki bir değişiklik bu repodaki PR'ı durdurmasın diye uyarı.
+tools/sync-tokens --check main || echo "::warning::RoTokens.qml Ro-Theme main ile aynı değil (ya da indirilemedi); tools/sync-tokens çalıştırın"
+
 QMLFORMAT="$(command -v qmlformat-qt6 || command -v qmlformat || echo /usr/lib64/qt6/bin/qmlformat)"
 if [[ -x "$QMLFORMAT" ]]; then
   fail=0

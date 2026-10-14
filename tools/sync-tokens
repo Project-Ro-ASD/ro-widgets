@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+# SPDX-FileCopyrightText: Project Ro-ASD
+# SPDX-License-Identifier: GPL-3.0-or-later
+#
+# Ro-Theme'in ürettiği RoTokens.qml'i RoTokens kullanan her widget'a kopyalar (Ro-Theme-Docs 21 · WGT-02).
+# Widget'lar kopyayı kendi içinde taşır; Ro-Theme kurulu olmasa da çalışır.
+#
+#   tools/sync-tokens                 # ../Ro-Theme/dist/qml/RoTokens.qml'den kopyala (RO_THEME ile değiştirilebilir)
+#   tools/sync-tokens --check [REF]   # kopyalar Ro-Theme'in REF'indekiyle (varsayılan main) aynı mı; ağ gerekir
+set -euo pipefail
+cd "$(dirname "$0")/.."
+
+mapfile -t targets < <(find . -path ./.git -prune -o -path '*/contents/ui/RoTokens.qml' -print | sort)
+[[ "${#targets[@]}" -gt 0 ]] || { echo "RoTokens kullanan widget yok"; exit 0; }
+
+if [[ "${1:-}" == "--check" ]]; then
+  ref="${2:-main}"
+  src="$(mktemp)"; trap 'rm -f "$src"' EXIT
+  curl -fsSL "https://raw.githubusercontent.com/Project-Ro-ASD/Ro-Theme/${ref}/dist/qml/RoTokens.qml" -o "$src"
+  status=0
+  for t in "${targets[@]}"; do
+    if cmp -s "$src" "$t"; then echo "[OK] $t (Ro-Theme $ref)"; else echo "[FARKLI] $t: Ro-Theme $ref ile aynı değil; tools/sync-tokens çalıştırın"; status=1; fi
+  done
+  exit "$status"
+fi
+
+src="${RO_THEME:-../Ro-Theme}/dist/qml/RoTokens.qml"
+[[ -f "$src" ]] || { echo "bulunamadı: $src (RO_THEME=<Ro-Theme klasörü> verin)" >&2; exit 1; }
+for t in "${targets[@]}"; do cp "$src" "$t"; echo "kopyalandı: $t"; done
