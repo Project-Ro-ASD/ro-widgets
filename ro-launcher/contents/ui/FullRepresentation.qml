@@ -6,6 +6,7 @@
 
 import QtQuick
 import QtQuick.Layouts
+import QtQuick.Window
 import org.kde.plasma.plasmoid
 import org.kde.kirigami as Kirigami
 import org.kde.ksvg as KSvg
@@ -24,13 +25,18 @@ EmptyPage {
     }
 
     // Klasik modda çift sütun sığsın diye genişliği 700px yapıyoruz
-    Layout.minimumWidth: useClassic ? 660 : 540
-    Layout.preferredWidth: useClassic ? 720 : 640
-    Layout.maximumWidth: 860
+    // WGT-09: tasarım ölçüleri mantıksal piksel (ekran ölçeğiyle büyür) ama ekranın kullanılabilir alanını aşamaz.
+    // Küçük ekranda büyük ölçekte (ör. 1280×800 %150 = 853×533) sabit 560 yükseklik popup'ı ekrandan taşırıyordu.
+    // Panel ve popup kenarı için 4 gridUnit pay; Wayland'de desktopAvailable* panel alanını düşmeyebilir.
+    readonly property real screenFitWidth: Screen.desktopAvailableWidth - Kirigami.Units.gridUnit * 2
+    readonly property real screenFitHeight: Screen.desktopAvailableHeight - Kirigami.Units.gridUnit * 4
+    Layout.minimumWidth: Math.min(useClassic ? 660 : 540, screenFitWidth)
+    Layout.preferredWidth: Math.min(useClassic ? 720 : 640, screenFitWidth)
+    Layout.maximumWidth: Math.min(860, screenFitWidth)
 
-    Layout.minimumHeight: 480
-    Layout.preferredHeight: 560
-    Layout.maximumHeight: 720
+    Layout.minimumHeight: Math.min(480, screenFitHeight)
+    Layout.preferredHeight: Math.min(560, screenFitHeight)
+    Layout.maximumHeight: Math.min(720, screenFitHeight)
 
     property alias normalPage: normalPageItem
 
