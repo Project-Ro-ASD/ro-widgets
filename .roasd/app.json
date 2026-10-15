@@ -6,7 +6,7 @@
   ],
   "fedora_release": 44,
   "architectures": [
-    "x86_64"
+    "noarch"
   ],
   "source_rpm": true,
   "trusted_release_workflow": ".github/workflows/release.yml"

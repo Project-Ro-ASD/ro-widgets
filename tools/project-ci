@@ -26,5 +26,5 @@ else
 fi
 
 out="$(mktemp -d)"
-tools/build-rpm 0.0.0 x86_64 "$out"
+tools/build-rpm 0.0.0 noarch "$out"
 ls "$out"

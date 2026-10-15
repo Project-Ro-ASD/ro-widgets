@@ -32,7 +32,7 @@ python3 tools/check-widgets.py      # widget sözleşmesi (SPDX, qmldir, elle re
 tools/sync-tokens                   # Ro-Theme token'ları değişince: RoTokens.qml kopyalarını ../Ro-Theme'den güncelle
 tools/sync-tokens --check           # kopyalar Ro-Theme main ile aynı mı (CI'da uyarı)
 tools/project-ci                    # CI: sözleşme + QML sözdizimi + RPM (Fedora 44 konteyneri)
-tools/build-rpm 0.1.0 x86_64 out/   # ro-widgets RPM ve SRPM
+tools/build-rpm 0.1.0 noarch out/   # ro-widgets RPM ve SRPM
 ```
 
 Yerel deneme (yalnız kendi kullanıcınız):
@@ -53,8 +53,9 @@ paketini gölgeler.
 
 ## Açık konular
 
-- **Mimari:** Widget'lar `noarch` paket üretir; `ro-app-template` sözleşmesi şimdilik yalnız `x86_64`/`aarch64`
-  kabul ediyor. Ro-Repo yayın kaydından önce `noarch` desteği netleşmeli.
+- **Mimari:** Widget'lar `noarch` paket üretir; `.roasd/app.json` `architectures: ["noarch"]`. Şablonun doğrulayıcısı
+  ve yayın iş akışı `noarch`'ı tek başına kabul edecek şekilde genişletildi (Ro-Repo üretici kaydı `noarch`'ı zaten
+  destekliyor). Aynı değişiklik `ro-app-template`'e önerildi.
 - **Sabit ölçüler:** popup 640×560, başlık 54, kutucuk 90×94, güç menüsü 410×108; %150–%200 ölçekte test edilip
   `Kirigami.Units`'e taşınmalı (WGT-09).
 
