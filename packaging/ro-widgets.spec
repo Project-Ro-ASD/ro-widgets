@@ -32,5 +32,9 @@ done
 %{_datadir}/plasma/plasmoids/org.ro.launcher
 
 %changelog
-* Tue Oct 13 2026 Project Ro-ASD - 0.1.0-1
-- ro-launcher imported from the developer's working copy
+* Thu Oct 15 2026 Project Ro-ASD - 0.1.0-1
+- First release: ro-launcher, the application launcher of the Ro panel
+  (Plasma Kickoff based), imported from the developer's working copy.
+- Corner radii from the Ro tokens (RoTokens.qml copied into the widget).
+- Popup fits the screen at large scales; tile labels follow the font size.
+- noarch release.

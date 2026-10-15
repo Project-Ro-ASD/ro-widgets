@@ -7,6 +7,7 @@ Her üst düzey klasör bir Plasma widget'ıdır (metadata.json + contents/). De
 - her .qml/.js dosyasında SPDX lisans başlığı;
 - QML'de elle renk yok: hex renk ve Qt.rgba(sayı...) yasak, renkler Kirigami.Theme'den (WGT-03);
 - widget paketinde gereksiz tema kopyası (default/) yok (WGT-13);
+- metadata.json KPlugin.Version, spec'teki varsayılan sürümle aynı;
 - RoTokens.qml varsa Ro-Theme'in ürettiği kopyadır ve Style.qml köşeleri sayı değil token'dır (WGT-02/05).
 """
 import json
@@ -39,6 +40,10 @@ for w in sorted(widgets):
     pid = meta.get('KPlugin', {}).get('Id', '')
     if not pid.startswith('org.ro.'):
         err(f'{name}: KPlugin.Id org.ro.* olmalı (bulunan: {pid!r})')
+    spec = (ROOT / 'packaging' / 'ro-widgets.spec').read_text(encoding='utf-8')
+    spec_version = re.search(r'%\{!\?ro_version:([0-9.]+)\}', spec).group(1)
+    if meta.get('KPlugin', {}).get('Version') != spec_version:
+        err(f'{name}: metadata.json KPlugin.Version ({meta.get("KPlugin", {}).get("Version")}) spec sürümüyle ({spec_version}) aynı olmalı')
     if (w / 'default').exists():
         err(f'{name}: default/ klasörü pakete girmemeli (WGT-13)')
     ui = w / 'contents' / 'ui'
