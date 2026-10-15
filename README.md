@@ -44,6 +44,12 @@ kpackagetool6 --type Plasma/Applet --upgrade ro-launcher || kpackagetool6 --type
 Paket kurulunca `~/.local/share/plasma/plasmoids/org.ro.launcher` silinmeli; kullanıcı klasöründeki kopya sistem
 paketini gölgeler.
 
+## Sürüm çıkarmak
+
+1. `packaging/ro-widgets.spec`: varsayılan sürüm (`%{!?ro_version:X.Y.Z}`) ve `%changelog` girdisi.
+2. Her widget'ın `metadata.json` → `KPlugin.Version` aynı sürüm (`check-widgets.py` denetler).
+3. PR merge edildikten sonra `main` üzerinde `vX.Y.Z` etiketi; yayın iş akışı paketi etiketten derler ve yayınlar.
+
 ## Yeni widget eklemek
 
 1. `ro-<ad>/` klasörü: `metadata.json` (`KPlugin.Id` = `org.ro.<ad>`) ve `contents/`.
