@@ -190,7 +190,16 @@ jobs:
             bundle/SHA256SUMS
             bundle/component-artifact-manifest-v1.json
       - name: Upload immutable release assets
-        run: gh release upload "${TAG}" bundle/*.rpm bundle/SHA256SUMS bundle/component-artifact-manifest-v1.json --repo "${GITHUB_REPOSITORY}"
+        env:
+          RELEASE_ID: ${{ steps.draft.outputs.release_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          # Yeni taslak etiket adıyla hemen bulunamayabilir (Ro-Theme v1.1.1); yükleme sürüm kimliğine yapılır.
+          for f in bundle/*.rpm bundle/SHA256SUMS bundle/component-artifact-manifest-v1.json; do
+            gh api --method POST "https://uploads.github.com/repos/${GITHUB_REPOSITORY}/releases/${RELEASE_ID}/assets?name=$(basename "$f")" \
+              -H "Content-Type: application/octet-stream" --input "$f" --jq '.name'
+          done
       - name: Verify exact asset set and publish
         env:
           RELEASE_ID: ${{ steps.draft.outputs.release_id }}
