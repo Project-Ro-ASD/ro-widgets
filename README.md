@@ -55,8 +55,9 @@ paketini gölgeler.
 
 - **Mimari:** Widget'lar `noarch` paket üretir; `ro-app-template` sözleşmesi şimdilik yalnız `x86_64`/`aarch64`
   kabul ediyor. Ro-Repo yayın kaydından önce `noarch` desteği netleşmeli.
-- **Sabit ölçüler:** popup 640×560, başlık 54, kutucuk 90×94, güç menüsü 410×108; %150–%200 ölçekte test edilip
-  `Kirigami.Units`'e taşınmalı (WGT-09).
+- **Sabit ölçüler:** %100, %150 ve büyük yazı tipiyle gerçek oturumda denendi (WGT-09). Popup ekranın
+  kullanılabilir alanıyla sınırlı, kutucuk etiketleri genel yazı boyutunu izliyor. Kutucuk ve başlık gibi iç ölçüler
+  mantıksal piksel olduğu için ölçekle büyüyor; bu iki durumda sorun çıkarmadı.
 
 ## Lisans
 
