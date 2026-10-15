@@ -253,7 +253,7 @@ Item {
         Rectangle {
             anchors.fill: parent
             anchors.margins: 4
-            radius: root.st.radiusMedium
+            radius: root.st.radiusItem
             color: mouseArea.pressed ? root.st.pressed : (mouseArea.containsMouse ? root.st.hover : "transparent")
 
             Behavior on color { ColorAnimation { duration: root.st.durationShort } }
@@ -343,7 +343,7 @@ Item {
         height: favHeight + (fullHeight - favHeight) * root.expandProgress
 
         color: root.st.glass
-        radius: root.st.radiusLarge
+        radius: root.st.radiusCard
         border.color: root.st.glassBorder
         border.width: root.st.borderWidth
         clip: true
@@ -392,7 +392,7 @@ Item {
                         Rectangle {
                             anchors.fill: parent
                             anchors.margins: 3
-                            radius: root.st.radiusMedium
+                            radius: root.st.radiusItem
                             color: favHov.pressed ? root.st.pressed : (favHov.containsMouse ? root.st.hover : "transparent")
 
                             Behavior on color { ColorAnimation { duration: root.st.durationShort } }
@@ -475,7 +475,7 @@ Item {
 
                     Layout.fillWidth: true
                     Layout.fillHeight: true
-                    radius: root.st.radiusMedium
+                    radius: root.st.radiusItem
                     // Seçili sekme: yumuşak vurgu zemini; hover: nötr ton
                     color: selected ? root.st.accentSoft : (tMouse.containsMouse ? root.st.hover : "transparent")
 
@@ -638,7 +638,7 @@ Item {
                 id: searchDelegate
                 width: directSearchView.width
                 height: 52
-                radius: root.st.radiusMedium
+                radius: root.st.radiusItem
 
                 readonly property var view: directSearchView
                 readonly property int index: model.index

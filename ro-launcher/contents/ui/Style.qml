@@ -61,12 +61,11 @@ Item {
     //END
 
     //BEGIN Şekil
-    // Popup'ın dış köşesi Plasma stilinden gelir (Ro: radius.popup 18, iç boşluk 8). İç öğeler ondan
-    // küçük olmalı ki iç içe köşeler uyumlu dursun: kart < dış köşe, kart içindeki öğeler < kart.
-    readonly property real radiusSmall: 8
-    readonly property real radiusMedium: 10
-    readonly property real radiusLarge: 14
-    readonly property real borderWidth: 1
+    // Popup'ın dış köşesi Plasma stilinden gelir (Ro: radius.popup 18, iç boşluk 12). İç köşeler Ro token'larından
+    // (Ro-Theme-Docs 21 · WGT-05): popup'a doğrudan oturan kart 12, kartın içindeki öğe 8.
+    readonly property real radiusCard: RoTokens.radiusMd
+    readonly property real radiusItem: RoTokens.radiusSm
+    readonly property real borderWidth: RoTokens.borderWidth
     //END
 
     //BEGIN Tipografi (kullanıcının font ayarı/ölçeklemesiyle birlikte büyür)

@@ -2,6 +2,8 @@
 # qmldir varken dizindeki tipler sadece burada listelenirse görünür; yeni .qml eklerken buraya da ekle.
 singleton KickoffSingleton 1.0 KickoffSingleton.qml
 singleton ActionMenu 1.0 ActionMenu.qml
+# Ro-Theme'in ürettiği token'lar (tools/sync-tokens ile kopyalanır, elle düzenlenmez).
+singleton RoTokens 1.0 RoTokens.qml
 Style 1.0 Style.qml
 AbstractKickoffItemDelegate 1.0 AbstractKickoffItemDelegate.qml
 ApplicationsPage 1.0 ApplicationsPage.qml
