@@ -56,8 +56,9 @@ paketini gölgeler.
 - **Mimari:** Widget'lar `noarch` paket üretir; `.roasd/app.json` `architectures: ["noarch"]`. Şablonun doğrulayıcısı
   ve yayın iş akışı `noarch`'ı tek başına kabul edecek şekilde genişletildi (Ro-Repo üretici kaydı `noarch`'ı zaten
   destekliyor). Aynı değişiklik `ro-app-template`'e önerildi.
-- **Sabit ölçüler:** popup 640×560, başlık 54, kutucuk 90×94, güç menüsü 410×108; %150–%200 ölçekte test edilip
-  `Kirigami.Units`'e taşınmalı (WGT-09).
+- **Sabit ölçüler:** %100, %150 ve büyük yazı tipiyle gerçek oturumda denendi (WGT-09). Popup ekranın
+  kullanılabilir alanıyla sınırlı, kutucuk etiketleri genel yazı boyutunu izliyor. Kutucuk ve başlık gibi iç ölçüler
+  mantıksal piksel olduğu için ölçekle büyüyor; bu iki durumda sorun çıkarmadı.
 
 ## Lisans
 

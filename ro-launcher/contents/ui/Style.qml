@@ -69,8 +69,9 @@ Item {
     //END
 
     //BEGIN Tipografi (kullanıcının font ayarı/ölçeklemesiyle birlikte büyür)
-    // Bazı temalarda (ör. yedek tema) smallFont defaultFont'tan büyük gelebiliyor; asla büyük olmasın
-    readonly property real fontSmall: Math.min(Kirigami.Theme.smallFont.pointSize, Kirigami.Theme.defaultFont.pointSize)
+    // WGT-09: küçük yazı genel yazı tipinin %80'i (varsayılan 10 pt'ta 8 pt, bugünkü görünüm). smallFont ("en küçük
+    // okunabilir yazı") genel yazı tipi büyütülünce değişmediği için kutucuk etiketleri 8 pt'ta kalıyordu. Alt sınır smallFont.
+    readonly property real fontSmall: Math.max(Kirigami.Theme.smallFont.pointSize, Kirigami.Theme.defaultFont.pointSize * 0.8)
     readonly property real fontNormal: Kirigami.Theme.defaultFont.pointSize
     //END
 
