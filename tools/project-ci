@@ -4,7 +4,8 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 if command -v dnf >/dev/null 2>&1 && [[ "$(id -u)" -eq 0 ]]; then
-  dnf -y -q install python3 qt6-qtdeclarative-devel rpm-build tar >/dev/null
+  # rpm-build burada kurulmaz: tools/build-rpm kendisi kurar (yayın iş akışıyla aynı yol).
+  dnf -y -q install python3 qt6-qtdeclarative-devel >/dev/null
 fi
 
 python3 tools/check-widgets.py
