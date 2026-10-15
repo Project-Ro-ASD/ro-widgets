@@ -21,8 +21,12 @@ def main() -> None:
         fail('trusted_release_workflow must remain .github/workflows/release.yml')
 
     arches = set(data.get('architectures') or [])
-    if not arches or not arches.issubset(REQUIRED_ARCHES):
-        fail('architectures must contain x86_64 and/or aarch64 only')
+    # Mimariden bağımsız paketler (tema, widget, yapılandırma) tek başına noarch bildirir; Ro-Repo üretici
+    # kaydı noarch'ı kabul eder (PRODUCER-REGISTRY-V2). noarch başka mimariyle karışmaz.
+    if arches == {'noarch'}:
+        pass
+    elif not arches or not arches.issubset(REQUIRED_ARCHES):
+        fail('architectures must be ["noarch"] alone, or contain x86_64 and/or aarch64 only')
 
     packages = data.get('package_names') or []
     if not packages or any(not isinstance(item, str) or not item for item in packages):

@@ -41,7 +41,7 @@ jobs:
           MATRIX="$(python3 - <<'PY'
           import json
           d=json.load(open('.roasd/app.json'))
-          runners={'x86_64':'ubuntu-24.04','aarch64':'ubuntu-24.04-arm'}
+          runners={'x86_64':'ubuntu-24.04','aarch64':'ubuntu-24.04-arm','noarch':'ubuntu-24.04'}
           print(json.dumps({'include':[{'arch':a,'runner':runners[a]} for a in d['architectures']]}))
           PY
           )"
