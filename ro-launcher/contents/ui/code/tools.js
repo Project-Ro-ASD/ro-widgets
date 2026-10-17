@@ -10,7 +10,7 @@
 .pragma library
 .import org.kde.plasma.core as PlasmaCore
 
-const defaultIconName = "start-here-kde-symbolic";
+const defaultIconName = "ro-start";
 
 function iconOrDefault(formFactor, preferredIconName) {
     // Vertical panels must have an icon, at least a default one.

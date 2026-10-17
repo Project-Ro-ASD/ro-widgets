@@ -8,7 +8,9 @@ Her üst düzey klasör bir Plasma widget'ıdır (metadata.json + contents/). De
 - QML'de elle renk yok: hex renk ve Qt.rgba(sayı...) yasak, renkler Kirigami.Theme'den (WGT-03);
 - widget paketinde gereksiz tema kopyası (default/) yok (WGT-13);
 - metadata.json KPlugin.Version, spec'teki varsayılan sürümle aynı;
-- RoTokens.qml varsa Ro-Theme'in ürettiği kopyadır ve Style.qml köşeleri sayı değil token'dır (WGT-02/05).
+- RoTokens.qml varsa Ro-Theme'in ürettiği kopyadır ve Style.qml köşeleri sayı değil token'dır (WGT-02/05);
+- metadata Icon ro-* ise <widget>/icons/<ad>.svg var, SPDX başlıklı ve rengi temadan (ColorScheme-*/currentColor);
+  config varsayılanı da aynı simge.
 """
 import json
 import re
@@ -65,6 +67,23 @@ for w in sorted(widgets):
         for i, line in enumerate(style.read_text(encoding='utf-8').splitlines(), 1):
             if re.match(r'\s*readonly property real radius\w*:\s*[0-9.]+\s*$', line):
                 err(f'{style.relative_to(ROOT)}:{i}: köşe sayı olarak yazılmış; RoTokens kullanın (WGT-05)')
+    icon = meta.get('KPlugin', {}).get('Icon', '')
+    if icon.startswith('ro-'):
+        svg = w / 'icons' / f'{icon}.svg'
+        if not svg.is_file():
+            err(f'{name}: metadata Icon {icon!r} için icons/{icon}.svg yok')
+        else:
+            text = svg.read_text(encoding='utf-8')
+            if 'SPDX-License-Identifier' not in text:
+                err(f'{svg.relative_to(ROOT)}: SPDX lisans başlığı yok')
+            if 'id="current-color-scheme"' not in text or 'currentColor' not in text \
+                    or re.search(r'(fill|stroke)="#[0-9a-fA-F]{3,8}"', text):
+                err(f'{svg.relative_to(ROOT)}: renk temadan gelmeli (ColorScheme-* sınıfı + currentColor, elle renk yok)')
+        main_xml = w / 'contents' / 'config' / 'main.xml'
+        if main_xml.is_file() and 'name="icon"' in main_xml.read_text(encoding='utf-8') \
+                and not re.search(r'name="icon"[^>]*>(?:(?!</entry>).)*<default>' + re.escape(icon) + '</default>',
+                                  main_xml.read_text(encoding='utf-8'), re.S):
+            err(f'{name}: config icon varsayılanı metadata Icon ({icon}) ile aynı olmalı')
     for f in sorted(list(w.rglob('*.qml')) + list(w.rglob('*.js'))):
         rel = f.relative_to(ROOT)
         text = f.read_text(encoding='utf-8')

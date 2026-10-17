@@ -2,7 +2,7 @@ Name:           ro-widgets
 Version:        %{?ro_version}%{!?ro_version:0.1.0}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
-License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later
+License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
 URL:            https://github.com/Project-Ro-ASD/ro-widgets
 Source0:        %{name}-%{version}.tar.gz
 BuildArch:      noarch
@@ -26,10 +26,16 @@ for dir in */; do
   id="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["KPlugin"]["Id"])' "$dir/metadata.json")"
   install -d "%{buildroot}%{_datadir}/plasma/plasmoids/$id"
   cp -a "$dir/metadata.json" "$dir/contents" "%{buildroot}%{_datadir}/plasma/plasmoids/$id/"
+  # Widget simgeleri hicolor'a: her ikon temasının yedeği, panel ve widget seçici adıyla bulur.
+  for icon in "$dir"/icons/*.svg; do
+    [ -f "$icon" ] || continue
+    install -Dm0644 "$icon" "%{buildroot}%{_datadir}/icons/hicolor/scalable/apps/$(basename "$icon")"
+  done
 done
 
 %files
 %{_datadir}/plasma/plasmoids/org.ro.launcher
+%{_datadir}/icons/hicolor/scalable/apps/ro-start.svg
 
 %changelog
 * Thu Oct 15 2026 Project Ro-ASD - 0.1.0-1
