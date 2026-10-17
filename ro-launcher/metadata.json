@@ -11,7 +11,7 @@
         ],
         "Website": "https://github.com/Project-Ro-ASD/ro-widgets",
         "Category": "Application Launchers",
-        "Icon": "start-here",
+        "Icon": "ro-start",
         "License": "GPL-3.0-or-later",
         "Version": "0.1.0"
     },

@@ -21,6 +21,8 @@ Görsel kurallar Ro-Theme'in karar belgesindedir (Ro-Theme-Docs · 21 widget sö
   çalışır. İç köşeler: kart `RoTokens.radiusMd` (12), kart içindeki öğe `RoTokens.radiusSm` (8) (WGT-05). Ölçüler
   `Kirigami.Units` ya da token; sabit piksel yok (WGT-09).
 - Düğme, alan ve liste için Plasma bileşenleri kullanılır (WGT-11).
+- **Simge:** Widget'ın kendi simgesi `<widget>/icons/<ad>.svg`; paket `hicolor/scalable/apps`'e kurar. Renk
+  `ColorScheme-*` sınıfıyla temadan gelir. ro-launcher'ın simgesi `ro-start` (Ro logosunun halkaları).
 
 Ro-Theme bu pakete bağımlı değildir. Ro'nun panel yerleşim betiği `org.ro.launcher` kuruluysa onu, değilse
 Kickoff'u kullanır (WGT-14).
@@ -69,4 +71,5 @@ paketini gölgeler.
 ## Lisans
 
 Kickoff'tan gelen dosyalar kendi SPDX başlıklarındaki lisansla (GPL-2.0-or-later, LGPL-2.0-or-later); Ro'nun
-eklediği dosyalar GPL-2.0-or-later. Paket bütünü GPL-3.0-or-later olarak dağıtılır.
+eklediği dosyalar GPL-2.0-or-later. Paket bütünü GPL-3.0-or-later olarak dağıtılır. Simgeler (`*/icons/`, Ro
+logosundan türer) CC-BY-SA-4.0.
