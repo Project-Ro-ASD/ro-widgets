@@ -1,5 +1,5 @@
 Name:           ro-widgets
-Version:        %{?ro_version}%{!?ro_version:0.1.0}
+Version:        %{?ro_version}%{!?ro_version:0.1.1}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
 License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
@@ -38,6 +38,12 @@ done
 %{_datadir}/icons/hicolor/scalable/apps/ro-start.svg
 
 %changelog
+* Sat Oct 17 2026 Project Ro-ASD - 0.1.1-1
+- ro-launcher ships its own icon, ro-start (the Ro logo rings), installed to
+  hicolor; it replaces start-here and the KDE logo fallback.
+- Release workflow: build-rpm installs rpm-build, first-release detection and
+  asset upload fixed.
+
 * Thu Oct 15 2026 Project Ro-ASD - 0.1.0-1
 - First release: ro-launcher, the application launcher of the Ro panel
   (Plasma Kickoff based), imported from the developer's working copy.
