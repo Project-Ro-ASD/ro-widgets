@@ -13,7 +13,7 @@
         "Category": "Application Launchers",
         "Icon": "ro-start",
         "License": "GPL-3.0-or-later",
-        "Version": "0.1.0"
+        "Version": "0.1.1"
     },
     "X-Plasma-API-Minimum-Version": "6.0",
     "X-Plasma-Provides": [
