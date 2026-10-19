@@ -34,7 +34,7 @@ python3 tools/check-widgets.py      # widget sözleşmesi (SPDX, qmldir, elle re
 tools/sync-tokens                   # Ro-Theme token'ları değişince: RoTokens.qml kopyalarını ../Ro-Theme'den güncelle
 tools/sync-tokens --check           # kopyalar Ro-Theme main ile aynı mı (CI'da uyarı)
 tools/project-ci                    # CI: sözleşme + QML sözdizimi + RPM (Fedora 44 konteyneri)
-tools/build-rpm 0.1.1 noarch out/   # ro-widgets RPM ve SRPM
+tools/build-rpm 0.1.2 noarch out/   # ro-widgets RPM ve SRPM
 ```
 
 Yerel deneme (yalnız kendi kullanıcınız):
