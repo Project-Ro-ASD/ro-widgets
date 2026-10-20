@@ -100,3 +100,7 @@ msgstr "Thêm vào phân loại của Ro Launcher…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "Không tìm thấy Ro Launcher trên bảng điều khiển."
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show the + button for new categories"
+msgstr "Hiện nút + cho phân loại mới"

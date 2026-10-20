@@ -77,6 +77,10 @@
             <label>Show the user's own application categories below the favorites (and in Places in the classic view)</label>
             <default>true</default>
         </entry>
+        <entry name="showAddCategoryButton" type="Bool">
+            <label>Show the + button under the categories on the home view (new categories can also be created from an application's context menu)</label>
+            <default>true</default>
+        </entry>
         <entry name="customCategories" type="String">
             <label>The user's application categories as JSON: [{"name": "...", "apps": ["org.kde.dolphin.desktop"], "collapsed": false}]</label>
             <default>[]</default>

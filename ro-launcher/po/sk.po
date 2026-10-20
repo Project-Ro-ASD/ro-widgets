@@ -100,3 +100,7 @@ msgstr "Pridať do kategórie Ro Launchera…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "Ro Launcher sa na paneli nenašiel."
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show the + button for new categories"
+msgstr "Zobraziť tlačidlo + pre nové kategórie"

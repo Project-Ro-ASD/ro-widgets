@@ -41,6 +41,7 @@ KCM.SimpleKCM {
     property alias cfg_switchCategoryOnHover: switchCategoryOnHoverCheckbox.checked
     property alias cfg_useClassicCategoriesView: useClassicCategoriesViewCheckbox.checked
     property alias cfg_showCustomCategories: showCustomCategoriesCheckbox.checked
+    property alias cfg_showAddCategoryButton: showAddCategoryButtonCheckbox.checked
 
     Kirigami.FormLayout {
         QQC2.Button {
@@ -202,6 +203,12 @@ KCM.SimpleKCM {
         QQC2.CheckBox {
             id: showCustomCategoriesCheckbox
             text: i18n("Show custom categories")
+        }
+
+        QQC2.CheckBox {
+            id: showAddCategoryButtonCheckbox
+            enabled: showCustomCategoriesCheckbox.checked
+            text: i18n("Show the + button for new categories")
         }
 
         QQC2.Button {

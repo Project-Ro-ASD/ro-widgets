@@ -100,3 +100,7 @@ msgstr "Bæta í flokk í Ro Launcher…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "Ro Launcher fannst ekki á spjaldinu."
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show the + button for new categories"
+msgstr "Sýna +-hnappinn fyrir nýja flokka"
