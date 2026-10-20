@@ -52,6 +52,16 @@ paketini gölgeler.
 2. Her widget'ın `metadata.json` → `KPlugin.Version` aynı sürüm (`check-widgets.py` denetler).
 3. PR merge edildikten sonra `main` üzerinde `vX.Y.Z` etiketi; yayın iş akışı paketi etiketten derler ve yayınlar.
 
+## Çeviriler
+
+- Kickoff'tan gelen metinler KDE'nin kendi kataloglarından çevrilir; yeni çeviri tutulmaz:
+  `i18nd("plasma_applet_org.kde.plasma.kickoff", …)`/`i18ndc(…)`, oturum ve güç metinleri `libkicker`,
+  arama `libplasma6`. `plasma_workspace` kataloğu Fedora'da yoktur, kullanılmaz (`check-widgets.py` denetler).
+- Yalnız Ro'ya özgü metinler widget'ın kendi alanındadır (`i18n`/`i18nc`) ve `<widget>/po/` altında çevrilir:
+  `.pot` şablonu ve Kickoff'un çevrildiği her dil için `<dil>.po`. Yeni metin eklenince `.pot` ve bütün `.po`
+  dosyalarına girer (`check-widgets.py` denetler); paket derlenirken `msgfmt` ile `/usr/share/locale`'e kurulur.
+- `metadata.json` açıklamasının çevirileri `Description[<dil>]` anahtarlarındadır.
+
 ## Yeni widget eklemek
 
 1. `ro-<ad>/` klasörü: `metadata.json` (`KPlugin.Id` = `org.ro.<ad>`) ve `contents/`.

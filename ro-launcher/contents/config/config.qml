@@ -8,7 +8,7 @@ import org.kde.plasma.configuration
 
 ConfigModel {
     ConfigCategory {
-        name: i18nd("plasma_workspace", "General")
+        name: i18ndc("plasma_applet_org.kde.plasma.kickoff", "@title:group for configuration dialog page", "General")
         icon: "preferences-desktop"
         source: "ConfigGeneral.qml"
     }

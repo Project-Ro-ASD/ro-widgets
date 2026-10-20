@@ -366,7 +366,7 @@ PlasmoidItem {
 
     Plasmoid.contextualActions: [
         PlasmaCore.Action {
-            text: i18nc("@action:inmenu launches kmenuedit", "Edit Applications…")
+            text: i18ndc("plasma_applet_org.kde.plasma.kickoff", "@action:inmenu launches kmenuedit", "Edit Applications…")
             icon.name: "kmenuedit"
             visible: Plasmoid.immutability !== PlasmaCore.Types.SystemImmutable
             onTriggered: processRunner.runMenuEditor()

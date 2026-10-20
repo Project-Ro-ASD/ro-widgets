@@ -1,0 +1,20 @@
+# ro-launcher translations (ta).
+# SPDX-FileCopyrightText: 2026 Project Ro-ASD
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# Only the strings that are not in KDE's own catalogs live here; everything else comes from
+# plasma_applet_org.kde.plasma.kickoff, libkicker and libplasma6.
+msgid ""
+msgstr ""
+"Project-Id-Version: ro-launcher\n"
+"PO-Revision-Date: 2026-10-20 12:00+0300\n"
+"Last-Translator: Project Ro-ASD\n"
+"Language-Team: Project Ro-ASD\n"
+"Language: ta\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Use classic categories and places navigation"
+msgstr "பாரம்பரிய வகைகள் மற்றும் இடங்கள் வழிசெலுத்தலைப் பயன்படுத்து"

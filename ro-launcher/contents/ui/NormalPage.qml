@@ -200,7 +200,7 @@ Item {
         var favoriteActions = null;
         if (favModel && favId) {
             try {
-                favoriteActions = Tools.createFavoriteActions(i18n, favModel, favId);
+                favoriteActions = Tools.createFavoriteActions(msg => i18nd("plasma_applet_org.kde.plasma.kickoff", msg), favModel, favId);
             } catch(e) {
                 favoriteActions = null;
             }
@@ -361,7 +361,7 @@ Item {
                 spacing: 4
 
                 PlasmaComponents.Label {
-                    text: i18nd("plasma_workspace", "Favorites")
+                    text: i18nd("libkicker", "Favorites")
                     font.pointSize: root.st.fontSmall
                     font.weight: Font.DemiBold
                     color: root.st.textMuted
@@ -496,6 +496,11 @@ Item {
                             text: btn.title
                             font.pointSize: root.st.fontSmall
                             font.weight: btn.selected ? Font.DemiBold : Font.Normal
+                            // Sekme 150 px: uzun çeviriler (de, ru…) iki satıra iner, sığmazsa kısalır
+                            Layout.maximumWidth: btn.width - 18 - 8 - 16
+                            wrapMode: Text.Wrap
+                            maximumLineCount: 2
+                            elide: Text.ElideRight
                         }
                     }
 
@@ -508,9 +513,9 @@ Item {
                     }
                 }
 
-                TabButton { title: i18nd("plasma_workspace", "All Applications"); iconName: "applications-all"; tabIndex: 0 }
-                TabButton { title: i18nd("plasma_workspace", "Frequently Used"); iconName: "view-sort"; tabIndex: 1 }
-                TabButton { title: i18nd("plasma_workspace", "Recent Applications"); iconName: "view-history"; tabIndex: 2 }
+                TabButton { title: i18nd("libkicker", "All Applications"); iconName: "applications-all"; tabIndex: 0 }
+                TabButton { title: i18ndc("plasma_applet_org.kde.plasma.kickoff", "category in Places sidebar", "Frequently Used"); iconName: "view-sort"; tabIndex: 1 }
+                TabButton { title: i18nd("libkicker", "Recent Applications"); iconName: "view-history"; tabIndex: 2 }
             }
 
             Rectangle {
@@ -767,6 +772,8 @@ Item {
                         text: cTab.label
                         font.pointSize: root.st.fontSmall
                         font.weight: cTab.active ? Font.DemiBold : Font.Normal
+                        Layout.maximumWidth: cTab.width - 16 - 6 - 16
+                        elide: Text.ElideRight
                     }
                 }
 
@@ -786,13 +793,13 @@ Item {
             }
 
             ClassicTabBtn {
-                label: i18nd("plasma_workspace", "Applications")
+                label: i18ndc("plasma_applet_org.kde.plasma.kickoff", "@title:tab kickoff sidebar tab", "Applications")
                 iconName: "applications-all"
                 tabId: 0
             }
 
             ClassicTabBtn {
-                label: i18nd("plasma_workspace", "Places")
+                label: i18ndc("plasma_applet_org.kde.plasma.kickoff", "@title:tab kickoff sidebar tab", "Places")
                 iconName: "compass"
                 tabId: 1
             }

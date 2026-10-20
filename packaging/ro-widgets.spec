@@ -7,6 +7,10 @@ URL:            https://github.com/Project-Ro-ASD/ro-widgets
 Source0:        %{name}-%{version}.tar.gz
 BuildArch:      noarch
 
+# Widget'lara özgü çeviriler (<widget>/po/*.po) derlenir; Kickoff'tan gelen metinler KDE'nin kataloglarından.
+BuildRequires:  gettext
+BuildRequires:  python3
+
 Requires:       plasma-workspace
 
 %description
@@ -17,6 +21,17 @@ Ro-Theme uses it when it is installed and falls back to Kickoff otherwise.
 %autosetup
 
 %build
+# <widget>/po/<dil>.po -> locale/<dil>/LC_MESSAGES/plasma_applet_<kimlik>.mo
+for dir in */; do
+  dir="${dir%/}"
+  [ -f "$dir/metadata.json" ] && [ -d "$dir/po" ] || continue
+  id="$(python3 -c 'import json,sys; print(json.load(open(sys.argv[1]))["KPlugin"]["Id"])' "$dir/metadata.json")"
+  for po in "$dir"/po/*.po; do
+    lang="$(basename "$po" .po)"
+    install -d "locale/$lang/LC_MESSAGES"
+    msgfmt -c -o "locale/$lang/LC_MESSAGES/plasma_applet_$id.mo" "$po"
+  done
+done
 
 %install
 # Her üst düzey widget klasörü (metadata.json içeren) bir plasmoid paketidir; kimliği metadata'dan.
@@ -32,8 +47,13 @@ for dir in */; do
     install -Dm0644 "$icon" "%{buildroot}%{_datadir}/icons/hicolor/scalable/apps/$(basename "$icon")"
   done
 done
+if [ -d locale ]; then
+  install -d "%{buildroot}%{_datadir}/locale"
+  cp -a locale/. "%{buildroot}%{_datadir}/locale/"
+fi
+%find_lang plasma_applet_org.ro.launcher
 
-%files
+%files -f plasma_applet_org.ro.launcher.lang
 %{_datadir}/plasma/plasmoids/org.ro.launcher
 %{_datadir}/icons/hicolor/scalable/apps/ro-start.svg
 

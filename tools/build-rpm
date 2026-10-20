@@ -14,11 +14,11 @@ VERSION="${VERSION#v}"
 
 cd "$(dirname "$0")/.."
 # Yayın iş akışı fedora:44 konteynerine yalnız rpm ve python3 kurar (şablon); derleme araçları burada kurulur.
-if ! command -v rpmbuild >/dev/null 2>&1; then
+if ! command -v rpmbuild >/dev/null 2>&1 || ! command -v msgfmt >/dev/null 2>&1; then
   if command -v dnf >/dev/null 2>&1 && [[ "$(id -u)" -eq 0 ]]; then
-    dnf -y -q install rpm-build tar python3 >/dev/null
+    dnf -y -q install rpm-build tar python3 gettext >/dev/null
   else
-    echo "rpmbuild bulunamadı: sudo dnf install rpm-build" >&2
+    echo "rpmbuild/msgfmt bulunamadı: sudo dnf install rpm-build gettext" >&2
     exit 1
   fi
 fi

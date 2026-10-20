@@ -11,6 +11,8 @@ Her üst düzey klasör bir Plasma widget'ıdır (metadata.json + contents/). De
 - RoTokens.qml varsa Ro-Theme'in ürettiği kopyadır ve Style.qml köşeleri sayı değil token'dır (WGT-02/05);
 - metadata Icon ro-* ise <widget>/icons/<ad>.svg var, SPDX başlıklı ve rengi temadan (ColorScheme-*/currentColor);
   config varsayılanı da aynı simge.
+- çeviri: plasma_workspace kataloğu kullanılmaz (Fedora'da yok); widget'ın kendi alanındaki (i18n/i18nc) her
+  metin <widget>/po/*.pot'ta ve her <dil>.po'da var. Kickoff'tan gelen metinler i18nd/i18ndc ile KDE kataloğundan.
 """
 import json
 import re
@@ -29,6 +31,8 @@ if not widgets:
 
 hex_color = re.compile(r'["\']#[0-9a-fA-F]{3,8}["\']')
 rgba_literal = re.compile(r'Qt\.rgba\(\s*[0-9.]+\s*,')
+own_i18n = re.compile(r'\bi18n\(\s*"((?:[^"\\]|\\.)*)"|\bi18nc\(\s*"(?:[^"\\]|\\.)*"\s*,\s*"((?:[^"\\]|\\.)*)"')
+po_msgid = re.compile(r'^msgid "(.+)"$', re.M)
 
 for w in sorted(widgets):
     name = w.name
@@ -84,9 +88,14 @@ for w in sorted(widgets):
                 and not re.search(r'name="icon"[^>]*>(?:(?!</entry>).)*<default>' + re.escape(icon) + '</default>',
                                   main_xml.read_text(encoding='utf-8'), re.S):
             err(f'{name}: config icon varsayılanı metadata Icon ({icon}) ile aynı olmalı')
+    own_strings = set()
     for f in sorted(list(w.rglob('*.qml')) + list(w.rglob('*.js'))):
         rel = f.relative_to(ROOT)
         text = f.read_text(encoding='utf-8')
+        if 'i18nd("plasma_workspace"' in text or "i18ndc(\"plasma_workspace\"" in text:
+            err(f'{rel}: plasma_workspace çeviri kataloğu Fedora\'da yok; libkicker ya da Kickoff kataloğunu kullanın')
+        if rel.name != 'tools.js':  # tools.js çeviri fonksiyonunu parametre olarak alır
+            own_strings |= {a or b for a, b in own_i18n.findall(text)}
         if 'SPDX-License-Identifier' not in text:
             err(f'{rel}: SPDX lisans başlığı yok')
         if f.suffix == '.qml':
@@ -94,6 +103,18 @@ for w in sorted(widgets):
                 code = line.split('//', 1)[0]
                 if hex_color.search(code) or rgba_literal.search(code):
                     err(f'{rel}:{i}: elle renk (WGT-03): {line.strip()}')
+
+    po_dir = w / 'po'
+    pots = list(po_dir.glob('*.pot')) if po_dir.is_dir() else []
+    if own_strings and not pots:
+        err(f'{name}: kendi çeviri alanında metin var ama po/*.pot yok: {sorted(own_strings)}')
+    for pot in pots:
+        ids = set(po_msgid.findall(pot.read_text(encoding='utf-8')))
+        for missing in sorted(own_strings - ids):
+            err(f'{name}: "{missing}" {pot.name} içinde yok')
+        for po in sorted(po_dir.glob('*.po')):
+            for missing in sorted(ids - set(po_msgid.findall(po.read_text(encoding='utf-8')))):
+                err(f'{name}: "{missing}" po/{po.name} içinde yok')
 
 for e in errors:
     print(f'[FAIL] {e}')
