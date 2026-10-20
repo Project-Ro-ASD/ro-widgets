@@ -59,6 +59,10 @@ paketini gölgeler.
   açılışta en üstten başlar. Klasik modda aynı kategoriler Places kenar çubuğundadır.
 - Uygulama eklemek: herhangi bir uygulamada sağ tık → "Kategoriye Ekle ▸". Kategori başlığında sağ tık ya da
   "⋮": yeniden adlandır, taşı, sil (uygulamalar silinmez).
+- Dolphin ve masaüstünde bir uygulamaya (`.desktop`) sağ tık → "Ro Launcher Kategorisine Ekle…": kategori listesi
+  (kdialog) açılır, seçim Plasma'nın betik arayüzüyle paneldeki her Ro Launcher'a yazılır; launcher hemen gösterir.
+  Panelde Ro Launcher yoksa bunu söyler. Dosyalar: `ro-launcher/servicemenu/` (betik `/usr/libexec/ro-widgets/`,
+  menü `/usr/share/kio/servicemenus/`; menünün çevirileri derlemede `tools/desktop-i18n.py` ile `po/`'dan).
 - Veri widget ayarında (`customCategories`, JSON); ayarlardaki "Özel kategorileri göster" ile kapatılır.
   Kod: `CategoryStore.qml` (veri, menüler), `CategoryDialog.qml` (ad/silme penceresi).
 

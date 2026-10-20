@@ -88,3 +88,15 @@ msgstr "Барлығын көрсету (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Азырақ көрсету"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "Ro Launcher таңдаулыларына қосу"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Ro Launcher санатына қосу…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Панельден Ro Launcher табылмады."

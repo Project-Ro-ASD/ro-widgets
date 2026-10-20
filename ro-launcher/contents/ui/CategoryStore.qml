@@ -102,20 +102,39 @@ Item {
         models = list;
     }
 
-    // Kicker kimliklerinde uygulamalar "org.kde.dolphin.desktop" ya da "preferred://browser";
-    // etkinlik istatistiklerinden gelenlerde "applications:" öneki olabilir
+    // Kategoride uygulamalar ("org.kde.dolphin.desktop", "preferred://browser"), dosyalar ve klasörler
+    // ("file:///home/…") durabilir; SimpleFavoritesModel dosyayı varsayılan programıyla açar.
+    // Etkinlik istatistiklerinden gelen uygulama kimliklerinde "applications:" öneki olabilir.
     function normalizeId(id) {
         const s = String(id ?? "");
-        return s.startsWith("applications:") ? s.substring(13) : s;
+        if (s.startsWith("applications:")) return s.substring(13);
+        if (s.startsWith("/")) return "file://" + s;
+        return s;
     }
 
-    function isApplication(id) {
+    function isAddable(id) {
         const s = normalizeId(id);
-        return s.endsWith(".desktop") || s.startsWith("preferred://");
+        return s.endsWith(".desktop") || s.startsWith("preferred://") || s.startsWith("file:///");
+    }
+
+    // Aynı dosya farklı yazılabilir: kayıtta "file:///a%20b%20%28x86%29", Kicker'ın verdiği kimlikte
+    // "file:///a b %28x86%29". Karşılaştırma çözülmüş adresle yapılır.
+    function canonicalId(id) {
+        const s = normalizeId(id);
+        if (!s.startsWith("file://")) return s;
+        try {
+            return decodeURIComponent(s);
+        } catch (e) {
+            return s;
+        }
+    }
+
+    function sameId(a, b) {
+        return canonicalId(a) === canonicalId(b);
     }
 
     function contains(index, appId) {
-        return categories[index]?.apps.includes(normalizeId(appId)) ?? false;
+        return categories[index]?.apps.some(a => sameId(a, appId)) ?? false;
     }
 
     function update(fn) {
@@ -128,7 +147,7 @@ Item {
     function addCategory(name, appId) {
         const trimmed = name.trim();
         if (trimmed.length === 0) return;
-        update(list => list.push({ name: trimmed, apps: isApplication(appId) ? [normalizeId(appId)] : [], collapsed: false }));
+        update(list => list.push({ name: trimmed, apps: isAddable(appId) ? [normalizeId(appId)] : [], collapsed: false }));
     }
 
     function renameCategory(index, name) {
@@ -155,21 +174,21 @@ Item {
 
     function addApp(index, appId) {
         const id = normalizeId(appId);
-        if (!categories[index] || !isApplication(id) || contains(index, id)) return;
+        if (!categories[index] || !isAddable(id) || contains(index, id)) return;
         update(list => list[index].apps.push(id));
     }
 
     function removeApp(index, appId) {
         const id = normalizeId(appId);
         if (!categories[index]) return;
-        update(list => list[index].apps = list[index].apps.filter(a => a !== id));
+        update(list => list[index].apps = list[index].apps.filter(a => !sameId(a, id)));
     }
 
     //BEGIN Sağ tık menüleri (ActionMenu, "_ro_category_" eylemlerini handleAction'a yollar)
 
-    // Bir uygulamanın menüsüne eklenecekler. sourceModel bir kategorinin modeliyse "Kategoriden Kaldır" da gelir.
+    // Bir uygulamanın, dosyanın ya da klasörün menüsüne eklenecekler. sourceModel bir kategorinin modeliyse "Kategoriden Kaldır" da gelir.
     function appActions(appId, sourceModel) {
-        if (!enabled || !isApplication(appId)) return [];
+        if (!enabled || !isAddable(appId)) return [];
         const id = normalizeId(appId);
         const actions = [];
         const sourceIndex = sourceModel?.roCategoryIndex ?? -1;
@@ -184,7 +203,7 @@ Item {
         const subActions = categories.map((c, i) => ({
             text: c.name,
             checkable: true,
-            checked: c.apps.includes(id),
+            checked: c.apps.some(a => sameId(a, id)),
             actionId: "_ro_category_toggle_app",
             actionArgument: { category: i, app: id },
         }));

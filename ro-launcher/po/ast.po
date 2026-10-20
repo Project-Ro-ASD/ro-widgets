@@ -88,3 +88,15 @@ msgstr "Amosar too (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Amosar menos"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "Amestar a los favoritos de Ro Launcher"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Amestar a una categoría de Ro Launcher…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Nun s'atopó Ro Launcher nel panel."

@@ -17,6 +17,10 @@ import Qt5Compat.GraphicalEffects
 EmptyPage {
     id: root
 
+    // Renk seti popup'tan açıkça kalıtılsın. Yazılmayınca buradaki ve doğrudan çocuklardaki (başlık, güç menüsü,
+    // kategori penceresi) Style örnekleri Kirigami.Theme'i siyah okuyordu: arama çubuğunda siyah kenar, simsiyah kartlar.
+    Kirigami.Theme.inherit: true
+
     readonly property bool useClassic: Plasmoid.configuration.useClassicCategoriesView ?? false
     // Tema renkleri bu bileşenin bulunduğu yerden (popup) kalıtılsın diye yerel örnek
     readonly property Style st: styleItem
@@ -31,7 +35,9 @@ EmptyPage {
     readonly property real screenFitWidth: Screen.desktopAvailableWidth - Kirigami.Units.gridUnit * 2
     readonly property real screenFitHeight: Screen.desktopAvailableHeight - Kirigami.Units.gridUnit * 4
     Layout.minimumWidth: Math.min(useClassic ? 660 : 540, screenFitWidth)
-    Layout.preferredWidth: Math.min(useClassic ? 720 : 640, screenFitWidth)
+    // Varsayılan genişlik ızgaralara tam oturur (hücre en az 90 px): ana ekranda 6 sütun × 102 px, sekme ekranında
+    // 5 sütun × 91 px; ana ekranın kaydırma çubuğu kartların dışında. Kullanıcı popup'ı büyütüp küçültebilir.
+    Layout.preferredWidth: Math.min(useClassic ? 720 : 660, screenFitWidth)
     Layout.maximumWidth: Math.min(860, screenFitWidth)
 
     Layout.minimumHeight: Math.min(480, screenFitHeight)

@@ -12,6 +12,10 @@ BuildRequires:  gettext
 BuildRequires:  python3
 
 Requires:       plasma-workspace
+# Dolphin/masaüstü sağ tık menüsü (Ro Launcher kategorisine ekle): Python betiği, kdialog, busctl
+Requires:       python3
+Requires:       kdialog
+Requires:       systemd
 
 %description
 Plasma widgets of Ro Desktop. ro-launcher is the application launcher of the Ro panel;
@@ -32,6 +36,8 @@ for dir in */; do
     msgfmt -c -o "locale/$lang/LC_MESSAGES/plasma_applet_$id.mo" "$po"
   done
 done
+python3 tools/desktop-i18n.py ro-launcher/po ro-launcher/servicemenu/ro-launcher-add-to-category.desktop \
+  ro-launcher-add-to-category.desktop
 
 %install
 # Her üst düzey widget klasörü (metadata.json içeren) bir plasmoid paketidir; kimliği metadata'dan.
@@ -51,11 +57,18 @@ if [ -d locale ]; then
   install -d "%{buildroot}%{_datadir}/locale"
   cp -a locale/. "%{buildroot}%{_datadir}/locale/"
 fi
+install -Dm0755 ro-launcher/servicemenu/ro-launcher-add-to-category \
+  "%{buildroot}%{_libexecdir}/ro-widgets/ro-launcher-add-to-category"
+install -Dm0644 ro-launcher-add-to-category.desktop \
+  "%{buildroot}%{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop"
 %find_lang plasma_applet_org.ro.launcher
 
 %files -f plasma_applet_org.ro.launcher.lang
 %{_datadir}/plasma/plasmoids/org.ro.launcher
 %{_datadir}/icons/hicolor/scalable/apps/ro-start.svg
+%dir %{_libexecdir}/ro-widgets
+%{_libexecdir}/ro-widgets/ro-launcher-add-to-category
+%{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop
 
 %changelog
 * Tue Oct 20 2026 Project Ro-ASD - 0.1.2-1

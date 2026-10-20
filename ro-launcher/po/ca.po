@@ -88,3 +88,15 @@ msgstr "Mostra-ho tot (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Mostra'n menys"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "Afegeix a les preferides del Ro Launcher"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Afegeix a una categoria del Ro Launcher…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "No s'ha trobat el Ro Launcher al plafó."

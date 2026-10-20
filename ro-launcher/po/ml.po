@@ -88,3 +88,15 @@ msgstr "എല്ലാം കാണിക്കുക (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "കുറച്ച് കാണിക്കുക"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "Ro Launcher ഇഷ്ടപെട്ടവയിലേക്ക് ചേർക്കുക"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Ro Launcher വിഭാഗത്തിലേക്ക് ചേർക്കുക…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "പാനലിൽ Ro Launcher കണ്ടെത്തിയില്ല."

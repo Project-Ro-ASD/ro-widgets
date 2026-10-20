@@ -88,3 +88,15 @@ msgstr "Alle anzeigen (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Weniger anzeigen"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "Zu Favoriten im Ro Launcher hinzufügen"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Zu Kategorie im Ro Launcher hinzufügen …"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Ro Launcher wurde in der Kontrollleiste nicht gefunden."

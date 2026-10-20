@@ -14,9 +14,6 @@ import org.kde.kirigami as Kirigami
 Item {
     id: root
 
-    // FullRepresentation'ın doğrudan çocuğunda renk seti açıkça kalıtılmazsa Style zemini siyah okuyor
-    Kirigami.Theme.inherit: true
-
     property var store: null
 
     // "new" | "rename" | "delete"
@@ -127,16 +124,27 @@ Item {
         property bool primary: false
         property bool destructive: false
         signal clicked()
+        // Hover'da dolu vurgu / tehlike rengine geçen düğmede yazı o rengin üstündeki renk olur
+        readonly property bool onFill: btnMouse.containsMouse && !btnMouse.pressed && primary
 
         implicitWidth: btnRow.implicitWidth + 28
         implicitHeight: 34
         radius: root.st.radiusItem
         opacity: enabled ? 1.0 : 0.45
         activeFocusOnTab: true
+        // Hover: belirgin renk geçişi ve çok küçük büyüme; basınca hafif küçülür
+        // Silme düğmesi hover'da temanın hata renginin yarı saydamı + o renkte kenar (koyu negatif zemin
+        // rengi kahverengi görünüyordu); yazı normal metin rengi kalır
+        readonly property color negative: Kirigami.Theme.negativeTextColor
         color: btnMouse.pressed ? root.st.pressed
-            : btnMouse.containsMouse ? (destructive ? root.st.danger : root.st.hover)
+            : btnMouse.containsMouse ? (destructive ? Qt.rgba(negative.r, negative.g, negative.b, 0.22)
+                                        : primary ? root.st.accentBorder : root.st.pressed)
             : primary ? root.st.accentSoft : root.st.glassRaised
-        border.color: activeFocus ? Kirigami.Theme.focusColor : (primary ? root.st.accentBorder : root.st.border)
+        scale: btnMouse.pressed ? 0.98 : (btnMouse.containsMouse ? 1.03 : 1.0)
+        Behavior on scale { NumberAnimation { duration: root.st.durationShort; easing.type: Easing.OutCubic } }
+        border.color: activeFocus ? Kirigami.Theme.focusColor
+            : (destructive && btnMouse.containsMouse) ? negative
+            : (primary ? root.st.accentBorder : root.st.border)
         border.width: activeFocus ? 2 : root.st.borderWidth
 
         Accessible.role: Accessible.Button
@@ -160,12 +168,12 @@ Item {
                 Layout.preferredHeight: 16
                 source: btn.iconName
                 isMask: true
-                color: btnMouse.containsMouse && btn.destructive ? root.st.onDanger : Kirigami.Theme.textColor
+                color: btn.onFill ? root.st.onAccent : Kirigami.Theme.textColor
             }
 
             PlasmaComponents.Label {
                 text: btn.text
-                color: btnMouse.containsMouse && btn.destructive ? root.st.onDanger : Kirigami.Theme.textColor
+                color: btn.onFill ? root.st.onAccent : Kirigami.Theme.textColor
             }
         }
 

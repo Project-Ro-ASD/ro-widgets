@@ -33,6 +33,9 @@ Item {
 
     readonly property real defaultSideBarWidth: 190
 
+    // Uygulama ızgaraları: sütun sayısı = genişlik / en küçük hücre; artan genişlik hücrelere eşit dağılır
+    readonly property int minCellWidth: 90
+
     // Kullanıcı kategorileri açıksa ana ekran popup'ın tamamını kullanır (kaydırılabilir alan)
     readonly property bool categoriesEnabled: kickoff.categoryStore?.enabled ?? false
 
@@ -269,9 +272,13 @@ Item {
         property var modelRef: null
         // Sekmelerdeki ızgaralarda sağ tık menüsü sekme ekranını açık tutar; ana ekrandaki kategorilerde değil
         property bool fromSubPages: true
+        // Ana ekrandaki kategorilerde Favorilerle aynı: 48 px simge, orta kalın yazı
+        property int iconSize: 44
+        property int labelWeight: Font.Normal
 
-        width: 90
-        height: 94
+        // Izgara hücreyi satıra eşit bölüştürür (sağda boşluk kalmaz); delege hücreyi doldurur
+        width: parentView ? parentView.cellWidth : 90
+        height: parentView ? parentView.cellHeight : 94
 
         readonly property var view: parentView
         readonly property int index: model.index
@@ -292,8 +299,8 @@ Item {
                 Kirigami.Icon {
                     id: gridIconItem
                     Layout.alignment: Qt.AlignHCenter
-                    Layout.preferredWidth: 44
-                    Layout.preferredHeight: 44
+                    Layout.preferredWidth: delegateRoot.iconSize
+                    Layout.preferredHeight: delegateRoot.iconSize
                     source: model.decoration ?? model.icon ?? "application-x-executable"
                 }
 
@@ -301,6 +308,7 @@ Item {
                     Layout.preferredWidth: 80
                     text: model.display ?? ""
                     font.pointSize: root.st.fontSmall
+                    font.weight: delegateRoot.labelWeight
                     horizontalAlignment: Text.AlignHCenter
                     elide: Text.ElideRight
                 }
@@ -342,11 +350,11 @@ Item {
 
         readonly property bool collapsed: category?.collapsed ?? false
         readonly property int appCount: catGrid.count
-        readonly property int columns: Math.max(1, Math.floor(catGrid.width / catGrid.cellWidth))
+        readonly property int columns: Math.max(1, Math.floor(catGrid.width / root.minCellWidth))
         readonly property int rows: Math.ceil(appCount / columns)
         readonly property int visibleRows: showAll ? rows : Math.min(rows, 2)
 
-        implicitHeight: cardColumn.implicitHeight + 16
+        implicitHeight: cardColumn.implicitHeight + 20
         color: root.st.glass
         radius: root.st.radiusCard
         border.color: root.st.glassBorder
@@ -365,7 +373,7 @@ Item {
             anchors.left: parent.left
             anchors.right: parent.right
             anchors.top: parent.top
-            anchors.margins: 8
+            anchors.margins: 10
             spacing: 4
 
             // Başlık
@@ -474,12 +482,15 @@ Item {
                 Layout.fillWidth: true
                 Layout.preferredHeight: card.collapsed ? 0 : card.visibleRows * cellHeight
                 visible: !card.collapsed && count > 0
-                cellWidth: 90
-                cellHeight: 94
+                cellWidth: Math.floor(width / card.columns)
+                cellHeight: 96
                 interactive: false
                 clip: true
                 model: card.catModel
-                delegate: AppGridItemDelegate { parentView: catGrid; modelRef: catGrid.model; fromSubPages: false }
+                delegate: AppGridItemDelegate {
+                    parentView: catGrid; modelRef: catGrid.model; fromSubPages: false
+                    iconSize: 48; labelWeight: Font.Medium
+                }
             }
 
             PlasmaComponents.ToolButton {
@@ -501,6 +512,22 @@ Item {
                 root.resetToHome();
             }
         }
+    }
+
+    // Ana ekranın kaydırma çubuğu: kartların sağındaki popup kenar boşluğunda durur. Kartlar arama çubuğuyla aynı
+    // hizada kalır, çubuk gelince ızgara daralmaz (sütun sayısı değişmez).
+    PlasmaComponents.ScrollBar {
+        id: homeScrollBar
+        parent: root
+        z: 2
+        anchors.top: bodyCard.top
+        anchors.bottom: bodyCard.bottom
+        anchors.left: bodyCard.right
+        // Kartın sağ kenarı ile popup'ın görünen kenarı arası: bizim kenar boşluğumuz + popup iç boşluğu
+        // (Ro: 12 + 12). Çubuk bu aralığın ortasında; popup çerçevesinin iç boşluğuna taşar, orası pencerenin içi.
+        anchors.leftMargin: Math.max(0, Math.round((bodyCard.anchors.rightMargin + RoTokens.popupPadding - width) / 2))
+        visible: homeFlick.visible
+        policy: homeFlick.contentHeight > homeFlick.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff
     }
 
     // =========================================================
@@ -551,13 +578,12 @@ Item {
             contentWidth: width
             contentHeight: homeColumn.implicitHeight
             boundsBehavior: Flickable.StopAtBounds
-            QQC2.ScrollBar.vertical: PlasmaComponents.ScrollBar {
-                policy: homeFlick.contentHeight > homeFlick.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff
-            }
+            // Kaydırma çubuğu kartın dışında, popup kenarındaki boşlukta (homeScrollBar); içerikten yer çalmaz
+            QQC2.ScrollBar.vertical: homeScrollBar
 
             ColumnLayout {
                 id: homeColumn
-                width: homeFlick.width - (homeFlick.contentHeight > homeFlick.height ? 10 : 0)
+                width: homeFlick.width
                 spacing: 10
 
                 // Favoriler kartı: bütün satırlar görünür, kaydırma dıştaki alanda
@@ -587,9 +613,9 @@ Item {
                         GridView {
                             id: homeFavoritesGrid
                             Layout.fillWidth: true
-                            readonly property int columns: Math.max(1, Math.floor(width / cellWidth))
+                            readonly property int columns: Math.max(1, Math.floor(width / root.minCellWidth))
                             Layout.preferredHeight: Math.max(1, Math.ceil(count / columns)) * cellHeight
-                            cellWidth: 90
+                            cellWidth: Math.floor(width / columns)
                             cellHeight: 96
                             interactive: false
                             model: kickoff.rootModel.favoritesModel
@@ -799,7 +825,8 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 8
                     visible: root.currentTab === 0
-                    cellWidth: 90; cellHeight: 94; clip: true
+                    readonly property int columns: Math.max(1, Math.floor(width / root.minCellWidth))
+                    cellWidth: Math.floor(width / columns); cellHeight: 94; clip: true
                     // rootModel satır 0 = favori yer tutucusu, satır 1 = "Tüm Uygulamalar"
                     model: {
                         root.rootModelRevision; // bağımlılık: yenilemede yeniden hesapla
@@ -813,7 +840,8 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 8
                     visible: root.currentTab === 1
-                    cellWidth: 90; cellHeight: 94; clip: true
+                    readonly property int columns: Math.max(1, Math.floor(width / root.minCellWidth))
+                    cellWidth: Math.floor(width / columns); cellHeight: 94; clip: true
                     model: kickoff.frequentAppsModel
                     delegate: AppGridItemDelegate { parentView: mostUsedGrid; modelRef: mostUsedGrid.model }
                 }
@@ -823,7 +851,8 @@ Item {
                     anchors.fill: parent
                     anchors.margins: 8
                     visible: root.currentTab === 2
-                    cellWidth: 90; cellHeight: 94; clip: true
+                    readonly property int columns: Math.max(1, Math.floor(width / root.minCellWidth))
+                    cellWidth: Math.floor(width / columns); cellHeight: 94; clip: true
                     model: kickoff.recentAppsModel
                     delegate: AppGridItemDelegate { parentView: recentGrid; modelRef: recentGrid.model }
                 }

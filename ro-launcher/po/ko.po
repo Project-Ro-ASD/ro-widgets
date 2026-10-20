@@ -88,3 +88,15 @@ msgstr "모두 보기(%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "간단히 보기"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "Ro Launcher 책갈피에 추가"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Ro Launcher 분류에 추가…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "패널에서 Ro Launcher를 찾을 수 없습니다."
