@@ -35,7 +35,9 @@ EmptyPage {
     readonly property real screenFitWidth: Screen.desktopAvailableWidth - Kirigami.Units.gridUnit * 2
     readonly property real screenFitHeight: Screen.desktopAvailableHeight - Kirigami.Units.gridUnit * 4
     Layout.minimumWidth: Math.min(useClassic ? 660 : 540, screenFitWidth)
-    Layout.preferredWidth: Math.min(useClassic ? 720 : 640, screenFitWidth)
+    // Varsayılan genişlik ızgaralara tam oturur (hücre en az 90 px, kaydırma çubuğu yeri 14 px): ana ekranda
+    // 6 sütun × 100 px, sekme ekranında 5 sütun × 91 px. Kullanıcı popup'ı büyütüp küçültebilir.
+    Layout.preferredWidth: Math.min(useClassic ? 720 : 660, screenFitWidth)
     Layout.maximumWidth: Math.min(860, screenFitWidth)
 
     Layout.minimumHeight: Math.min(480, screenFitHeight)

@@ -125,7 +125,7 @@ Item {
         property bool destructive: false
         signal clicked()
         // Hover'da dolu vurgu / tehlike rengine geçen düğmede yazı o rengin üstündeki renk olur
-        readonly property bool onFill: btnMouse.containsMouse && !btnMouse.pressed && (destructive || primary)
+        readonly property bool onFill: btnMouse.containsMouse && !btnMouse.pressed && primary
 
         implicitWidth: btnRow.implicitWidth + 28
         implicitHeight: 34
@@ -133,12 +133,18 @@ Item {
         opacity: enabled ? 1.0 : 0.45
         activeFocusOnTab: true
         // Hover: belirgin renk geçişi ve çok küçük büyüme; basınca hafif küçülür
+        // Silme düğmesi hover'da temanın hata renginin yarı saydamı + o renkte kenar (koyu negatif zemin
+        // rengi kahverengi görünüyordu); yazı normal metin rengi kalır
+        readonly property color negative: Kirigami.Theme.negativeTextColor
         color: btnMouse.pressed ? root.st.pressed
-            : btnMouse.containsMouse ? (destructive ? root.st.danger : primary ? root.st.accentBorder : root.st.pressed)
+            : btnMouse.containsMouse ? (destructive ? Qt.rgba(negative.r, negative.g, negative.b, 0.22)
+                                        : primary ? root.st.accentBorder : root.st.pressed)
             : primary ? root.st.accentSoft : root.st.glassRaised
         scale: btnMouse.pressed ? 0.98 : (btnMouse.containsMouse ? 1.03 : 1.0)
         Behavior on scale { NumberAnimation { duration: root.st.durationShort; easing.type: Easing.OutCubic } }
-        border.color: activeFocus ? Kirigami.Theme.focusColor : (primary ? root.st.accentBorder : root.st.border)
+        border.color: activeFocus ? Kirigami.Theme.focusColor
+            : (destructive && btnMouse.containsMouse) ? negative
+            : (primary ? root.st.accentBorder : root.st.border)
         border.width: activeFocus ? 2 : root.st.borderWidth
 
         Accessible.role: Accessible.Button
@@ -162,12 +168,12 @@ Item {
                 Layout.preferredHeight: 16
                 source: btn.iconName
                 isMask: true
-                color: btn.onFill ? (btn.destructive ? root.st.onDanger : root.st.onAccent) : Kirigami.Theme.textColor
+                color: btn.onFill ? root.st.onAccent : Kirigami.Theme.textColor
             }
 
             PlasmaComponents.Label {
                 text: btn.text
-                color: btn.onFill ? (btn.destructive ? root.st.onDanger : root.st.onAccent) : Kirigami.Theme.textColor
+                color: btn.onFill ? root.st.onAccent : Kirigami.Theme.textColor
             }
         }
 
