@@ -100,3 +100,7 @@ msgstr "Cuir le catagóir Ro Launcher…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "Níor aimsíodh Ro Launcher ar an bpainéal."
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show the + button for new categories"
+msgstr "Taispeáin an cnaipe + do chatagóirí nua"
