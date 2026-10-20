@@ -139,8 +139,18 @@ Item {
     }
 
     focus: true
-    Keys.forwardTo: kickoff?.searchField ? [kickoff.searchField] : []
+    Keys.forwardTo: kickoff?.searchField && !kickoff.categoryStore.dialogOpen ? [kickoff.searchField] : []
     Keys.onPressed: event => {
+        // Kategori penceresi açıkken yazılan harf pencereye gider, arama başlamaz
+        if (kickoff.categoryStore.dialogOpen) {
+            if (event.key === Qt.Key_Escape) {
+                kickoff.categoryStore.dialogCloseRequested();
+            } else if (event.text.trim().length > 0) {
+                kickoff.categoryStore.dialogKeyTyped(event.text);
+            }
+            event.accepted = true;
+            return;
+        }
         if (event.key === Qt.Key_Escape) {
             // Güç menüsü açıksa sadece onu kapat; değilse olayı bırak, Plasma launcher'ı kapatsın
             if (root.powerOverlayVisible) {

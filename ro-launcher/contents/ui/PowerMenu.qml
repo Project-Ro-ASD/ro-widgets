@@ -15,6 +15,9 @@ import org.kde.kirigami as Kirigami
 Item {
     id: root
 
+    // FullRepresentation'ın doğrudan çocuğunda renk seti açıkça kalıtılmazsa Style zemini siyah okuyor
+    Kirigami.Theme.inherit: true
+
     // Durum NormalPage.powerOverlayVisible'da; bu bileşen sadece istek sinyali yollar
     property bool open: false
     signal toggleRequested()

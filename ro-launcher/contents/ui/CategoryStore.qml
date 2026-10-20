@@ -31,6 +31,10 @@ Item {
     // CategoryDialog'da açılır
     signal nameRequested(string mode, int index, string appId, string initialName)
     signal deleteRequested(int index, string name)
+    // Pencere açıkken ana sayfa tuşları arama çubuğuna aktarmaz, pencereye yollar (CategoryDialog bağlar)
+    property bool dialogOpen: false
+    signal dialogKeyTyped(string text)
+    signal dialogCloseRequested()
 
     Component {
         id: modelComponent

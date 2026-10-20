@@ -14,6 +14,9 @@ import org.kde.kirigami as Kirigami
 Item {
     id: root
 
+    // FullRepresentation'ın doğrudan çocuğunda renk seti açıkça kalıtılmazsa Style zemini siyah okuyor
+    Kirigami.Theme.inherit: true
+
     property var store: null
 
     // "new" | "rename" | "delete"
@@ -23,6 +26,7 @@ Item {
     property string categoryName: ""
 
     readonly property bool open: mode !== ""
+    onOpenChanged: if (store) store.dialogOpen = open
 
     readonly property Style st: styleItem
     Style {
@@ -35,14 +39,14 @@ Item {
         appId = app;
         nameField.text = initialName;
         nameField.selectAll();
-        nameField.forceActiveFocus();
+        focusTimer.restart();
     }
 
     function openDelete(index, name) {
         mode = "delete";
         categoryIndex = index;
         categoryName = name;
-        cancelButton.forceActiveFocus();
+        focusTimer.restart();
     }
 
     function close() {
@@ -58,6 +62,31 @@ Item {
             return;
         }
         close();
+    }
+
+    function takeFocus() {
+        if (mode === "delete") {
+            acceptButton.forceActiveFocus();
+        } else if (open) {
+            nameField.forceActiveFocus();
+        }
+    }
+
+    // Pencere sağ tık menüsünden açılınca menü kapanırken odağı eski yerine (ana sayfa → arama
+    // çubuğu) geri veriyor. Odak menü kapandıktan sonra ve kapanınca yeniden alınır.
+    Timer {
+        id: focusTimer
+        interval: 1
+        onTriggered: root.takeFocus()
+    }
+
+    Connections {
+        target: ActionMenu.menu
+        function onStatusChanged() {
+            if (root.open) {
+                focusTimer.restart();
+            }
+        }
     }
 
     // Launcher kapanınca açık pencere de kapanır
@@ -77,6 +106,76 @@ Item {
         }
         function onDeleteRequested(index, name) {
             root.openDelete(index, name);
+        }
+        function onDialogCloseRequested() {
+            root.close();
+        }
+        // Odak yine de ana sayfada kaldıysa yazılan harf kaybolmasın
+        function onDialogKeyTyped(text) {
+            if (root.mode !== "delete") {
+                nameField.forceActiveFocus();
+                nameField.insert(nameField.cursorPosition, text);
+            }
+        }
+    }
+
+    // Launcher'ın kendi düğme dili (güç menüsü kapsülleriyle aynı): nötr hover, odakta vurgu halkası
+    component DialogButton: Rectangle {
+        id: btn
+        property string text: ""
+        property string iconName: ""
+        property bool primary: false
+        property bool destructive: false
+        signal clicked()
+
+        implicitWidth: btnRow.implicitWidth + 28
+        implicitHeight: 34
+        radius: root.st.radiusItem
+        opacity: enabled ? 1.0 : 0.45
+        activeFocusOnTab: true
+        color: btnMouse.pressed ? root.st.pressed
+            : btnMouse.containsMouse ? (destructive ? root.st.danger : root.st.hover)
+            : primary ? root.st.accentSoft : root.st.glassRaised
+        border.color: activeFocus ? Kirigami.Theme.focusColor : (primary ? root.st.accentBorder : root.st.border)
+        border.width: activeFocus ? 2 : root.st.borderWidth
+
+        Accessible.role: Accessible.Button
+        Accessible.name: text
+        Accessible.onPressAction: btn.clicked()
+
+        Behavior on color { ColorAnimation { duration: root.st.durationShort } }
+
+        Keys.onReturnPressed: btn.clicked()
+        Keys.onEnterPressed: btn.clicked()
+        Keys.onSpacePressed: btn.clicked()
+        Keys.onEscapePressed: root.close()
+
+        RowLayout {
+            id: btnRow
+            anchors.centerIn: parent
+            spacing: 6
+
+            Kirigami.Icon {
+                Layout.preferredWidth: 16
+                Layout.preferredHeight: 16
+                source: btn.iconName
+                isMask: true
+                color: btnMouse.containsMouse && btn.destructive ? root.st.onDanger : Kirigami.Theme.textColor
+            }
+
+            PlasmaComponents.Label {
+                text: btn.text
+                color: btnMouse.containsMouse && btn.destructive ? root.st.onDanger : Kirigami.Theme.textColor
+            }
+        }
+
+        MouseArea {
+            id: btnMouse
+            anchors.fill: parent
+            hoverEnabled: true
+            enabled: btn.enabled
+            cursorShape: Qt.PointingHandCursor
+            onClicked: btn.clicked()
         }
     }
 
@@ -136,17 +235,18 @@ Item {
                 Layout.alignment: Qt.AlignRight
                 spacing: 8
 
-                PlasmaComponents.Button {
-                    id: cancelButton
+                DialogButton {
                     text: i18n("Cancel")
-                    icon.name: "dialog-cancel"
+                    iconName: "dialog-cancel"
                     onClicked: root.close()
-                    Keys.onEscapePressed: root.close()
                 }
 
-                PlasmaComponents.Button {
+                DialogButton {
+                    id: acceptButton
                     text: root.mode === "delete" ? i18n("Delete Category") : i18n("OK")
-                    icon.name: root.mode === "delete" ? "edit-delete" : "dialog-ok"
+                    iconName: root.mode === "delete" ? "edit-delete" : "dialog-ok"
+                    primary: root.mode !== "delete"
+                    destructive: root.mode === "delete"
                     enabled: root.mode === "delete" || nameField.text.trim().length > 0
                     onClicked: root.accept()
                 }
