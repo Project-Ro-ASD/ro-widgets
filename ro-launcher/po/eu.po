@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Erabili kategorien eta lekuen nabigazio klasikoa"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Erakutsi kategoria pertsonalizatuak"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Gehitu kategoriara"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Kategoria berria…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Kategoria berria"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Kendu kategoriatik"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Berrizendatu…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Berrizendatu kategoria"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Eraman gora"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Eraman behera"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Ezabatu kategoria"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Kategoriaren izena"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Utzi"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "Ados"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "«%1» ezabatu? Aplikazioak berak ez dira kentzen."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Egin eskuin-klik aplikazio batean eta hautatu «Gehitu kategoriara»."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Erakutsi guztiak (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Erakutsi gutxiago"

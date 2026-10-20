@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Nota klassíska flakk um flokka og staði"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Sýna sérsniðna flokka"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Bæta í flokk"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Nýr flokkur…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Nýr flokkur"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Fjarlægja úr flokki"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Endurnefna…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Endurnefna flokk"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Færa upp"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Færa niður"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Eyða flokki"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Heiti flokks"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Hætta við"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "Í lagi"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Eyða „%1“? Forritunum sjálfum er ekki eytt."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Hægrismelltu á forrit og veldu „Bæta í flokk“."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Sýna allt (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Sýna minna"

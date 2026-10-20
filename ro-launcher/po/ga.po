@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Úsáid nascleanúint chlasaiceach catagóirí agus áiteanna"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Taispeáin catagóirí saincheaptha"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Cuir le catagóir"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Catagóir nua…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Catagóir nua"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Bain den chatagóir"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Athainmnigh…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Athainmnigh an catagóir"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Bog suas"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Bog síos"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Scrios an catagóir"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Ainm an chatagóra"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Cealaigh"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Scrios “%1”? Ní bhaintear na feidhmchláir féin."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Deaschliceáil ar fheidhmchlár agus roghnaigh “Cuir le catagóir”."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Taispeáin iad go léir (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Taispeáin níos lú"

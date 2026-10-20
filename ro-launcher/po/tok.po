@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "o kepeken nasin pi kulupu en ma"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "o lukin e kulupu sina"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "o pana tawa kulupu"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "kulupu sin…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "kulupu sin"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "o weka tan kulupu"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "o ante e nimi…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "o ante e nimi kulupu"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "o tawa sewi"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "o tawa anpa"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "o weka e kulupu"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "nimi kulupu"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "o pini"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "pona"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "sina wile ala wile weka e \"%1\"? ilo li weka ala."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "o luka e ilo kepeken nena pi poka teje, o pali e \"o pana tawa kulupu\"."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "o lukin e ale (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "o lukin e lili"

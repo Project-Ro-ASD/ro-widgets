@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Uzi klasikan navigadon laŭ kategorioj kaj lokoj"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Montri proprajn kategoriojn"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Aldoni al kategorio"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Nova kategorio…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Nova kategorio"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Forigi el kategorio"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Renomi…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Renomi kategorion"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Movi supren"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Movi malsupren"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Forigi kategorion"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Nomo de kategorio"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Nuligi"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "Bone"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Ĉu forigi “%1”? La aplikaĵoj mem ne estas forigitaj."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Dekstre alklaku aplikaĵon kaj elektu “Aldoni al kategorio”."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Montri ĉiujn (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Montri malpli"

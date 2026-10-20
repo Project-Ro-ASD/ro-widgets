@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Klassikalise kategooriate ja asukohtade navigeerimise kasutamine"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Kohandatud kategooriate näitamine"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Lisa kategooriasse"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Uus kategooria…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Uus kategooria"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Eemalda kategooriast"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Muuda nime…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Muuda kategooria nime"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Liiguta üles"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Liiguta alla"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Kustuta kategooria"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Kategooria nimi"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Loobu"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Kas kustutada „%1“? Rakendusi endid ei eemaldata."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Klõpsa rakendusel paremklõpsuga ja vali „Lisa kategooriasse“."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Näita kõiki (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Näita vähem"

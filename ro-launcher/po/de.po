@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Klassische Navigation mit Kategorien und Orten verwenden"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Eigene Kategorien anzeigen"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Zu Kategorie hinzufügen"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Neue Kategorie …"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Neue Kategorie"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Aus Kategorie entfernen"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Umbenennen …"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Kategorie umbenennen"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Nach oben verschieben"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Nach unten verschieben"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Kategorie löschen"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Name der Kategorie"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Abbrechen"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "„%1“ löschen? Die Anwendungen selbst werden nicht entfernt."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Klicken Sie mit der rechten Maustaste auf eine Anwendung und wählen Sie „Zu Kategorie hinzufügen“."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Alle anzeigen (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Weniger anzeigen"

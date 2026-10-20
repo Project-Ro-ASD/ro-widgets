@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "使用经典的类别和位置导航"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "显示自定义类别"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "添加到类别"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "新建类别…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "新建类别"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "从类别中移除"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "重命名…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "重命名类别"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "上移"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "下移"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "删除类别"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "类别名称"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "取消"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "确定"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "要删除“%1”吗？应用程序本身不会被移除。"
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "右键点击应用程序并选择“添加到类别”。"
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "显示全部 (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "收起"

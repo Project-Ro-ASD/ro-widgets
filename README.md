@@ -52,6 +52,16 @@ paketini gölgeler.
 2. Her widget'ın `metadata.json` → `KPlugin.Version` aynı sürüm (`check-widgets.py` denetler).
 3. PR merge edildikten sonra `main` üzerinde `vX.Y.Z` etiketi; yayın iş akışı paketi etiketten derler ve yayınlar.
 
+## ro-launcher: kullanıcı kategorileri
+
+- Kullanıcı kendi uygulama kategorilerini açar (Oyunlar, Ofis…). Ana ekranda Favorilerin altında katlanabilir
+  kartlar (en fazla iki satır, fazlası "Tümünü göster"); Favoriler, kategoriler ve "+" birlikte kayar, launcher her
+  açılışta en üstten başlar. Klasik modda aynı kategoriler Places kenar çubuğundadır.
+- Uygulama eklemek: herhangi bir uygulamada sağ tık → "Kategoriye Ekle ▸". Kategori başlığında sağ tık ya da
+  "⋮": yeniden adlandır, taşı, sil (uygulamalar silinmez).
+- Veri widget ayarında (`customCategories`, JSON); ayarlardaki "Özel kategorileri göster" ile kapatılır.
+  Kod: `CategoryStore.qml` (veri, menüler), `CategoryDialog.qml` (ad/silme penceresi).
+
 ## Çeviriler
 
 - Kickoff'tan gelen metinler KDE'nin kendi kataloglarından çevrilir; yeni çeviri tutulmaz:

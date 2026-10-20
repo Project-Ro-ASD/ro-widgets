@@ -65,6 +65,20 @@ T.ItemDelegate {
     down: mouseArea.pressed || dragHandler.active
 
     function openActionMenu(x = undefined, y = undefined) {
+        // Places kenar çubuğundaki kullanıcı kategorileri: yeniden adlandır / taşı / sil (CategoryStore)
+        if (root.isCategoryListItem && model.roCategoryIndex !== undefined) {
+            if (model.roCategoryIndex >= 0) {
+                ActionMenu.plasmoid = kickoff;
+                ActionMenu.menu.visualParent = root;
+                ActionMenu.actionList = kickoff.categoryStore.categoryActions(model.roCategoryIndex);
+                if (x !== undefined && y !== undefined) {
+                    ActionMenu.menu.open(x, y);
+                } else {
+                    ActionMenu.menu.openRelative();
+                }
+            }
+            return;
+        }
         if (!hasActionList) { return; }
 
         let actions = Array.from(model.actionList);
@@ -90,6 +104,12 @@ T.ItemDelegate {
             } else {
                 actions = favoriteActions;
             }
+        }
+
+        // "Kategoriye Ekle ▸" / "Kategoriden Kaldır" (CategoryStore)
+        const categoryActions = kickoff.categoryStore?.appActions(model.favoriteId, root.view.model) ?? [];
+        if (categoryActions.length > 0) {
+            actions = (actions && actions.length > 0) ? actions.concat({ type: "separator" }, categoryActions) : categoryActions;
         }
 
         if (actions && actions.length > 0) {
@@ -135,6 +155,11 @@ T.ItemDelegate {
             // inappropriately activating unfocused items
             // Also block activation while dragging.
             if ((!root.activeFocus && !root.isSearchResult) || dragHandler.active || touchDragHandler.active) {
+                return;
+            }
+            // Places kenar çubuğundaki "Yeni Kategori…" satırı seçilmez, pencereyi açar
+            if (model.roCategoryIndex === -2) {
+                kickoff.categoryStore.requestNewCategory("");
                 return;
             }
             root.view.currentIndex = root.index

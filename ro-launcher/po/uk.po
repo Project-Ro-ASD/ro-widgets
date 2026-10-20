@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Класична навігація категоріями і місцями"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Показувати нетипові категорії"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Додати до категорії"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Створити категорію…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Нова категорія"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Вилучити з категорії"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Перейменувати…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Перейменувати категорію"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Пересунути вище"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Пересунути нижче"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Вилучити категорію"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Назва категорії"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Скасувати"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "Гаразд"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Вилучити «%1»? Самі програми не буде вилучено."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Клацніть правою кнопкою на програмі і виберіть «Додати до категорії»."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Показати усі (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Показати менше"

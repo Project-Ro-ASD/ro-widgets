@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Použít klasickou navigaci kategoriemi a místy"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Zobrazit vlastní kategorie"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Přidat do kategorie"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Nová kategorie…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Nová kategorie"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Odstranit z kategorie"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Přejmenovat…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Přejmenovat kategorii"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Posunout nahoru"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Posunout dolů"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Smazat kategorii"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Název kategorie"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Zrušit"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Smazat „%1“? Samotné aplikace se neodstraní."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Klikněte pravým tlačítkem na aplikaci a zvolte „Přidat do kategorie“."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Zobrazit vše (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Zobrazit méně"

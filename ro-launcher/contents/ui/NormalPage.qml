@@ -33,6 +33,13 @@ Item {
 
     readonly property real defaultSideBarWidth: 190
 
+    // Kullanıcı kategorileri açıksa ana ekran popup'ın tamamını kullanır (kaydırılabilir alan)
+    readonly property bool categoriesEnabled: kickoff.categoryStore?.enabled ?? false
+
+    function withAlpha(c, factor) {
+        return Qt.rgba(c.r, c.g, c.b, c.a * factor);
+    }
+
     readonly property bool searchHasFocus: kickoff?.searchField?.activeFocus ?? false
     readonly property string searchText: kickoff?.searchField?.text ?? ""
     readonly property bool isSearching: searchText.trim().length > 0
@@ -132,8 +139,18 @@ Item {
     }
 
     focus: true
-    Keys.forwardTo: kickoff?.searchField ? [kickoff.searchField] : []
+    Keys.forwardTo: kickoff?.searchField && !kickoff.categoryStore.dialogOpen ? [kickoff.searchField] : []
     Keys.onPressed: event => {
+        // Kategori penceresi açıkken yazılan harf pencereye gider, arama başlamaz
+        if (kickoff.categoryStore.dialogOpen) {
+            if (event.key === Qt.Key_Escape) {
+                kickoff.categoryStore.dialogCloseRequested();
+            } else if (event.text.trim().length > 0) {
+                kickoff.categoryStore.dialogKeyTyped(event.text);
+            }
+            event.accepted = true;
+            return;
+        }
         if (event.key === Qt.Key_Escape) {
             // Güç menüsü açıksa sadece onu kapat; değilse olayı bırak, Plasma launcher'ı kapatsın
             if (root.powerOverlayVisible) {
@@ -183,6 +200,7 @@ Item {
             ActionMenu.menu.close();
         }
         root.manualClosed = true;
+        homeFlick.contentY = 0;
         if (kickoff?.searchField) {
             kickoff.searchField.text = "";
             kickoff.searchField.focus = false;
@@ -215,6 +233,13 @@ Item {
             }
         }
 
+        // "Kategoriye Ekle ▸" / "Kategoriden Kaldır" (CategoryStore)
+        const categoryActions = kickoff.categoryStore?.appActions(favId, visualDelegate.view?.model ?? null) ?? [];
+        if (categoryActions.length > 0) {
+            if (actions.length > 0) actions.push({ type: "separator" });
+            actions.push(...categoryActions);
+        }
+
         if (actions.length === 0) return;
 
         if (fromSubPages && !root.useClassicView) {
@@ -242,6 +267,8 @@ Item {
         id: delegateRoot
         property var parentView: null
         property var modelRef: null
+        // Sekmelerdeki ızgaralarda sağ tık menüsü sekme ekranını açık tutar; ana ekrandaki kategorilerde değil
+        property bool fromSubPages: true
 
         width: 90
         height: 94
@@ -295,11 +322,172 @@ Item {
                 onClicked: mouse => {
                     if (gDragHandler.active) return;
                     if (mouse.button === Qt.RightButton) {
-                        root.openNativeActionMenu(delegateRoot, model, mouse.x, mouse.y, true);
+                        root.openNativeActionMenu(delegateRoot, model, mouse.x, mouse.y, delegateRoot.fromSubPages);
                     } else {
                         root.launch(delegateRoot.modelRef, delegateRoot.index);
                     }
                 }
+            }
+        }
+    }
+
+    // Kullanıcı kategorisi kartı (ana ekran). Başlığa tıklayınca katlanır, sağ tık ya da "⋯" ile
+    // yeniden adlandır / taşı / sil. En fazla iki satır görünür, fazlası "Tümünü göster" ile açılır.
+    component CategoryCard: Rectangle {
+        id: card
+        property int catIndex: -1
+        property var category: null
+        property var catModel: null
+        property bool showAll: false
+
+        readonly property bool collapsed: category?.collapsed ?? false
+        readonly property int appCount: catGrid.count
+        readonly property int columns: Math.max(1, Math.floor(catGrid.width / catGrid.cellWidth))
+        readonly property int rows: Math.ceil(appCount / columns)
+        readonly property int visibleRows: showAll ? rows : Math.min(rows, 2)
+
+        implicitHeight: cardColumn.implicitHeight + 16
+        color: root.st.glass
+        radius: root.st.radiusCard
+        border.color: root.st.glassBorder
+        border.width: root.st.borderWidth
+
+        function openMenu(item, x, y) {
+            root.isMenuOpen = true;
+            ActionMenu.plasmoid = kickoff;
+            ActionMenu.menu.visualParent = item;
+            ActionMenu.actionList = kickoff.categoryStore.categoryActions(card.catIndex);
+            ActionMenu.menu.open(x, y);
+        }
+
+        ColumnLayout {
+            id: cardColumn
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.top: parent.top
+            anchors.margins: 8
+            spacing: 4
+
+            // Başlık
+            Item {
+                id: catHeader
+                Layout.fillWidth: true
+                Layout.preferredHeight: 28
+
+                Rectangle {
+                    anchors.fill: parent
+                    radius: root.st.radiusItem
+                    color: headerMouse.containsMouse ? root.st.hover : "transparent"
+                    Behavior on color { ColorAnimation { duration: root.st.durationShort } }
+                }
+
+                MouseArea {
+                    id: headerMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                    cursorShape: Qt.PointingHandCursor
+                    onClicked: mouse => {
+                        if (mouse.button === Qt.RightButton) {
+                            card.openMenu(catHeader, mouse.x, mouse.y);
+                        } else {
+                            kickoff.categoryStore.toggleCollapsed(card.catIndex);
+                        }
+                    }
+                }
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.leftMargin: 4
+                    anchors.rightMargin: 2
+                    spacing: 6
+
+                    Kirigami.Icon {
+                        Layout.preferredWidth: 16
+                        Layout.preferredHeight: 16
+                        source: card.collapsed
+                            ? (Qt.application.layoutDirection === Qt.RightToLeft ? "arrow-left" : "arrow-right")
+                            : "arrow-down"
+                        isMask: true
+                        color: root.st.textMuted
+                    }
+
+                    PlasmaComponents.Label {
+                        Layout.fillWidth: true
+                        text: card.category?.name ?? ""
+                        font.pointSize: root.st.fontSmall
+                        font.weight: Font.DemiBold
+                        color: root.st.textMuted
+                        elide: Text.ElideRight
+                    }
+
+                    PlasmaComponents.Label {
+                        visible: card.collapsed && card.appCount > 0
+                        text: card.appCount
+                        font.pointSize: root.st.fontSmall
+                        color: root.st.textMuted
+                    }
+
+                    // Menü düğmesi (sağ tıkla aynı menü); simge tema rengine boyanır, her simge temasında görünsün
+                    Rectangle {
+                        id: menuButton
+                        Layout.preferredWidth: 26
+                        Layout.preferredHeight: 26
+                        radius: root.st.radiusItem
+                        color: menuMouse.pressed ? root.st.pressed : (menuMouse.containsMouse ? root.st.hover : "transparent")
+                        Accessible.role: Accessible.Button
+                        Accessible.name: card.category?.name ?? ""
+
+                        Kirigami.Icon {
+                            anchors.centerIn: parent
+                            width: 16
+                            height: 16
+                            source: "overflow-menu"
+                            isMask: true
+                            color: Kirigami.Theme.textColor
+                        }
+
+                        MouseArea {
+                            id: menuMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            cursorShape: Qt.PointingHandCursor
+                            onClicked: card.openMenu(menuButton, 0, menuButton.height)
+                        }
+                    }
+                }
+            }
+
+            PlasmaComponents.Label {
+                Layout.fillWidth: true
+                Layout.leftMargin: 6
+                Layout.bottomMargin: 6
+                visible: !card.collapsed && card.appCount === 0
+                text: i18n("Right-click an application and choose “Add to Category”.")
+                font.pointSize: root.st.fontSmall
+                color: root.st.textMuted
+                wrapMode: Text.Wrap
+            }
+
+            GridView {
+                id: catGrid
+                Layout.fillWidth: true
+                Layout.preferredHeight: card.collapsed ? 0 : card.visibleRows * cellHeight
+                visible: !card.collapsed && count > 0
+                cellWidth: 90
+                cellHeight: 94
+                interactive: false
+                clip: true
+                model: card.catModel
+                delegate: AppGridItemDelegate { parentView: catGrid; modelRef: catGrid.model; fromSubPages: false }
+            }
+
+            PlasmaComponents.ToolButton {
+                visible: !card.collapsed && card.rows > 2
+                Layout.alignment: Qt.AlignHCenter
+                text: card.showAll ? i18n("Show less") : i18n("Show all (%1)", card.appCount)
+                icon.name: card.showAll ? "go-up" : "go-down"
+                onClicked: card.showAll = !card.showAll
             }
         }
     }
@@ -339,110 +527,185 @@ Item {
         readonly property real fullHeight: root.height - anchors.topMargin - 54
         readonly property real favHeight: Math.min(fullHeight, Math.max(110, Math.min(favRows, maxVisibleFavRows) * 96 + 48))
 
-        // Ana ekran → sekmeler/arama: kart yukarıdan aşağı doğru animasyonla uzar
-        height: favHeight + (fullHeight - favHeight) * root.expandProgress
+        // Ana ekran → sekmeler/arama: kart yukarıdan aşağı doğru animasyonla uzar. Kategoriler açıkken
+        // ana ekran zaten tam boy (kaydırılabilir alan).
+        height: root.categoriesEnabled ? fullHeight : favHeight + (fullHeight - favHeight) * root.expandProgress
 
-        color: root.st.glass
+        // Ana ekranda kartlar (Favoriler, kategoriler) kendi zeminini çizer; bu zemin sekmelere geçerken belirir
+        readonly property real backgroundFactor: root.useClassicView ? 1 : root.expandProgress
+        color: root.withAlpha(root.st.glass, backgroundFactor)
         radius: root.st.radiusCard
-        border.color: root.st.glassBorder
+        border.color: root.withAlpha(root.st.glassBorder, backgroundFactor)
         border.width: root.st.borderWidth
         clip: true
 
         // ---------------------------------------------------------
-        // MOD A: Modern Mod - Tam Dinamik Favoriler Izgarası
+        // MOD A: Modern Mod - ana ekran. Favoriler, kullanıcı kategorileri ve "+" tek bir kaydırılabilir
+        // alanda; kaydırma çubuğu yalnızca içerik sığmayınca çıkar. Launcher her açılışta en üstten başlar.
         // ---------------------------------------------------------
-        Item {
+        Flickable {
+            id: homeFlick
             anchors.fill: parent
             visible: !root.useClassicView && !root.isExpanded
+            clip: true
+            contentWidth: width
+            contentHeight: homeColumn.implicitHeight
+            boundsBehavior: Flickable.StopAtBounds
+            QQC2.ScrollBar.vertical: PlasmaComponents.ScrollBar {
+                policy: homeFlick.contentHeight > homeFlick.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff
+            }
 
             ColumnLayout {
-                anchors.fill: parent
-                anchors.margins: 10
-                spacing: 4
+                id: homeColumn
+                width: homeFlick.width - (homeFlick.contentHeight > homeFlick.height ? 10 : 0)
+                spacing: 10
 
-                PlasmaComponents.Label {
-                    text: i18nd("libkicker", "Favorites")
-                    font.pointSize: root.st.fontSmall
-                    font.weight: Font.DemiBold
-                    color: root.st.textMuted
-                    Layout.leftMargin: 6
-                    Layout.topMargin: 2
-                }
-
-                GridView {
-                    id: homeFavoritesGrid
+                // Favoriler kartı: bütün satırlar görünür, kaydırma dıştaki alanda
+                Rectangle {
                     Layout.fillWidth: true
-                    Layout.fillHeight: true
-                    cellWidth: 90
-                    cellHeight: 96
-                    clip: true
-                    model: kickoff.rootModel.favoritesModel
-                    boundsBehavior: Flickable.StopAtBounds
-                    QQC2.ScrollBar.vertical: PlasmaComponents.ScrollBar {}
+                    Layout.preferredHeight: favColumn.implicitHeight + 20
+                    color: root.st.glass
+                    radius: root.st.radiusCard
+                    border.color: root.st.glassBorder
+                    border.width: root.st.borderWidth
 
-                    delegate: Item {
-                        id: favDelegate
-                        width: homeFavoritesGrid.cellWidth
-                        height: homeFavoritesGrid.cellHeight
+                    ColumnLayout {
+                        id: favColumn
+                        anchors.fill: parent
+                        anchors.margins: 10
+                        spacing: 4
 
-                        readonly property var view: homeFavoritesGrid
-                        readonly property int index: model.index
-                        readonly property string favUrl: model.url ?? ""
-
-                        Rectangle {
-                            anchors.fill: parent
-                            anchors.margins: 3
-                            radius: root.st.radiusItem
-                            color: favHov.pressed ? root.st.pressed : (favHov.containsMouse ? root.st.hover : "transparent")
-
-                            Behavior on color { ColorAnimation { duration: root.st.durationShort } }
-
-                            ColumnLayout {
-                                anchors.centerIn: parent
-                                spacing: 6
-
-                                Kirigami.Icon {
-                                    id: favIconItem
-                                    Layout.alignment: Qt.AlignHCenter
-                                    Layout.preferredWidth: 48
-                                    Layout.preferredHeight: 48
-                                    source: model.decoration ?? model.icon ?? "application-x-executable"
-                                }
-
-                                PlasmaComponents.Label {
-                                    Layout.preferredWidth: 80
-                                    text: model.display ?? ""
-                                    font.pointSize: root.st.fontSmall
-                                    font.weight: Font.Medium
-                                    horizontalAlignment: Text.AlignHCenter
-                                    elide: Text.ElideRight
-                                }
-                            }
+                        PlasmaComponents.Label {
+                            text: i18nd("libkicker", "Favorites")
+                            font.pointSize: root.st.fontSmall
+                            font.weight: Font.DemiBold
+                            color: root.st.textMuted
+                            Layout.leftMargin: 6
+                            Layout.topMargin: 2
                         }
 
-                        DragHandler {
-                            id: favDragHandler
-                            acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad | PointerDevice.Stylus
-                            target: null
-                            onActiveChanged: root.performDrag(this, favDelegate, favIconItem, favDelegate.favUrl)
-                        }
+                        GridView {
+                            id: homeFavoritesGrid
+                            Layout.fillWidth: true
+                            readonly property int columns: Math.max(1, Math.floor(width / cellWidth))
+                            Layout.preferredHeight: Math.max(1, Math.ceil(count / columns)) * cellHeight
+                            cellWidth: 90
+                            cellHeight: 96
+                            interactive: false
+                            model: kickoff.rootModel.favoritesModel
 
-                        MouseArea {
-                            id: favHov
-                            anchors.fill: parent
-                            hoverEnabled: true
-                            acceptedButtons: Qt.LeftButton | Qt.RightButton
-                            cursorShape: favDragHandler.active ? Qt.ClosedHandCursor : Qt.PointingHandCursor
-                            onClicked: mouse => {
-                                if (favDragHandler.active) return;
-                                if (mouse.button === Qt.RightButton) {
-                                    root.openNativeActionMenu(favDelegate, model, mouse.x, mouse.y, false);
-                                } else {
-                                    root.launch(homeFavoritesGrid.model, favDelegate.index);
+                            delegate: Item {
+                                id: favDelegate
+                                width: homeFavoritesGrid.cellWidth
+                                height: homeFavoritesGrid.cellHeight
+
+                                readonly property var view: homeFavoritesGrid
+                                readonly property int index: model.index
+                                readonly property string favUrl: model.url ?? ""
+
+                                Rectangle {
+                                    anchors.fill: parent
+                                    anchors.margins: 3
+                                    radius: root.st.radiusItem
+                                    color: favHov.pressed ? root.st.pressed : (favHov.containsMouse ? root.st.hover : "transparent")
+
+                                    Behavior on color { ColorAnimation { duration: root.st.durationShort } }
+
+                                    ColumnLayout {
+                                        anchors.centerIn: parent
+                                        spacing: 6
+
+                                        Kirigami.Icon {
+                                            id: favIconItem
+                                            Layout.alignment: Qt.AlignHCenter
+                                            Layout.preferredWidth: 48
+                                            Layout.preferredHeight: 48
+                                            source: model.decoration ?? model.icon ?? "application-x-executable"
+                                        }
+
+                                        PlasmaComponents.Label {
+                                            Layout.preferredWidth: 80
+                                            text: model.display ?? ""
+                                            font.pointSize: root.st.fontSmall
+                                            font.weight: Font.Medium
+                                            horizontalAlignment: Text.AlignHCenter
+                                            elide: Text.ElideRight
+                                        }
+                                    }
+                                }
+
+                                DragHandler {
+                                    id: favDragHandler
+                                    acceptedDevices: PointerDevice.Mouse | PointerDevice.TouchPad | PointerDevice.Stylus
+                                    target: null
+                                    onActiveChanged: root.performDrag(this, favDelegate, favIconItem, favDelegate.favUrl)
+                                }
+
+                                MouseArea {
+                                    id: favHov
+                                    anchors.fill: parent
+                                    hoverEnabled: true
+                                    acceptedButtons: Qt.LeftButton | Qt.RightButton
+                                    cursorShape: favDragHandler.active ? Qt.ClosedHandCursor : Qt.PointingHandCursor
+                                    onClicked: mouse => {
+                                        if (favDragHandler.active) return;
+                                        if (mouse.button === Qt.RightButton) {
+                                            root.openNativeActionMenu(favDelegate, model, mouse.x, mouse.y, false);
+                                        } else {
+                                            root.launch(homeFavoritesGrid.model, favDelegate.index);
+                                        }
+                                    }
                                 }
                             }
                         }
                     }
+                }
+
+                Repeater {
+                    model: root.categoriesEnabled ? kickoff.categoryStore.categories : []
+                    delegate: CategoryCard {
+                        required property int index
+                        required property var modelData
+                        Layout.fillWidth: true
+                        catIndex: index
+                        category: modelData
+                        catModel: kickoff.categoryStore.models[index] ?? null
+                    }
+                }
+
+                // Yeni kategori
+                Rectangle {
+                    id: addCategoryButton
+                    visible: root.categoriesEnabled
+                    Layout.preferredWidth: 38
+                    Layout.preferredHeight: 38
+                    Layout.leftMargin: 2
+                    Layout.bottomMargin: 4
+                    radius: root.st.radiusItem
+                    color: addMouse.pressed ? root.st.pressed : (addMouse.containsMouse ? root.st.hover : root.st.glassRaised)
+                    border.color: root.st.border
+                    border.width: root.st.borderWidth
+
+                    Behavior on color { ColorAnimation { duration: root.st.durationShort } }
+
+                    Kirigami.Icon {
+                        anchors.centerIn: parent
+                        width: 18
+                        height: 18
+                        source: "list-add"
+                    }
+
+                    MouseArea {
+                        id: addMouse
+                        anchors.fill: parent
+                        hoverEnabled: true
+                        cursorShape: Qt.PointingHandCursor
+                        onClicked: kickoff.categoryStore.requestNewCategory("")
+                    }
+
+                    QQC2.ToolTip.text: i18n("New Category")
+                    QQC2.ToolTip.visible: addMouse.containsMouse
+                    QQC2.ToolTip.delay: Kirigami.Units.toolTipDelay
                 }
             }
         }

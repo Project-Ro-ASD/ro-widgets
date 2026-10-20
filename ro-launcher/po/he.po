@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "להשתמש בניווט הקלסי לפי קטגוריות ומקומות"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "להציג קטגוריות מותאמות אישית"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "הוספה לקטגוריה"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "קטגוריה חדשה…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "קטגוריה חדשה"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "הסרה מהקטגוריה"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "שינוי שם…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "שינוי שם הקטגוריה"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "העברה למעלה"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "העברה למטה"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "מחיקת הקטגוריה"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "שם הקטגוריה"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "ביטול"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "אישור"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "למחוק את „%1”? היישומים עצמם לא יוסרו."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "יש ללחוץ לחיצה ימנית על יישום ולבחור „הוספה לקטגוריה”."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "להציג הכול (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "להציג פחות"

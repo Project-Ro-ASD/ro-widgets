@@ -76,6 +76,11 @@ Item {
             }
 
             onClicked: {
+                // Kullanıcı kategorileri (CategoryStore) modelden değil, launcher'dan yönetilir
+                if (String(modelData.actionId ?? "").startsWith("_ro_category_")) {
+                    root.plasmoid?.categoryStore?.handleAction(modelData.actionId, modelData.actionArgument)
+                    return
+                }
                 const modelActionTriggered = Tools.triggerAction(
                     menu.visualParent.view.model,
                     menu.visualParent.index,

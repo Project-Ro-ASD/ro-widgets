@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "従来のカテゴリと場所のナビゲーションを使用"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "カスタムカテゴリを表示"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "カテゴリに追加"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "新しいカテゴリ…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "新しいカテゴリ"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "カテゴリから削除"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "名前を変更…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "カテゴリの名前を変更"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "上へ移動"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "下へ移動"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "カテゴリを削除"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "カテゴリ名"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "キャンセル"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "「%1」を削除しますか？アプリケーション自体は削除されません。"
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "アプリケーションを右クリックして「カテゴリに追加」を選択してください。"
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "すべて表示 (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "表示を減らす"

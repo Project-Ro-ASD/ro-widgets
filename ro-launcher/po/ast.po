@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Usar la navegación clásica per categoríes y llugares"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Amosar les categoríes personalizaes"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Amestar a la categoría"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Categoría nueva…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Categoría nueva"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Quitar de la categoría"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Renomar…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Renomar la categoría"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Xubir"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Baxar"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Desaniciar la categoría"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Nome de la categoría"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Encaboxar"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "Aceptar"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "¿Desaniciar «%1»? Les aplicaciones nun se desanicien."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Calca col botón derechu nuna aplicación y escueyi «Amestar a la categoría»."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Amosar too (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Amosar menos"

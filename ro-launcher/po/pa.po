@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "ਕਲਾਸਿਕ ਸ਼੍ਰੇਣੀਆਂ ਅਤੇ ਥਾਵਾਂ ਨੈਵੀਗੇਸ਼ਨ ਵਰਤੋਂ"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "ਕਸਟਮ ਸ਼੍ਰੇਣੀਆਂ ਵੇਖਾਓ"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "ਸ਼੍ਰੇਣੀ ਵਿੱਚ ਜੋੜੋ"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "ਨਵੀਂ ਸ਼੍ਰੇਣੀ…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "ਨਵੀਂ ਸ਼੍ਰੇਣੀ"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "ਸ਼੍ਰੇਣੀ ਵਿੱਚੋਂ ਹਟਾਓ"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "ਨਾਂ ਬਦਲੋ…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "ਸ਼੍ਰੇਣੀ ਦਾ ਨਾਂ ਬਦਲੋ"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "ਉੱਤੇ ਭੇਜੋ"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "ਹੇਠਾਂ ਭੇਜੋ"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "ਸ਼੍ਰੇਣੀ ਹਟਾਓ"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "ਸ਼੍ਰੇਣੀ ਦਾ ਨਾਂ"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "ਰੱਦ ਕਰੋ"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "ਠੀਕ ਹੈ"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "\"%1\" ਹਟਾਉਣੀ ਹੈ? ਐਪਲੀਕੇਸ਼ਨਾਂ ਖੁਦ ਨਹੀਂ ਹਟਾਈਆਂ ਜਾਂਦੀਆਂ।"
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "ਕਿਸੇ ਐਪਲੀਕੇਸ਼ਨ ਉੱਤੇ ਸੱਜਾ-ਕਲਿੱਕ ਕਰੋ ਅਤੇ \"ਸ਼੍ਰੇਣੀ ਵਿੱਚ ਜੋੜੋ\" ਚੁਣੋ।"
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "ਸਭ ਵੇਖਾਓ (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "ਘੱਟ ਵੇਖਾਓ"

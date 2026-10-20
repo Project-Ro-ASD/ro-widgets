@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Naudoti klasikinį naršymą pagal kategorijas ir vietas"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Rodyti tinkintas kategorijas"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Pridėti į kategoriją"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Nauja kategorija…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Nauja kategorija"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Šalinti iš kategorijos"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Pervadinti…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Pervadinti kategoriją"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Perkelti aukštyn"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Perkelti žemyn"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Ištrinti kategoriją"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Kategorijos pavadinimas"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Atsisakyti"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "Gerai"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Ištrinti „%1“? Pačios programos nebus pašalintos."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Spustelėkite programą dešiniuoju pelės mygtuku ir pasirinkite „Pridėti į kategoriją“."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Rodyti visas (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Rodyti mažiau"

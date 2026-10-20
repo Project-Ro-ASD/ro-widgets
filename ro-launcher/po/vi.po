@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Dùng điều hướng theo phân loại và địa điểm cổ điển"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Hiện các phân loại tự tạo"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Thêm vào phân loại"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Phân loại mới…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Phân loại mới"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Xoá khỏi phân loại"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Đổi tên…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Đổi tên phân loại"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Chuyển lên"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Chuyển xuống"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Xoá phân loại"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Tên phân loại"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Huỷ"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Xoá \"%1\"? Bản thân các ứng dụng không bị gỡ bỏ."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Nhấn chuột phải vào một ứng dụng và chọn \"Thêm vào phân loại\"."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Hiện tất cả (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Hiện ít hơn"
