@@ -1,5 +1,5 @@
 Name:           ro-widgets
-Version:        %{?ro_version}%{!?ro_version:0.1.3}
+Version:        %{?ro_version}%{!?ro_version:0.1.4}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
 License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
@@ -71,6 +71,13 @@ install -Dm0644 ro-launcher-add-to-category.desktop \
 %{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop
 
 %changelog
+* Tue Oct 20 2026 Project Ro-ASD - 0.1.4-1
+- Home view: the scroll bar only shows when there is something to scroll
+  (it showed even when everything fit).
+- New setting "Show the + button for new categories" (default on); new
+  categories can still be created from an application's context menu.
+  Translated into the 62 Kickoff languages.
+
 * Tue Oct 20 2026 Project Ro-ASD - 0.1.3-1
 - ro-launcher is translated in the 62 languages Kickoff supports (KDE catalogues
   plus its own for the Ro-only strings and the widget description).
