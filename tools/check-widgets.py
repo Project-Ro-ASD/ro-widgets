@@ -108,7 +108,7 @@ for w in sorted(widgets):
     # Dolphin/masaüstü sağ tık menüsü: betikteki _("…") ve .desktop'taki Name= metinleri de aynı katalogda
     service_dir = w / 'servicemenu'
     if service_dir.is_dir():
-        for f in sorted(service_dir.iterdir()):
+        for f in sorted(p for p in service_dir.iterdir() if p.is_file()):
             text = f.read_text(encoding='utf-8')
             if 'SPDX-License-Identifier' not in text:
                 err(f'{f.relative_to(ROOT)}: SPDX lisans başlığı yok')

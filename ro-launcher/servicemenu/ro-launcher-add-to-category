@@ -1,7 +1,11 @@
 #!/usr/bin/python3
 # SPDX-FileCopyrightText: 2026 Project Ro-ASD
 # SPDX-License-Identifier: GPL-2.0-or-later
-"""Dolphin ve masaüstü sağ tık menüsü: seçilen uygulamaları, dosyaları ve klasörleri Ro Launcher kategorisine ekler.
+"""Dolphin ve masaüstü sağ tık menüsü: seçilen uygulamaları, dosyaları ve klasörleri Ro Launcher kategorisine
+ya da (--favorite) Favorilere ekler.
+
+Favoriler KDE'nin etkinlik servisindeki ortak bağlantı listesidir (Kickoff ile aynı); launcher panelde olmasa da
+yazılır ve hemen görünür.
 
 Kategoriler launcher widget'ının ayarındadır (customCategories, JSON). Okuma ve yazma Plasma'nın betik
 arayüzüyle (org.kde.PlasmaShell.evaluateScript) yapılır; çalışan launcher değişikliği hemen gösterir. Paneldeki
@@ -104,7 +108,11 @@ found.forEach(function (w) {
     cats.forEach(function (c) { if (!cat && c && c.name === target) cat = c; });
     if (!cat) { cat = { name: target, apps: [], collapsed: false }; cats.push(cat); }
     if (!Array.isArray(cat.apps)) cat.apps = [];
-    apps.forEach(function (a) { if (cat.apps.indexOf(a) < 0) cat.apps.push(a); });
+    // file:// adresleri farklı kodlanmış olabilir (%20 / boşluk): çözülmüş hâliyle karşılaştır
+    function canon(x) { try { return decodeURIComponent(x); } catch (e) { return x; } }
+    apps.forEach(function (a) {
+        if (!cat.apps.some(function (b) { return canon(b) === canon(a); })) cat.apps.push(a);
+    });
     w.writeConfig("customCategories", JSON.stringify(cats));
     w.reloadConfig();
     ++count;
@@ -114,7 +122,23 @@ print(count);
     return bool(out) and int(out) > 0
 
 
+def add_to_favorites(paths):
+    for path in paths:
+        real = os.path.realpath(path)
+        if not os.path.exists(real):
+            continue
+        app = application_id(real)
+        agent, resource = (("org.kde.plasma.favorites.applications", "applications:" + app) if app
+                           else ("org.kde.plasma.favorites.documents", pathlib.Path(real).as_uri()))
+        subprocess.run(["busctl", "--user", "call", "org.kde.ActivityManager", "/ActivityManager/Resources/Linking",
+                        "org.kde.ActivityManager.ResourcesLinking", "LinkResourceToActivity", "sss",
+                        agent, resource, ":global"], capture_output=True)
+    return 0
+
+
 def main(paths):
+    if paths[:1] == ["--favorite"]:
+        return add_to_favorites(paths[1:])
     apps = []
     for path in paths:
         item = item_id(path)

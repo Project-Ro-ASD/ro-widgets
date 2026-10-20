@@ -90,6 +90,10 @@ msgid "Show less"
 msgstr "o lukin e lili"
 
 #: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "o pana tawa lipu open pi Ro Launcher"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
 msgid "Add to Ro Launcher Category…"
 msgstr "o pana tawa kulupu pi Ro Launcher…"
 

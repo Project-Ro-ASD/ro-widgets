@@ -110,12 +110,15 @@ Item {
                 Layout.fillHeight: true
                 radius: height / 2
                 opacity: enabled ? 1.0 : 0.4
-                // Hover nötr ton; vurgu rengi yalnızca basılıyken
-                color: capMouse.pressed ? root.st.accentSoft : (capMouse.containsMouse ? root.st.hover : root.st.glassRaised)
-                border.color: capMouse.pressed ? root.st.accentBorder : "transparent"
+                // Hover belirgin nötr ton ve çok küçük büyüme (kategori penceresi düğmeleriyle aynı); vurgu rengi
+                // yalnızca basılıyken. Zemin (%7,5) ile hover (%8) arasındaki fark gözle seçilmiyordu.
+                color: capMouse.pressed ? root.st.accentSoft : (capMouse.containsMouse ? root.st.pressed : root.st.glassRaised)
+                border.color: capMouse.pressed ? root.st.accentBorder : (capMouse.containsMouse ? root.st.borderStrong : "transparent")
                 border.width: root.st.borderWidth
+                scale: capMouse.pressed ? 0.98 : (capMouse.containsMouse ? 1.03 : 1.0)
 
                 Behavior on color { ColorAnimation { duration: root.st.durationShort } }
+                Behavior on scale { NumberAnimation { duration: root.st.durationShort; easing.type: Easing.OutCubic } }
 
                 RowLayout {
                     anchors.centerIn: parent

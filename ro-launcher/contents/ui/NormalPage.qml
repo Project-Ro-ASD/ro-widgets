@@ -557,7 +557,8 @@ Item {
 
             ColumnLayout {
                 id: homeColumn
-                width: homeFlick.width - (homeFlick.contentHeight > homeFlick.height ? 10 : 0)
+                // Kaydırma çubuğu görünürken kartlarla arasında boşluk kalsın
+                width: homeFlick.width - (homeFlick.contentHeight > homeFlick.height ? 18 : 0)
                 spacing: 10
 
                 // Favoriler kartı: bütün satırlar görünür, kaydırma dıştaki alanda

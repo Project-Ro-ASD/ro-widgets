@@ -117,8 +117,24 @@ Item {
         return s.endsWith(".desktop") || s.startsWith("preferred://") || s.startsWith("file:///");
     }
 
+    // Aynı dosya farklı yazılabilir: kayıtta "file:///a%20b%20%28x86%29", Kicker'ın verdiği kimlikte
+    // "file:///a b %28x86%29". Karşılaştırma çözülmüş adresle yapılır.
+    function canonicalId(id) {
+        const s = normalizeId(id);
+        if (!s.startsWith("file://")) return s;
+        try {
+            return decodeURIComponent(s);
+        } catch (e) {
+            return s;
+        }
+    }
+
+    function sameId(a, b) {
+        return canonicalId(a) === canonicalId(b);
+    }
+
     function contains(index, appId) {
-        return categories[index]?.apps.includes(normalizeId(appId)) ?? false;
+        return categories[index]?.apps.some(a => sameId(a, appId)) ?? false;
     }
 
     function update(fn) {
@@ -165,7 +181,7 @@ Item {
     function removeApp(index, appId) {
         const id = normalizeId(appId);
         if (!categories[index]) return;
-        update(list => list[index].apps = list[index].apps.filter(a => a !== id));
+        update(list => list[index].apps = list[index].apps.filter(a => !sameId(a, id)));
     }
 
     //BEGIN Sağ tık menüleri (ActionMenu, "_ro_category_" eylemlerini handleAction'a yollar)
@@ -187,7 +203,7 @@ Item {
         const subActions = categories.map((c, i) => ({
             text: c.name,
             checkable: true,
-            checked: c.apps.includes(id),
+            checked: c.apps.some(a => sameId(a, id)),
             actionId: "_ro_category_toggle_app",
             actionArgument: { category: i, app: id },
         }));

@@ -90,6 +90,10 @@ msgid "Show less"
 msgstr "ਘੱਟ ਵੇਖਾਓ"
 
 #: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Favorites"
+msgstr "Ro Launcher ਪਸੰਦਾਂ ਵਿੱਚ ਜੋੜੋ"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
 msgid "Add to Ro Launcher Category…"
 msgstr "Ro Launcher ਦੀ ਸ਼੍ਰੇਣੀ ਵਿੱਚ ਜੋੜੋ…"
 
