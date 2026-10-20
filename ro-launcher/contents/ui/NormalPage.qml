@@ -523,7 +523,9 @@ Item {
         anchors.top: bodyCard.top
         anchors.bottom: bodyCard.bottom
         anchors.left: bodyCard.right
-        anchors.leftMargin: Math.max(0, (bodyCard.anchors.rightMargin - width) / 2)
+        // Kartın sağ kenarı ile popup'ın görünen kenarı arası: bizim kenar boşluğumuz + popup iç boşluğu
+        // (Ro: 12 + 12). Çubuk bu aralığın ortasında; popup çerçevesinin iç boşluğuna taşar, orası pencerenin içi.
+        anchors.leftMargin: Math.max(0, Math.round((bodyCard.anchors.rightMargin + RoTokens.popupPadding - width) / 2))
         visible: homeFlick.visible
         policy: homeFlick.contentHeight > homeFlick.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff
     }
