@@ -187,7 +187,7 @@ Item {
                     bottomPadding: 0
                     leftPadding: 0
                     rightPadding: 0
-                    placeholderText: i18nd("plasma_workspace", "Search…")
+                    placeholderText: i18nd("libplasma6", "Search…")
                     font.pointSize: root.st.fontNormal
                     verticalAlignment: Text.AlignVCenter
                     color: Kirigami.Theme.textColor

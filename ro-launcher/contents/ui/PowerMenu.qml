@@ -144,37 +144,37 @@ Item {
             }
 
             PowerCapsule {
-                label: i18nd("plasma_workspace", "Lock")
+                label: i18nd("libkicker", "Lock")
                 iconSource: "system-lock-screen"
                 enabled: session.canLock
                 onTriggered: root.run(() => session.lock())
             }
             PowerCapsule {
-                label: i18nd("plasma_workspace", "Log Out")
+                label: i18nd("libkicker", "Log Out")
                 iconSource: "system-log-out"
                 enabled: session.canLogout
                 onTriggered: root.run(() => session.requestLogout())
             }
             PowerCapsule {
-                label: i18nd("plasma_workspace", "Switch User")
+                label: i18nd("libkicker", "Switch User")
                 iconSource: "system-switch-user"
                 enabled: session.canSwitchUser
                 onTriggered: root.run(() => session.switchUser())
             }
             PowerCapsule {
-                label: i18nd("plasma_workspace", "Sleep")
+                label: i18ndc("libkicker", "Suspend to RAM", "Sleep")
                 iconSource: "system-suspend"
                 enabled: session.canSuspend
                 onTriggered: root.run(() => session.suspend())
             }
             PowerCapsule {
-                label: i18nd("plasma_workspace", "Restart")
+                label: i18nd("libkicker", "Restart")
                 iconSource: "system-reboot"
                 enabled: session.canReboot
                 onTriggered: root.run(() => session.requestReboot())
             }
             PowerCapsule {
-                label: i18nd("plasma_workspace", "Shut Down")
+                label: i18nd("libkicker", "Shut Down")
                 iconSource: "system-shutdown"
                 enabled: session.canShutdown
                 onTriggered: root.run(() => session.requestShutdown())
