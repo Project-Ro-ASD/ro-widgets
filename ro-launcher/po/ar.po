@@ -96,7 +96,3 @@ msgstr "أضف إلى فئة في Ro Launcher…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "لم يُعثر على Ro Launcher في اللوحة."
-
-#: servicemenu/ro-launcher-add-to-category
-msgid "The selected files are not installed applications."
-msgstr "الملفات المحددة ليست تطبيقات مثبتة."

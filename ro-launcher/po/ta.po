@@ -96,7 +96,3 @@ msgstr "Ro Launcher வகையில் சேர்…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "பலகத்தில் Ro Launcher கண்டுபிடிக்கப்படவில்லை."
-
-#: servicemenu/ro-launcher-add-to-category
-msgid "The selected files are not installed applications."
-msgstr "தேர்ந்தெடுத்த கோப்புகள் நிறுவப்பட்ட செயலிகள் அல்ல."

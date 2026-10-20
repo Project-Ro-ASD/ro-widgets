@@ -96,7 +96,3 @@ msgstr "Aan categorie in Ro Launcher toevoegen…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "Ro Launcher is niet gevonden in het paneel."
-
-#: servicemenu/ro-launcher-add-to-category
-msgid "The selected files are not installed applications."
-msgstr "De geselecteerde bestanden zijn geen geïnstalleerde toepassingen."

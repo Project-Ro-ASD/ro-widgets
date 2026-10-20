@@ -102,16 +102,19 @@ Item {
         models = list;
     }
 
-    // Kicker kimliklerinde uygulamalar "org.kde.dolphin.desktop" ya da "preferred://browser";
-    // etkinlik istatistiklerinden gelenlerde "applications:" öneki olabilir
+    // Kategoride uygulamalar ("org.kde.dolphin.desktop", "preferred://browser"), dosyalar ve klasörler
+    // ("file:///home/…") durabilir; SimpleFavoritesModel dosyayı varsayılan programıyla açar.
+    // Etkinlik istatistiklerinden gelen uygulama kimliklerinde "applications:" öneki olabilir.
     function normalizeId(id) {
         const s = String(id ?? "");
-        return s.startsWith("applications:") ? s.substring(13) : s;
+        if (s.startsWith("applications:")) return s.substring(13);
+        if (s.startsWith("/")) return "file://" + s;
+        return s;
     }
 
-    function isApplication(id) {
+    function isAddable(id) {
         const s = normalizeId(id);
-        return s.endsWith(".desktop") || s.startsWith("preferred://");
+        return s.endsWith(".desktop") || s.startsWith("preferred://") || s.startsWith("file:///");
     }
 
     function contains(index, appId) {
@@ -128,7 +131,7 @@ Item {
     function addCategory(name, appId) {
         const trimmed = name.trim();
         if (trimmed.length === 0) return;
-        update(list => list.push({ name: trimmed, apps: isApplication(appId) ? [normalizeId(appId)] : [], collapsed: false }));
+        update(list => list.push({ name: trimmed, apps: isAddable(appId) ? [normalizeId(appId)] : [], collapsed: false }));
     }
 
     function renameCategory(index, name) {
@@ -155,7 +158,7 @@ Item {
 
     function addApp(index, appId) {
         const id = normalizeId(appId);
-        if (!categories[index] || !isApplication(id) || contains(index, id)) return;
+        if (!categories[index] || !isAddable(id) || contains(index, id)) return;
         update(list => list[index].apps.push(id));
     }
 
@@ -167,9 +170,9 @@ Item {
 
     //BEGIN Sağ tık menüleri (ActionMenu, "_ro_category_" eylemlerini handleAction'a yollar)
 
-    // Bir uygulamanın menüsüne eklenecekler. sourceModel bir kategorinin modeliyse "Kategoriden Kaldır" da gelir.
+    // Bir uygulamanın, dosyanın ya da klasörün menüsüne eklenecekler. sourceModel bir kategorinin modeliyse "Kategoriden Kaldır" da gelir.
     function appActions(appId, sourceModel) {
-        if (!enabled || !isApplication(appId)) return [];
+        if (!enabled || !isAddable(appId)) return [];
         const id = normalizeId(appId);
         const actions = [];
         const sourceIndex = sourceModel?.roCategoryIndex ?? -1;

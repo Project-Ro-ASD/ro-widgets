@@ -96,7 +96,3 @@ msgstr "Kategoriji Ro Launchera přidać…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "Ro Launcher njeje so na panelu namakał."
-
-#: servicemenu/ro-launcher-add-to-category
-msgid "The selected files are not installed applications."
-msgstr "Wubrane dataje njejsu instalowane aplikacije."

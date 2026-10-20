@@ -1,7 +1,7 @@
 #!/usr/bin/python3
 # SPDX-FileCopyrightText: 2026 Project Ro-ASD
 # SPDX-License-Identifier: GPL-2.0-or-later
-"""Dolphin ve masaüstü sağ tık menüsü: seçilen uygulamaları (.desktop) Ro Launcher kategorisine ekler.
+"""Dolphin ve masaüstü sağ tık menüsü: seçilen uygulamaları, dosyaları ve klasörleri Ro Launcher kategorisine ekler.
 
 Kategoriler launcher widget'ının ayarındadır (customCategories, JSON). Okuma ve yazma Plasma'nın betik
 arayüzüyle (org.kde.PlasmaShell.evaluateScript) yapılır; çalışan launcher değişikliği hemen gösterir. Paneldeki
@@ -10,6 +10,7 @@ her Ro Launcher'a aynı adla yazılır. Metinler launcher'ın çeviri kataloğun
 import gettext
 import json
 import os
+import pathlib
 import subprocess
 import sys
 
@@ -30,9 +31,16 @@ def application_dirs():
     return [os.path.realpath(os.path.join(d, "applications")) for d in dirs if d]
 
 
-def application_id(path):
-    """Kicker'ın kullandığı kimlik (org.kde.dolphin.desktop); kurulu bir uygulama değilse None."""
+def item_id(path):
+    """Kategorideki kimlik: kurulu uygulama için Kicker kimliği (org.kde.dolphin.desktop), diğer her dosya ve
+    klasör için file:// adresi (launcher varsayılan programıyla açar). Yol yoksa None."""
     real = os.path.realpath(path)
+    if not os.path.exists(real):
+        return None
+    return application_id(real) or pathlib.Path(real).as_uri()
+
+
+def application_id(real):
     if not real.endswith(".desktop") or not os.path.isfile(real):
         return None
     dirs = application_dirs()
@@ -109,11 +117,10 @@ print(count);
 def main(paths):
     apps = []
     for path in paths:
-        app = application_id(path)
-        if app and app not in apps:
-            apps.append(app)
+        item = item_id(path)
+        if item and item not in apps:
+            apps.append(item)
     if not apps:
-        kdialog("--sorry", _("The selected files are not installed applications."))
         return 1
 
     state = read_categories()

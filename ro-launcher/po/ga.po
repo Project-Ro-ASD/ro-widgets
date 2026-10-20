@@ -96,7 +96,3 @@ msgstr "Cuir le catagóir Ro Launcher…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "Níor aimsíodh Ro Launcher ar an bpainéal."
-
-#: servicemenu/ro-launcher-add-to-category
-msgid "The selected files are not installed applications."
-msgstr "Ní feidhmchláir suiteáilte iad na comhaid roghnaithe."

@@ -96,7 +96,3 @@ msgstr "Ro Launcher वर्गे योजयतु…"
 #: servicemenu/ro-launcher-add-to-category
 msgid "Ro Launcher was not found in the panel."
 msgstr "फलके Ro Launcher न प्राप्तम्।"
-
-#: servicemenu/ro-launcher-add-to-category
-msgid "The selected files are not installed applications."
-msgstr "चिताः सञ्चिकाः संस्थापिताः अनुप्रयोगाः न सन्ति।"
