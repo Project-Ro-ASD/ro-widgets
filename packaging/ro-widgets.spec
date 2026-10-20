@@ -1,5 +1,5 @@
 Name:           ro-widgets
-Version:        %{?ro_version}%{!?ro_version:0.1.2}
+Version:        %{?ro_version}%{!?ro_version:0.1.3}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
 License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
@@ -71,6 +71,20 @@ install -Dm0644 ro-launcher-add-to-category.desktop \
 %{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop
 
 %changelog
+* Tue Oct 20 2026 Project Ro-ASD - 0.1.3-1
+- ro-launcher is translated in the 62 languages Kickoff supports (KDE catalogues
+  plus its own for the Ro-only strings and the widget description).
+- User categories: own application categories below the favourites (home view,
+  and in Places of the classic view) that hold applications, files and folders;
+  managed from the header menu; setting "Show custom categories".
+- Dolphin and desktop right-click menu: add to a Ro Launcher category or to the
+  favourites (service menu, /usr/libexec/ro-widgets).
+- Home view: favourites and categories scroll together, the scroll bar sits in
+  the popup margin; grid cells share the row width; default popup size follows
+  the screen (60% height, 34% width of the available area).
+- Fixes: popup colours (search field border, power menu, dialog) no longer read
+  black; Remove from Category for files with spaces; power menu hover.
+
 * Tue Oct 20 2026 Project Ro-ASD - 0.1.2-1
 - Republished as an immutable release so Ro-Repo can accept it; no
   functional changes since 0.1.1.
