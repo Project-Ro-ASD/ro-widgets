@@ -34,14 +34,20 @@ EmptyPage {
     // Panel ve popup kenarı için 4 gridUnit pay; Wayland'de desktopAvailable* panel alanını düşmeyebilir.
     readonly property real screenFitWidth: Screen.desktopAvailableWidth - Kirigami.Units.gridUnit * 2
     readonly property real screenFitHeight: Screen.desktopAvailableHeight - Kirigami.Units.gridUnit * 4
+    // Varsayılan boyut kullanılabilir ekran alanıyla orantılıdır (mantıksal piksel: ekran ölçeği zaten içinde, yani
+    // %100 / %150 / %200 ölçekte aynı oranlar): yükseklik alanın ~%60'ı (en az 420, en çok 720), genişlik ~%34'ü
+    // (en az 660, en çok 860). 720p'de popup ekranın yarısına yakın kalır, 1440p/4K'da dev kalmaz, küçücük de olmaz.
+    // Izgaralar satırı doldurur (hücre en az 90 px): varsayılan 660 px'te ana ekranda 6 sütun × 102 px, sekme
+    // ekranında 5 sütun × 91 px; ana ekranın kaydırma çubuğu kartların dışında. Kullanıcı popup'ı büyütüp küçültebilir
+    // (Plasma boyutu hatırlar).
+    readonly property real availWidth: Screen.desktopAvailableWidth
+    readonly property real availHeight: Screen.desktopAvailableHeight
     Layout.minimumWidth: Math.min(useClassic ? 660 : 540, screenFitWidth)
-    // Varsayılan genişlik ızgaralara tam oturur (hücre en az 90 px): ana ekranda 6 sütun × 102 px, sekme ekranında
-    // 5 sütun × 91 px; ana ekranın kaydırma çubuğu kartların dışında. Kullanıcı popup'ı büyütüp küçültebilir.
-    Layout.preferredWidth: Math.min(useClassic ? 720 : 660, screenFitWidth)
+    Layout.preferredWidth: Math.min(Math.max(useClassic ? 720 : 660, Math.round(availWidth * 0.34)), 860, screenFitWidth)
     Layout.maximumWidth: Math.min(860, screenFitWidth)
 
-    Layout.minimumHeight: Math.min(480, screenFitHeight)
-    Layout.preferredHeight: Math.min(560, screenFitHeight)
+    Layout.minimumHeight: Math.min(420, screenFitHeight)
+    Layout.preferredHeight: Math.min(Math.max(420, Math.round(availHeight * 0.60)), 720, screenFitHeight)
     Layout.maximumHeight: Math.min(720, screenFitHeight)
 
     property alias normalPage: normalPageItem
