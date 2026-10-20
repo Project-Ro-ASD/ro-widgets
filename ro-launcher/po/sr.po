@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Класична навигација по категоријама и местима"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Прикажи сопствене категорије"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Додај у категорију"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Нова категорија…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Нова категорија"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Уклони из категорије"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Преименуј…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Преименуј категорију"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Помери нагоре"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Помери надоле"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Обриши категорију"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Име категорије"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Одустани"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "У реду"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Обрисати „%1“? Сами програми се не уклањају."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Десним кликом кликните на програм и изаберите „Додај у категорију“."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Прикажи све (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Прикажи мање"

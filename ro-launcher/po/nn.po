@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Bruk klassisk navigering med kategoriar og stadar"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Vis eigne kategoriar"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Legg til i kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Ny kategori …"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Ny kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Fjern frå kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Endra namn …"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Endra namn på kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Flytt opp"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Flytt ned"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Slett kategori"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Kategorinamn"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Avbryt"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Sletta «%1»? Sjølve programma vert ikkje fjerna."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Høgreklikk på eit program og vel «Legg til i kategori»."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Vis alle (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Vis færre"

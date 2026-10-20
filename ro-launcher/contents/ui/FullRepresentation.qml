@@ -99,7 +99,7 @@ EmptyPage {
         height: root.Window.height > 0 ? root.Window.height : root.height
 
         visible: opacity > 0
-        opacity: normalPageItem.powerOverlayVisible ? 1.0 : 0.0
+        opacity: normalPageItem.powerOverlayVisible || categoryDialog.open ? 1.0 : 0.0
         Behavior on opacity { NumberAnimation { duration: root.st.durationShort } }
 
         KSvg.FrameSvgItem {
@@ -127,7 +127,10 @@ EmptyPage {
 
         MouseArea {
             anchors.fill: parent
-            onClicked: normalPageItem.powerOverlayVisible = false
+            onClicked: {
+                normalPageItem.powerOverlayVisible = false;
+                categoryDialog.close();
+            }
         }
     }
 
@@ -136,6 +139,14 @@ EmptyPage {
         open: normalPageItem.powerOverlayVisible
         onToggleRequested: normalPageItem.powerOverlayVisible = !normalPageItem.powerOverlayVisible
         onCloseRequested: normalPageItem.powerOverlayVisible = false
+    }
+
+    // Kategori adı / silme onayı (CategoryStore isteğiyle açılır)
+    CategoryDialog {
+        id: categoryDialog
+        anchors.fill: parent
+        store: kickoff.categoryStore
+        z: 10
     }
 
     Component.onCompleted: {

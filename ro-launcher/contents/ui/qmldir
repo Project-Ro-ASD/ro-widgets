@@ -27,3 +27,5 @@ PlacesPage 1.0 PlacesPage.qml
 SectionView 1.0 SectionView.qml
 VerticalStackView 1.0 VerticalStackView.qml
 PowerMenu 1.0 PowerMenu.qml
+CategoryStore 1.0 CategoryStore.qml
+CategoryDialog 1.0 CategoryDialog.qml

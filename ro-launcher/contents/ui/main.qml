@@ -86,6 +86,12 @@ PlasmoidItem {
         }
     }
 
+    // Kullanıcının kendi uygulama kategorileri (ana ekran ve klasik moddaki Places)
+    readonly property CategoryStore categoryStore: CategoryStore {
+        config: Plasmoid.configuration
+        favoritesModel: kickoff.rootModel.favoritesModel
+    }
+
     readonly property Kicker.RunnerModel runnerModel: Kicker.RunnerModel {
         query: kickoff.searchField ? kickoff.searchField.text : ""
         onRequestUpdateQuery: query => {

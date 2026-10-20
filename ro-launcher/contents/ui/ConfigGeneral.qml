@@ -40,6 +40,7 @@ KCM.SimpleKCM {
     property alias cfg_highlightNewlyInstalledApps: highlightNewlyInstalledAppsCheckbox.checked
     property alias cfg_switchCategoryOnHover: switchCategoryOnHoverCheckbox.checked
     property alias cfg_useClassicCategoriesView: useClassicCategoriesViewCheckbox.checked
+    property alias cfg_showCustomCategories: showCustomCategoriesCheckbox.checked
 
     Kirigami.FormLayout {
         QQC2.Button {
@@ -196,6 +197,11 @@ KCM.SimpleKCM {
         QQC2.CheckBox {
             id: useClassicCategoriesViewCheckbox
             text: i18n("Use classic categories and places navigation")
+        }
+
+        QQC2.CheckBox {
+            id: showCustomCategoriesCheckbox
+            text: i18n("Show custom categories")
         }
 
         QQC2.Button {

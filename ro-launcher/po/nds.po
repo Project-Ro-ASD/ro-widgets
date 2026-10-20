@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Klass'sche Navigatschoon mit Kategorien un Steden bruken"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Egen Kategorien wiesen"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "To Kategorie tofögen"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Nieg Kategorie…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Nieg Kategorie"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Ut Kategorie wegmaken"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Ümnömen…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Kategorie ümnömen"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Na baven"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Na nerrn"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Kategorie wegdoon"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Kategorienaam"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Afbreken"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "„%1“ wegdoon? De Programmen sülvst warrt nich wegmaakt."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Klick mit de rechte Muustast op en Programm un söök „To Kategorie tofögen“ ut."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "All wiesen (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Weniger wiesen"

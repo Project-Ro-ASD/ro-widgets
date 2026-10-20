@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Klasszikus kategória- és helynavigáció használata"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Egyéni kategóriák megjelenítése"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Hozzáadás kategóriához"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Új kategória…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Új kategória"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Eltávolítás a kategóriából"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Átnevezés…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Kategória átnevezése"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Mozgatás felfelé"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Mozgatás lefelé"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Kategória törlése"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Kategória neve"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Mégse"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Törli ezt: „%1”? Maguk az alkalmazások nem törlődnek."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Kattintson a jobb gombbal egy alkalmazásra, és válassza a „Hozzáadás kategóriához” lehetőséget."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Összes megjelenítése (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Kevesebb megjelenítése"

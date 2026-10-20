@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "ക്ലാസിക് വിഭാഗങ്ങളും സ്ഥലങ്ങളും വഴിയുള്ള നാവിഗേഷൻ ഉപയോഗിക്കുക"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "ഇഷ്ടാനുസൃത വിഭാഗങ്ങൾ കാണിക്കുക"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "വിഭാഗത്തിലേക്ക് ചേർക്കുക"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "പുതിയ വിഭാഗം…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "പുതിയ വിഭാഗം"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "വിഭാഗത്തിൽ നിന്ന് നീക്കം ചെയ്യുക"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "പേരുമാറ്റുക…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "വിഭാഗത്തിന്റെ പേരുമാറ്റുക"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "മുകളിലേക്ക് നീക്കുക"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "താഴേക്ക് നീക്കുക"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "വിഭാഗം ഇല്ലാതാക്കുക"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "വിഭാഗത്തിന്റെ പേര്"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "റദ്ദാക്കുക"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "ശരി"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "\"%1\" ഇല്ലാതാക്കണോ? ആപ്ലിക്കേഷനുകൾ നീക്കം ചെയ്യപ്പെടില്ല."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "ഒരു ആപ്ലിക്കേഷനിൽ വലത്-ക്ലിക്ക് ചെയ്ത് \"വിഭാഗത്തിലേക്ക് ചേർക്കുക\" തിരഞ്ഞെടുക്കുക."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "എല്ലാം കാണിക്കുക (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "കുറച്ച് കാണിക്കുക"

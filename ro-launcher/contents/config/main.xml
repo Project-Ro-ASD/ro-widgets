@@ -73,6 +73,14 @@
             <label>Use classic categories and places navigation</label>
             <default>false</default>
         </entry>
+        <entry name="showCustomCategories" type="Bool">
+            <label>Show the user's own application categories below the favorites (and in Places in the classic view)</label>
+            <default>true</default>
+        </entry>
+        <entry name="customCategories" type="String">
+            <label>The user's application categories as JSON: [{"name": "...", "apps": ["org.kde.dolphin.desktop"], "collapsed": false}]</label>
+            <default>[]</default>
+        </entry>
         <entry name="highlightNewlyInstalledApps" type="Bool">
             <label>Whether to highlight newly-installed applications</label>
             <default>true</default>

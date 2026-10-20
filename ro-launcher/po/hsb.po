@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Klasisku nawigaciju po kategorijach a městnach wužiwać"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Swójske kategorije pokazać"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Kategoriji přidać"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Nowa kategorija…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Nowa kategorija"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Z kategorije wotstronić"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Přemjenować…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Kategoriju přemjenować"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Horje přesunyć"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Dele přesunyć"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Kategoriju zhašeć"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Mjeno kategorije"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Přetorhnyć"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "W porjadku"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "„%1“ zhašeć? Same aplikacije so njewotstronja."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Klikńće z prawej tastu na aplikaciju a wubjerće „Kategoriji přidać“."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Wšě pokazać (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Mjenje pokazać"

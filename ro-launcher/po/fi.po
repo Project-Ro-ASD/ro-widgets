@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "käytä perinteistä luokka- ja sijaintinavigointia"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "näytä omat luokat"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Lisää luokkaan"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Uusi luokka…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Uusi luokka"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Poista luokasta"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Muuta nimeä…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Muuta luokan nimeä"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Siirrä ylös"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Siirrä alas"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Poista luokka"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Luokan nimi"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Peru"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Poistetaanko ”%1”? Itse sovelluksia ei poisteta."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Napsauta sovellusta hiiren oikealla painikkeella ja valitse ”Lisää luokkaan”."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Näytä kaikki (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Näytä vähemmän"

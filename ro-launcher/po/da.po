@@ -18,3 +18,73 @@ msgstr ""
 #: contents/ui/ConfigGeneral.qml
 msgid "Use classic categories and places navigation"
 msgstr "Brug klassisk navigation med kategorier og steder"
+
+#: contents/ui/ConfigGeneral.qml
+msgid "Show custom categories"
+msgstr "Vis egne kategorier"
+
+#: contents/ui/CategoryStore.qml
+msgid "Add to Category"
+msgstr "Føj til kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "New Category…"
+msgstr "Ny kategori…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "New Category"
+msgstr "Ny kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "Remove from Category"
+msgstr "Fjern fra kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "Rename…"
+msgstr "Omdøb…"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Rename Category"
+msgstr "Omdøb kategori"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Up"
+msgstr "Flyt op"
+
+#: contents/ui/CategoryStore.qml
+msgid "Move Down"
+msgstr "Flyt ned"
+
+#: contents/ui/CategoryStore.qml
+msgid "Delete Category"
+msgstr "Slet kategori"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Category name"
+msgstr "Kategorinavn"
+
+#: contents/ui/CategoryDialog.qml
+msgid "Cancel"
+msgstr "Annullér"
+
+#: contents/ui/CategoryDialog.qml
+msgid "OK"
+msgstr "OK"
+
+#: contents/ui/CategoryDialog.qml
+#, kde-format
+msgid "Delete “%1”? The applications themselves are not removed."
+msgstr "Slet \"%1\"? Selve programmerne fjernes ikke."
+
+#: contents/ui/NormalPage.qml contents/ui/PlacesPage.qml
+msgid "Right-click an application and choose “Add to Category”."
+msgstr "Højreklik på et program og vælg \"Føj til kategori\"."
+
+#: contents/ui/NormalPage.qml
+#, kde-format
+msgid "Show all (%1)"
+msgstr "Vis alle (%1)"
+
+#: contents/ui/NormalPage.qml
+msgid "Show less"
+msgstr "Vis færre"
