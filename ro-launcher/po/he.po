@@ -88,3 +88,15 @@ msgstr "להציג הכול (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "להציג פחות"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "הוספה לקטגוריה של Ro Launcher…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Ro Launcher לא נמצא בלוח."
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "The selected files are not installed applications."
+msgstr "הקבצים הנבחרים אינם יישומים מותקנים."

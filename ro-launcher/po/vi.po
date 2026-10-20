@@ -88,3 +88,15 @@ msgstr "Hiện tất cả (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Hiện ít hơn"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Thêm vào phân loại của Ro Launcher…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Không tìm thấy Ro Launcher trên bảng điều khiển."
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "The selected files are not installed applications."
+msgstr "Các tệp đã chọn không phải là ứng dụng đã cài đặt."

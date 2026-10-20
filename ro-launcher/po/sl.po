@@ -88,3 +88,15 @@ msgstr "Pokaži vse (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Pokaži manj"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Dodaj v kategorijo Ro Launcherja…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Ro Launcherja ni bilo mogoče najti na pultu."
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "The selected files are not installed applications."
+msgstr "Izbrane datoteke niso nameščeni programi."

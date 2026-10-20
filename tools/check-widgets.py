@@ -11,6 +11,7 @@ Her üst düzey klasör bir Plasma widget'ıdır (metadata.json + contents/). De
 - RoTokens.qml varsa Ro-Theme'in ürettiği kopyadır ve Style.qml köşeleri sayı değil token'dır (WGT-02/05);
 - metadata Icon ro-* ise <widget>/icons/<ad>.svg var, SPDX başlıklı ve rengi temadan (ColorScheme-*/currentColor);
   config varsayılanı da aynı simge.
+- servicemenu/: betik ve .desktop SPDX başlıklı, metinleri (_("…"), Name=) widget kataloğunda;
 - çeviri: plasma_workspace kataloğu kullanılmaz (Fedora'da yok); widget'ın kendi alanındaki (i18n/i18nc) her
   metin <widget>/po/*.pot'ta ve her <dil>.po'da var. Kickoff'tan gelen metinler i18nd/i18ndc ile KDE kataloğundan.
 """
@@ -103,6 +104,18 @@ for w in sorted(widgets):
                 code = line.split('//', 1)[0]
                 if hex_color.search(code) or rgba_literal.search(code):
                     err(f'{rel}:{i}: elle renk (WGT-03): {line.strip()}')
+
+    # Dolphin/masaüstü sağ tık menüsü: betikteki _("…") ve .desktop'taki Name= metinleri de aynı katalogda
+    service_dir = w / 'servicemenu'
+    if service_dir.is_dir():
+        for f in sorted(service_dir.iterdir()):
+            text = f.read_text(encoding='utf-8')
+            if 'SPDX-License-Identifier' not in text:
+                err(f'{f.relative_to(ROOT)}: SPDX lisans başlığı yok')
+            if f.suffix == '.desktop':
+                own_strings |= set(re.findall(r'^Name=(.+)$', text, re.M))
+            else:
+                own_strings |= set(re.findall(r'\b_\(\s*"((?:[^"\\]|\\.)*)"\s*\)', text))
 
     po_dir = w / 'po'
     pots = list(po_dir.glob('*.pot')) if po_dir.is_dir() else []

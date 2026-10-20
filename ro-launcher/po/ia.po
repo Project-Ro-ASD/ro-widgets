@@ -88,3 +88,15 @@ msgstr "Monstra toto (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Monstra minus"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Adde a categoria de Ro Launcher…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Ro Launcher non esseva trovate in le pannello."
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "The selected files are not installed applications."
+msgstr "Le files seligite non es applicationes installate."

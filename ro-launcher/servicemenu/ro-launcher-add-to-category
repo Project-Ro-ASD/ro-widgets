@@ -1,0 +1,146 @@
+#!/usr/bin/python3
+# SPDX-FileCopyrightText: 2026 Project Ro-ASD
+# SPDX-License-Identifier: GPL-2.0-or-later
+"""Dolphin ve masaüstü sağ tık menüsü: seçilen uygulamaları (.desktop) Ro Launcher kategorisine ekler.
+
+Kategoriler launcher widget'ının ayarındadır (customCategories, JSON). Okuma ve yazma Plasma'nın betik
+arayüzüyle (org.kde.PlasmaShell.evaluateScript) yapılır; çalışan launcher değişikliği hemen gösterir. Paneldeki
+her Ro Launcher'a aynı adla yazılır. Metinler launcher'ın çeviri kataloğundan gelir.
+"""
+import gettext
+import json
+import os
+import subprocess
+import sys
+
+_ = gettext.translation("plasma_applet_org.ro.launcher", fallback=True).gettext
+
+LAUNCHER = "org.ro.launcher"
+TITLE = "Ro Launcher"
+
+
+def kdialog(*args):
+    result = subprocess.run(["kdialog", "--title", TITLE, *args], capture_output=True, text=True)
+    return result.stdout.strip() if result.returncode == 0 else None
+
+
+def application_dirs():
+    home = os.environ.get("XDG_DATA_HOME") or os.path.expanduser("~/.local/share")
+    dirs = [home] + (os.environ.get("XDG_DATA_DIRS") or "/usr/local/share:/usr/share").split(":")
+    return [os.path.realpath(os.path.join(d, "applications")) for d in dirs if d]
+
+
+def application_id(path):
+    """Kicker'ın kullandığı kimlik (org.kde.dolphin.desktop); kurulu bir uygulama değilse None."""
+    real = os.path.realpath(path)
+    if not real.endswith(".desktop") or not os.path.isfile(real):
+        return None
+    dirs = application_dirs()
+    for d in dirs:
+        if real.startswith(d + os.sep):
+            return os.path.relpath(real, d).replace(os.sep, "-")
+    # Masaüstündeki kopya ya da kısayol: aynı adlı kurulu uygulama varsa onu kullan
+    name = os.path.basename(real)
+    if any(os.path.isfile(os.path.join(d, name)) for d in dirs):
+        return name
+    return None
+
+
+def evaluate(script):
+    result = subprocess.run(
+        ["busctl", "--user", "--json=short", "call", "org.kde.plasmashell", "/PlasmaShell",
+         "org.kde.PlasmaShell", "evaluateScript", "s", script],
+        capture_output=True, text=True)
+    if result.returncode != 0:
+        return None
+    return json.loads(result.stdout)["data"][0]
+
+
+FIND = """
+var found = [];
+var all = panels().concat(desktops());
+for (var i = 0; i < all.length; ++i) {
+    var ws = all[i].widgets();
+    for (var j = 0; j < ws.length; ++j) {
+        if (ws[j].type === "%s") found.push(ws[j]);
+    }
+}
+""" % LAUNCHER
+
+
+def read_categories():
+    out = evaluate(FIND + """
+var names = [];
+found.forEach(function (w) {
+    w.currentConfigGroup = ["General"];
+    var cats = [];
+    try { cats = JSON.parse(w.readConfig("customCategories", "[]")); } catch (e) {}
+    if (Array.isArray(cats)) cats.forEach(function (c) {
+        if (c && typeof c.name === "string" && names.indexOf(c.name) < 0) names.push(c.name);
+    });
+});
+print(JSON.stringify({ launchers: found.length, names: names }));
+""")
+    return json.loads(out) if out else None
+
+
+def add_to_category(name, apps):
+    out = evaluate(FIND + """
+var target = %s, apps = %s, count = 0;
+found.forEach(function (w) {
+    w.currentConfigGroup = ["General"];
+    var cats = [];
+    try { cats = JSON.parse(w.readConfig("customCategories", "[]")); } catch (e) {}
+    if (!Array.isArray(cats)) cats = [];
+    var cat = null;
+    cats.forEach(function (c) { if (!cat && c && c.name === target) cat = c; });
+    if (!cat) { cat = { name: target, apps: [], collapsed: false }; cats.push(cat); }
+    if (!Array.isArray(cat.apps)) cat.apps = [];
+    apps.forEach(function (a) { if (cat.apps.indexOf(a) < 0) cat.apps.push(a); });
+    w.writeConfig("customCategories", JSON.stringify(cats));
+    w.reloadConfig();
+    ++count;
+});
+print(count);
+""" % (json.dumps(name), json.dumps(apps)))
+    return bool(out) and int(out) > 0
+
+
+def main(paths):
+    apps = []
+    for path in paths:
+        app = application_id(path)
+        if app and app not in apps:
+            apps.append(app)
+    if not apps:
+        kdialog("--sorry", _("The selected files are not installed applications."))
+        return 1
+
+    state = read_categories()
+    if not state or state["launchers"] == 0:
+        kdialog("--sorry", _("Ro Launcher was not found in the panel."))
+        return 1
+
+    items = []
+    for i, name in enumerate(state["names"]):
+        items += [str(i), name]
+    items += ["new", _("New Category…")]
+    choice = kdialog("--menu", _("Add to Category"), *items)
+    if choice is None:
+        return 0
+    if choice == "new":
+        name = kdialog("--inputbox", _("Category name"))
+        if not name or not name.strip():
+            return 0
+        name = name.strip()
+    else:
+        name = state["names"][int(choice)]
+
+    if not add_to_category(name, apps):
+        kdialog("--sorry", _("Ro Launcher was not found in the panel."))
+        return 1
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

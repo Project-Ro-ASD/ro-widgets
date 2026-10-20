@@ -17,6 +17,10 @@ import Qt5Compat.GraphicalEffects
 EmptyPage {
     id: root
 
+    // Renk seti popup'tan açıkça kalıtılsın. Yazılmayınca buradaki ve doğrudan çocuklardaki (başlık, güç menüsü,
+    // kategori penceresi) Style örnekleri Kirigami.Theme'i siyah okuyordu: arama çubuğunda siyah kenar, simsiyah kartlar.
+    Kirigami.Theme.inherit: true
+
     readonly property bool useClassic: Plasmoid.configuration.useClassicCategoriesView ?? false
     // Tema renkleri bu bileşenin bulunduğu yerden (popup) kalıtılsın diye yerel örnek
     readonly property Style st: styleItem

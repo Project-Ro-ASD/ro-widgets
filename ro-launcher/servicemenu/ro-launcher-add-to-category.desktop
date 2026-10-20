@@ -1,0 +1,14 @@
+# SPDX-FileCopyrightText: 2026 Project Ro-ASD
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Dolphin ve masaüstünde uygulama dosyalarının (.desktop) sağ tık menüsü. Name[<dil>] satırları paket
+# derlenirken po/ dosyalarından eklenir (tools/desktop-i18n.py).
+[Desktop Entry]
+Type=Service
+MimeType=application/x-desktop;
+Actions=addToRoLauncherCategory;
+X-KDE-ShowIfRunning=org.kde.plasmashell
+
+[Desktop Action addToRoLauncherCategory]
+Name=Add to Ro Launcher Category…
+Icon=ro-start
+Exec=/usr/libexec/ro-widgets/ro-launcher-add-to-category %F

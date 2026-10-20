@@ -88,3 +88,15 @@ msgstr "Erakutsi guztiak (%1)"
 #: contents/ui/NormalPage.qml
 msgid "Show less"
 msgstr "Erakutsi gutxiago"
+
+#: servicemenu/ro-launcher-add-to-category.desktop
+msgid "Add to Ro Launcher Category…"
+msgstr "Gehitu Ro Launcher-eko kategoriara…"
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "Ro Launcher was not found in the panel."
+msgstr "Ez da Ro Launcher aurkitu panelean."
+
+#: servicemenu/ro-launcher-add-to-category
+msgid "The selected files are not installed applications."
+msgstr "Hautatutako fitxategiak ez dira instalatutako aplikazioak."
