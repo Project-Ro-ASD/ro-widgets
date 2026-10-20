@@ -35,8 +35,6 @@ Item {
 
     // Uygulama ızgaraları: sütun sayısı = genişlik / en küçük hücre; artan genişlik hücrelere eşit dağılır
     readonly property int minCellWidth: 90
-    // Ana ekranda kaydırma çubuğuna ayrılan sabit yer
-    readonly property int scrollGutter: 14
 
     // Kullanıcı kategorileri açıksa ana ekran popup'ın tamamını kullanır (kaydırılabilir alan)
     readonly property bool categoriesEnabled: kickoff.categoryStore?.enabled ?? false
@@ -516,6 +514,20 @@ Item {
         }
     }
 
+    // Ana ekranın kaydırma çubuğu: kartların sağındaki popup kenar boşluğunda durur. Kartlar arama çubuğuyla aynı
+    // hizada kalır, çubuk gelince ızgara daralmaz (sütun sayısı değişmez).
+    PlasmaComponents.ScrollBar {
+        id: homeScrollBar
+        parent: root
+        z: 2
+        anchors.top: bodyCard.top
+        anchors.bottom: bodyCard.bottom
+        anchors.left: bodyCard.right
+        anchors.leftMargin: Math.max(0, (bodyCard.anchors.rightMargin - width) / 2)
+        visible: homeFlick.visible
+        policy: homeFlick.contentHeight > homeFlick.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff
+    }
+
     // =========================================================
     // 1. ANA GÖVDE KARTI
     // =========================================================
@@ -564,14 +576,12 @@ Item {
             contentWidth: width
             contentHeight: homeColumn.implicitHeight
             boundsBehavior: Flickable.StopAtBounds
-            QQC2.ScrollBar.vertical: PlasmaComponents.ScrollBar {
-                policy: homeFlick.contentHeight > homeFlick.height ? QQC2.ScrollBar.AsNeeded : QQC2.ScrollBar.AlwaysOff
-            }
+            // Kaydırma çubuğu kartın dışında, popup kenarındaki boşlukta (homeScrollBar); içerikten yer çalmaz
+            QQC2.ScrollBar.vertical: homeScrollBar
 
             ColumnLayout {
                 id: homeColumn
-                // Kaydırma çubuğunun yeri her zaman ayrılır: çubuk gelince sütun sayısı değişmesin, uygulama alta düşmesin
-                width: homeFlick.width - root.scrollGutter
+                width: homeFlick.width
                 spacing: 10
 
                 // Favoriler kartı: bütün satırlar görünür, kaydırma dıştaki alanda
