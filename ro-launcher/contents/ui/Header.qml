@@ -38,13 +38,34 @@ Item {
         id: styleItem
     }
 
-    KCoreAddons.KUser {
-        id: kuser
+    // Profil fotoğrafı sistem ayarlarından değişince dosya aynı yolda kalır (AccountsService / ~/.face.icon): hem KUser hem
+    // Image önbelleği eski değeri tutar. Launcher her açılışta KUser'ı yeniden kurar ve adrese revizyon ekler.
+    property int faceRevision: 0
+    Component {
+        id: kuserComponent
+        KCoreAddons.KUser {}
+    }
+    Loader {
+        id: kuserLoader
+        sourceComponent: kuserComponent
+    }
+    readonly property var kuser: kuserLoader.item
+    readonly property string faceUrl: {
+        const url = kuser?.faceIconUrl?.toString() ?? "";
+        return url.length > 0 ? url + "?v=" + faceRevision : "";
+    }
+    function refreshUser() {
+        faceRevision++;
+        kuserLoader.active = false;
+        kuserLoader.active = true;
     }
 
     Connections {
         target: kickoff
         function onExpandedChanged() {
+            if (kickoff.expanded) {
+                root.refreshUser();
+            }
             if (!kickoff.expanded) {
                 innerSearch.clear();
                 innerSearch.focus = false;
@@ -79,7 +100,8 @@ Item {
                 Image {
                     id: userAvatarImg
                     anchors.fill: parent
-                    source: kuser.faceIconUrl ?? ""
+                    source: root.faceUrl
+                    cache: false
                     fillMode: Image.PreserveAspectCrop
                     visible: false
                 }
@@ -114,7 +136,7 @@ Item {
             }
 
             PlasmaComponents.Label {
-                text: kuser.fullName && kuser.fullName.length > 0 ? kuser.fullName : (kuser.loginName ?? "")
+                text: kuser && kuser.fullName && kuser.fullName.length > 0 ? kuser.fullName : (kuser?.loginName ?? "")
                 font.pointSize: root.st.fontNormal
                 font.weight: Font.DemiBold
                 color: Kirigami.Theme.textColor
