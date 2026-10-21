@@ -1,5 +1,5 @@
 Name:           ro-widgets
-Version:        %{?ro_version}%{!?ro_version:0.1.4}
+Version:        %{?ro_version}%{!?ro_version:0.1.5}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
 License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
@@ -71,6 +71,12 @@ install -Dm0644 ro-launcher-add-to-category.desktop \
 %{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop
 
 %changelog
+* Wed Oct 21 2026 Project Ro-ASD - 0.1.5-1
+- ro-launcher: the profile picture in the header refreshes when it changes
+  (it kept the old picture until the panel restarted).
+- Panel icon (ro-start): the two arcs no longer merge into a bar at panel
+  sizes; the icon is drawn smaller and shifted toward its visual centre.
+
 * Tue Oct 20 2026 Project Ro-ASD - 0.1.4-1
 - Home view: the scroll bar only shows when there is something to scroll
   (it showed even when everything fit).
