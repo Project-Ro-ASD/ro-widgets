@@ -1,5 +1,5 @@
 Name:           ro-widgets
-Version:        %{?ro_version}%{!?ro_version:0.1.5}
+Version:        %{?ro_version}%{!?ro_version:0.1.6}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
 License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
@@ -71,6 +71,11 @@ install -Dm0644 ro-launcher-add-to-category.desktop \
 %{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop
 
 %changelog
+* Wed Oct 21 2026 Project Ro-ASD - 0.1.6-1
+- Panel icon (ro-start): moved a little to the left (the 0.1.5 shift put it
+  too far right inside the hovered panel button). Note: the bar on top of the
+  hovered launcher button is the Ro task indicator, not part of the icon.
+
 * Wed Oct 21 2026 Project Ro-ASD - 0.1.5-1
 - ro-launcher: the profile picture in the header refreshes when it changes
   (it kept the old picture until the panel restarted).
