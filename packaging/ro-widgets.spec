@@ -2,7 +2,7 @@
 %global ro_userunitdir %{_prefix}/lib/systemd/user
 
 Name:           ro-widgets
-Version:        %{?ro_version}%{!?ro_version:0.1.6}
+Version:        %{?ro_version}%{!?ro_version:0.1.7}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
 License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
@@ -90,6 +90,16 @@ ln -s ../ro-launcher-servicemenu.path "%{buildroot}%{ro_userunitdir}/default.tar
 %{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.path
 
 %changelog
+* Fri Oct 23 2026 Project Ro-ASD - 0.1.7-1
+- ro-launcher: user categories survive removing and re-adding the widget and
+  reapplying the theme (a backup of them is kept in
+  ~/.local/share/ro-launcher/state.ini; a new widget restores it).
+- The Dolphin and desktop right-click entries ("Add to Ro Launcher Favorites /
+  Category...") show only while the launcher is in the user's Plasma layout. The
+  entry is no longer installed system wide: a user systemd path unit (enabled for
+  every user, active from the next login) copies it to the user's kio/servicemenus
+  and removes it again when the launcher is gone.
+
 * Wed Oct 21 2026 Project Ro-ASD - 0.1.6-1
 - Panel icon (ro-start): moved a little to the left (the 0.1.5 shift put it
   too far right inside the hovered panel button). Note: the bar on top of the
