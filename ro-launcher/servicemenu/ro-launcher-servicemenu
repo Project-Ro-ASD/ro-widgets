@@ -1,0 +1,102 @@
+#!/usr/bin/python3
+# SPDX-FileCopyrightText: 2026 Project Ro-ASD
+# SPDX-License-Identifier: GPL-2.0-or-later
+"""Dolphin ve masaüstü sağ tık girdilerini ("Ro Launcher Favorilerine ekle", "Kategoriye ekle…") yalnız Ro Launcher
+kullanıcının panelinde ya da masaüstünde varken gösterir.
+
+KIO 6 servis menüsü girdisine görünürlük koşulu bağlamaya izin vermez, bu yüzden girdi paketle birlikte hiçbir yere kurulmaz.
+Şablon /usr/share/ro-widgets/servicemenu altındadır; bu betik onu kullanıcının kio/servicemenus klasörüne kopyalar
+(enable) ya da siler (disable). Kullanım:
+
+  enable       widget çalışıyor: girdiyi kur
+  disable      girdiyi sil
+  sync         Plasma'nın panel ve masaüstü ayar dosyasına bakıp enable ya da disable yap (oturum açılışı)
+  sync-later   sync'i arka planda birkaç saniye sonra yap (widget kaldırılırken: Plasma ayar dosyasını az sonra yazar)
+"""
+import os
+import pathlib
+import shutil
+import sys
+import time
+
+NAME = "ro-launcher-add-to-category.desktop"
+LAUNCHER = "org.ro.launcher"
+DELAY = 6
+
+
+def data_home():
+    return pathlib.Path(os.environ.get("XDG_DATA_HOME") or pathlib.Path.home() / ".local/share")
+
+
+def config_home():
+    return pathlib.Path(os.environ.get("XDG_CONFIG_HOME") or pathlib.Path.home() / ".config")
+
+
+def template():
+    share = os.environ.get("RO_WIDGETS_SHARE", "/usr/share/ro-widgets")
+    return pathlib.Path(share) / "servicemenu" / NAME
+
+
+def target():
+    return data_home() / "kio" / "servicemenus" / NAME
+
+
+def launcher_present():
+    """Plasma, panelleri ve masaüstü widget'larını plasma-org.kde.plasma.desktop-appletsrc dosyasında tutar."""
+    path = config_home() / "plasma-org.kde.plasma.desktop-appletsrc"
+    try:
+        lines = path.read_text(encoding="utf-8", errors="replace").splitlines()
+    except OSError:
+        return None
+    return any(line.strip() == "plugin=" + LAUNCHER for line in lines)
+
+
+def enable():
+    source = template()
+    if not source.is_file():
+        return 1
+    dest = target()
+    dest.parent.mkdir(parents=True, exist_ok=True)
+    tmp = dest.with_name(dest.name + ".tmp")
+    shutil.copyfile(source, tmp)
+    # Kullanıcı klasöründeki servis menüleri çalıştırılabilir olmalı (KDE yazılabilir konumdaki dosyaya yalnız o zaman güvenir)
+    tmp.chmod(0o755)
+    tmp.replace(dest)
+    return 0
+
+
+def disable():
+    try:
+        target().unlink()
+    except FileNotFoundError:
+        pass
+    return 0
+
+
+def sync():
+    present = launcher_present()
+    if present is None:
+        return 0  # ayar dosyası okunamadı: olduğu gibi bırak
+    return enable() if present else disable()
+
+
+def sync_later():
+    if os.fork() != 0:
+        return 0
+    os.setsid()
+    if os.fork() != 0:
+        os._exit(0)
+    time.sleep(DELAY)
+    os._exit(sync())
+
+
+def main(argv):
+    commands = {"enable": enable, "disable": disable, "sync": sync, "sync-later": sync_later}
+    if len(argv) != 1 or argv[0] not in commands:
+        print(__doc__, file=sys.stderr)
+        return 2
+    return commands[argv[0]]()
+
+
+if __name__ == "__main__":
+    sys.exit(main(sys.argv[1:]))

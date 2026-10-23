@@ -82,8 +82,8 @@
             <default>true</default>
         </entry>
         <entry name="customCategories" type="String">
-            <label>The user's application categories as JSON: [{"name": "...", "apps": ["org.kde.dolphin.desktop"], "collapsed": false}]</label>
-            <default>[]</default>
+            <label>The user's application categories as JSON: [{"name": "...", "apps": ["org.kde.dolphin.desktop"], "collapsed": false}]. Empty means never set: a new launcher then restores the backup in ~/.local/share/ro-launcher/state.ini</label>
+            <default></default>
         </entry>
         <entry name="highlightNewlyInstalledApps" type="Bool">
             <label>Whether to highlight newly-installed applications</label>

@@ -10,6 +10,7 @@ BuildArch:      noarch
 # Widget'lara özgü çeviriler (<widget>/po/*.po) derlenir; Kickoff'tan gelen metinler KDE'nin kataloglarından.
 BuildRequires:  gettext
 BuildRequires:  python3
+BuildRequires:  systemd-rpm-macros
 
 Requires:       plasma-workspace
 # Dolphin/masaüstü sağ tık menüsü (Ro Launcher kategorisine ekle): Python betiği, kdialog, busctl
@@ -59,8 +60,19 @@ if [ -d locale ]; then
 fi
 install -Dm0755 ro-launcher/servicemenu/ro-launcher-add-to-category \
   "%{buildroot}%{_libexecdir}/ro-widgets/ro-launcher-add-to-category"
+# Sağ tık girdisinin şablonu: doğrudan kio/servicemenus'a kurulmaz, ro-launcher-servicemenu launcher kullanılırken kullanıcıya kopyalar
 install -Dm0644 ro-launcher-add-to-category.desktop \
-  "%{buildroot}%{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop"
+  "%{buildroot}%{_datadir}/ro-widgets/servicemenu/ro-launcher-add-to-category.desktop"
+install -Dm0755 ro-launcher/servicemenu/ro-launcher-servicemenu \
+  "%{buildroot}%{_libexecdir}/ro-widgets/ro-launcher-servicemenu"
+# Kullanıcı birimleri: oturum açılışında ve Plasma panel/masaüstü ayarı değişince girdiyi senkronla (tüm kullanıcılar için etkin)
+install -Dm0644 ro-launcher/systemd/ro-launcher-servicemenu.service \
+  "%{buildroot}%{_userunitdir}/ro-launcher-servicemenu.service"
+install -Dm0644 ro-launcher/systemd/ro-launcher-servicemenu.path \
+  "%{buildroot}%{_userunitdir}/ro-launcher-servicemenu.path"
+install -d "%{buildroot}%{_userunitdir}/default.target.wants"
+ln -s ../ro-launcher-servicemenu.service "%{buildroot}%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.service"
+ln -s ../ro-launcher-servicemenu.path "%{buildroot}%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.path"
 %find_lang plasma_applet_org.ro.launcher
 
 %files -f plasma_applet_org.ro.launcher.lang
@@ -68,7 +80,12 @@ install -Dm0644 ro-launcher-add-to-category.desktop \
 %{_datadir}/icons/hicolor/scalable/apps/ro-start.svg
 %dir %{_libexecdir}/ro-widgets
 %{_libexecdir}/ro-widgets/ro-launcher-add-to-category
-%{_datadir}/kio/servicemenus/ro-launcher-add-to-category.desktop
+%{_libexecdir}/ro-widgets/ro-launcher-servicemenu
+%{_datadir}/ro-widgets
+%{_userunitdir}/ro-launcher-servicemenu.service
+%{_userunitdir}/ro-launcher-servicemenu.path
+%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.service
+%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.path
 
 %changelog
 * Wed Oct 21 2026 Project Ro-ASD - 0.1.6-1

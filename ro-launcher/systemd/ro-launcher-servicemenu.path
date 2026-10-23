@@ -1,0 +1,12 @@
+# SPDX-FileCopyrightText: 2026 Project Ro-ASD
+# SPDX-License-Identifier: GPL-2.0-or-later
+# Plasma rewrites this file whenever a widget is added or removed.
+[Unit]
+Description=Ro Launcher: watch the Plasma panel and desktop layout
+
+[Path]
+PathChanged=%E/plasma-org.kde.plasma.desktop-appletsrc
+Unit=ro-launcher-servicemenu.service
+
+[Install]
+WantedBy=default.target
