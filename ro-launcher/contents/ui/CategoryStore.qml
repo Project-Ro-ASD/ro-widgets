@@ -5,10 +5,14 @@
 */
 
 import QtQuick
+import QtCore
 import org.kde.plasma.private.kicker as Kicker
 
 // Kullanıcının kendi uygulama kategorileri (Oyunlar, Ofis…). Veri widget ayarında JSON olarak durur
-// (customCategories); her kategori için bir SimpleFavoritesModel uygulama adını, simgesini, sağ tık
+// (customCategories). Widget'ı kaldırıp yeniden eklemek ya da temayı baştan uygulamak (panel düzeni sıfırlanır)
+// widget ayarını da siler; bu yüzden aynı JSON kullanıcı klasöründeki bir yedeğe de yazılır
+// (~/.local/share/ro-launcher/state.ini) ve ayarı hiç yazılmamış yeni bir widget kategorileri oradan geri alır.
+// Her kategori için bir SimpleFavoritesModel uygulama adını, simgesini, sağ tık
 // eylemlerini ve başlatmayı sağlar. Ana ekran ve klasik moddaki Places aynı veriyi gösterir.
 Item {
     id: store
@@ -26,6 +30,14 @@ Item {
     property var categories: []
     // categories ile aynı sırada; her biri Kicker.SimpleFavoritesModel
     property var models: []
+
+    // Widget örneğinden bağımsız yedek: tüm Ro Launcher'lar ve yeniden eklenen widget'lar aynı dosyayı kullanır
+    Settings {
+        id: backup
+        location: StandardPaths.writableLocation(StandardPaths.GenericDataLocation) + "/ro-launcher/state.ini"
+        category: "Categories"
+        property string customCategories: ""
+    }
 
     // Ad girişi (yeni kategori / yeniden adlandırma) ve silme onayı FullRepresentation'daki
     // CategoryDialog'da açılır
@@ -51,6 +63,8 @@ Item {
     }
 
     onConfigChanged: load()
+    // Yedek dosyası alt öğe olarak tamamlandıktan sonra da okunur (yedekten geri alma bunu bekler)
+    Component.onCompleted: load()
     onFavoritesModelChanged: {
         for (const m of models) {
             m.favoritesModel = favoritesModel;
@@ -58,9 +72,18 @@ Item {
     }
 
     function load() {
+        const text = config?.customCategories ?? "";
+        // Ayar hiç yazılmamış (yeni widget) ve yedek varsa kategoriler yedekten gelir; ayardaki değişiklik load()'u yeniden çağırır
+        if (config && text === "" && backup.customCategories !== "") {
+            config.customCategories = backup.customCategories;
+            return;
+        }
+        if (text !== "" && backup.customCategories !== text) {
+            backup.customCategories = text;
+        }
         let parsed = [];
         try {
-            parsed = JSON.parse(config?.customCategories || "[]");
+            parsed = JSON.parse(text || "[]");
         } catch (e) {
             parsed = [];
         }

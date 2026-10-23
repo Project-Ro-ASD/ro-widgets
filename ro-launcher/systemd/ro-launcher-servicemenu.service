@@ -1,0 +1,11 @@
+# SPDX-FileCopyrightText: 2026 Project Ro-ASD
+# SPDX-License-Identifier: GPL-2.0-or-later
+[Unit]
+Description=Ro Launcher: show the "add to launcher" file menu entries only while the launcher is in use
+
+[Service]
+Type=oneshot
+ExecStart=/usr/libexec/ro-widgets/ro-launcher-servicemenu sync
+
+[Install]
+WantedBy=default.target

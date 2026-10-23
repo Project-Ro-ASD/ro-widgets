@@ -2,11 +2,12 @@
 # SPDX-License-Identifier: GPL-2.0-or-later
 # Dolphin ve masaüstünde her dosya ve klasörün sağ tık menüsü (uygulama kısayolları dahil): Favorilere ve kategoriye ekle. Name[<dil>] satırları paket
 # derlenirken po/ dosyalarından eklenir (tools/desktop-i18n.py).
+# Bu dosya doğrudan kio/servicemenus'a kurulmaz (KIO 6 görünürlük koşulu tanımaz): ro-launcher-servicemenu onu Ro Launcher paneldeyken
+# kullanıcının kio/servicemenus klasörüne kopyalar, widget kaldırılınca siler.
 [Desktop Entry]
 Type=Service
 MimeType=all/all;
 Actions=addToRoLauncherFavorites;addToRoLauncherCategory;
-X-KDE-ShowIfRunning=org.kde.plasmashell
 
 [Desktop Action addToRoLauncherFavorites]
 Name=Add to Ro Launcher Favorites
