@@ -31,6 +31,7 @@ Kickoff'u kullanır (WGT-14).
 
 ```sh
 python3 tools/check-widgets.py      # widget sözleşmesi (SPDX, qmldir, elle renk, default/ yok, token köşeleri)
+python3 -m unittest discover -s tests # servis menüsü betiği birim testleri
 tools/sync-tokens                   # Ro-Theme token'ları değişince: RoTokens.qml kopyalarını ../Ro-Theme'den güncelle
 tools/sync-tokens --check           # kopyalar Ro-Theme main ile aynı mı (CI'da uyarı)
 tools/project-ci                    # CI: sözleşme + QML sözdizimi + RPM (Fedora 44 konteyneri)

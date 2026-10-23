@@ -9,6 +9,7 @@ if command -v dnf >/dev/null 2>&1 && [[ "$(id -u)" -eq 0 ]]; then
 fi
 
 python3 tools/check-widgets.py
+python3 -m unittest discover -s tests
 
 # Token kopyası Ro-Theme main ile aynı mı: ağ ya da Ro-Theme'deki bir değişiklik bu repodaki PR'ı durdurmasın diye uyarı.
 tools/sync-tokens --check main || echo "::warning::RoTokens.qml Ro-Theme main ile aynı değil (ya da indirilemedi); tools/sync-tokens çalıştırın"
