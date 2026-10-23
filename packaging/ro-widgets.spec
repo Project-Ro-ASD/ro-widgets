@@ -1,3 +1,6 @@
+# systemd kullanıcı birimleri klasörü; systemd-rpm-macros'a bağımlı olmamak için elle tanımlı (CI konteynerinde yok)
+%global ro_userunitdir %{_prefix}/lib/systemd/user
+
 Name:           ro-widgets
 Version:        %{?ro_version}%{!?ro_version:0.1.6}
 Release:        1%{?dist}
@@ -10,7 +13,6 @@ BuildArch:      noarch
 # Widget'lara özgü çeviriler (<widget>/po/*.po) derlenir; Kickoff'tan gelen metinler KDE'nin kataloglarından.
 BuildRequires:  gettext
 BuildRequires:  python3
-BuildRequires:  systemd-rpm-macros
 
 Requires:       plasma-workspace
 # Dolphin/masaüstü sağ tık menüsü (Ro Launcher kategorisine ekle): Python betiği, kdialog, busctl
@@ -67,12 +69,12 @@ install -Dm0755 ro-launcher/servicemenu/ro-launcher-servicemenu \
   "%{buildroot}%{_libexecdir}/ro-widgets/ro-launcher-servicemenu"
 # Kullanıcı birimleri: oturum açılışında ve Plasma panel/masaüstü ayarı değişince girdiyi senkronla (tüm kullanıcılar için etkin)
 install -Dm0644 ro-launcher/systemd/ro-launcher-servicemenu.service \
-  "%{buildroot}%{_userunitdir}/ro-launcher-servicemenu.service"
+  "%{buildroot}%{ro_userunitdir}/ro-launcher-servicemenu.service"
 install -Dm0644 ro-launcher/systemd/ro-launcher-servicemenu.path \
-  "%{buildroot}%{_userunitdir}/ro-launcher-servicemenu.path"
-install -d "%{buildroot}%{_userunitdir}/default.target.wants"
-ln -s ../ro-launcher-servicemenu.service "%{buildroot}%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.service"
-ln -s ../ro-launcher-servicemenu.path "%{buildroot}%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.path"
+  "%{buildroot}%{ro_userunitdir}/ro-launcher-servicemenu.path"
+install -d "%{buildroot}%{ro_userunitdir}/default.target.wants"
+ln -s ../ro-launcher-servicemenu.service "%{buildroot}%{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.service"
+ln -s ../ro-launcher-servicemenu.path "%{buildroot}%{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.path"
 %find_lang plasma_applet_org.ro.launcher
 
 %files -f plasma_applet_org.ro.launcher.lang
@@ -82,10 +84,10 @@ ln -s ../ro-launcher-servicemenu.path "%{buildroot}%{_userunitdir}/default.targe
 %{_libexecdir}/ro-widgets/ro-launcher-add-to-category
 %{_libexecdir}/ro-widgets/ro-launcher-servicemenu
 %{_datadir}/ro-widgets
-%{_userunitdir}/ro-launcher-servicemenu.service
-%{_userunitdir}/ro-launcher-servicemenu.path
-%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.service
-%{_userunitdir}/default.target.wants/ro-launcher-servicemenu.path
+%{ro_userunitdir}/ro-launcher-servicemenu.service
+%{ro_userunitdir}/ro-launcher-servicemenu.path
+%{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.service
+%{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.path
 
 %changelog
 * Wed Oct 21 2026 Project Ro-ASD - 0.1.6-1
