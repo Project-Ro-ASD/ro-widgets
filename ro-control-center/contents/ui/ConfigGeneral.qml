@@ -13,6 +13,7 @@ KCM.SimpleKCM {
     id: root
 
     property string cfg_layout
+    property string cfg_layoutDefault
 
     Kirigami.FormLayout {
         QQC2.ComboBox {
