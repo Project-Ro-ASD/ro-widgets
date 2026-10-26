@@ -130,12 +130,12 @@ msgid "Ring"
 msgstr "Halka"
 
 #: contents/ui/ConfigGeneral.qml:24
-msgid "Ro (tabs and tiles)"
-msgstr "Ro (sekmeler ve kartlar)"
+msgid "Classic"
+msgstr "Klasik"
 
 #: contents/ui/ConfigGeneral.qml:27
-msgid "Side tabs"
-msgstr "Yan sekmeler"
+msgid "Panel"
+msgstr "Panel"
 
 #: contents/ui/LayoutRing.qml:476 contents/ui/LayoutRing.qml:477
 msgid "Speaker"
