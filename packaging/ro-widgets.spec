@@ -76,9 +76,12 @@ install -d "%{buildroot}%{ro_userunitdir}/default.target.wants"
 ln -s ../ro-launcher-servicemenu.service "%{buildroot}%{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.service"
 ln -s ../ro-launcher-servicemenu.path "%{buildroot}%{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.path"
 %find_lang plasma_applet_org.ro.launcher
+%find_lang plasma_applet_org.ro.controlcenter
+cat plasma_applet_org.ro.controlcenter.lang >> plasma_applet_org.ro.launcher.lang
 
 %files -f plasma_applet_org.ro.launcher.lang
 %{_datadir}/plasma/plasmoids/org.ro.launcher
+%{_datadir}/plasma/plasmoids/org.ro.controlcenter
 %{_datadir}/icons/hicolor/scalable/apps/ro-start.svg
 %dir %{_libexecdir}/ro-widgets
 %{_libexecdir}/ro-widgets/ro-launcher-add-to-category

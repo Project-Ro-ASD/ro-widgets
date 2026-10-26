@@ -1,0 +1,19 @@
+{
+    "KPackageStructure": "Plasma/Applet",
+    "KPlugin": {
+        "Id": "org.ro.controlcenter",
+        "Name": "Ro Control Center",
+        "Name[tr]": "Ro Denetim Merkezi",
+        "Description": "Quick settings of Ro Desktop",
+        "Description[tr]": "Ro Masaüstü hızlı ayarları",
+        "Icon": "preferences-system",
+        "Authors": [
+            {
+                "Name": "Project Ro-ASD"
+            }
+        ],
+        "License": "GPL-2.0-or-later",
+        "Version": "0.1.7"
+    },
+    "X-Plasma-API-Minimum-Version": "6.0"
+}
