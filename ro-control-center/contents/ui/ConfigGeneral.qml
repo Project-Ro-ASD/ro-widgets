@@ -22,12 +22,13 @@ KCM.SimpleKCM {
             textRole: "text"
             valueRole: "value"
             model: [
-                { value: "ro", text: i18n("Ro (tabs and tiles)") },
+                { value: "ro", text: i18n("Classic") },
                 { value: "kartlar", text: i18n("Tiles") },
                 { value: "halka", text: i18n("Ring") },
-                { value: "sekmeler", text: i18n("Side tabs") }
+                { value: "sekmeler", text: i18n("Panel") }
             ]
-            currentIndex: Math.max(0, indexOfValue(root.cfg_layout))
+            // Seçim model dolduktan sonra yapılır; bağlamayla yapılınca indexOfValue -1 dönüp hep ilk düzen görünüyordu.
+            Component.onCompleted: currentIndex = Math.max(0, indexOfValue(root.cfg_layout))
             onActivated: root.cfg_layout = currentValue
         }
     }
