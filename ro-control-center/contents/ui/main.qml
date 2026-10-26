@@ -7,23 +7,53 @@
 import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.plasmoid
+import org.kde.kirigami as Kirigami
 
-// Geçici deneme: yalnız Backend'i okur, hiçbir ayarı değiştirmez.
 PlasmoidItem {
     id: root
 
-    Backend { id: be }
+    Backend {
+        id: backend
+    }
 
-    preferredRepresentation: fullRepresentation
+    Plasmoid.icon: "preferences-system"
+
+    compactRepresentation: Item {
+        Kirigami.Icon {
+            anchors.fill: parent
+            source: Plasmoid.icon
+            active: mouseArea.containsMouse
+        }
+
+        MouseArea {
+            id: mouseArea
+            anchors.fill: parent
+            hoverEnabled: true
+            onClicked: root.expanded = !root.expanded
+        }
+    }
 
     fullRepresentation: Item {
-        Layout.minimumWidth: 300
-        Layout.minimumHeight: 200
+        // Düzen kendi boyutunu verir; popup ondan küçülmesin.
+        Layout.minimumWidth: loader.item ? loader.item.implicitWidth : 420
+        Layout.minimumHeight: loader.item ? loader.item.implicitHeight : 480
+        Layout.preferredWidth: Layout.minimumWidth
+        Layout.preferredHeight: Layout.minimumHeight
 
-        Timer {
-            interval: 4000
-            running: true
-            onTriggered: console.warn("RO-CC wifi=" + be.wifiEnabled + " ssid=" + be.wifiSsid + " bt=" + be.bluetoothAvailable + "/" + be.bluetoothEnabled + " dnd=" + be.dndEnabled + " night=" + be.nightLightAvailable + "/" + be.nightLightActive + " dark=" + be.darkMode + " theme=" + be.currentThemeName + " power=" + be.activeProfile + " " + JSON.stringify(be.powerProfiles) + " vol=" + be.volume + " muted=" + be.muted + " bright=" + be.brightnessAvailable + "/" + be.brightness + " bat=" + be.hasBattery + "/" + be.batteryPercent + "/" + be.charging)
+        Loader {
+            id: loader
+            anchors.fill: parent
+            source: ({
+                ro: "LayoutRo.qml",
+                kartlar: "LayoutCards.qml",
+                halka: "LayoutRing.qml",
+                sekmeler: "LayoutSideTabs.qml"
+            })[Plasmoid.configuration.layout] ?? "LayoutRo.qml"
+            onLoaded: {
+                if (item) {
+                    item.backend = backend
+                }
+            }
         }
     }
 }
