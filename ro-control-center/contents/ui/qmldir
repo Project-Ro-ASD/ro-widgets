@@ -1,0 +1,5 @@
+# Plasmoid paketinde singleton'lar ancak qmldir ile kaydedilebiliyor.
+# Dizindeki tipler yalnız burada listelenirse görünür; yeni dosya eklerken buraya da ekle.
+singleton RoTokens 1.0 RoTokens.qml
+Style 1.0 Style.qml
+Backend 1.0 Backend.qml
