@@ -274,16 +274,23 @@ T.ItemDelegate {
     }
 
     PC3.ToolTip.text: {
+        const descriptionWanted = root.descriptionTruncated
+            || (!root.descriptionVisible && (root.isSearchResult || Plasmoid.configuration.appNameFormat > 1))
         if (root.labelTruncated) {
-            return model?.display ?? ""
-        } else if (root.descriptionTruncated || (!root.descriptionVisible && (root.isSearchResult
-                                                                              || Plasmoid.configuration.appNameFormat > 1))) {
+            const fullName = model?.display ?? ""
+            return descriptionWanted && description.length > 0
+                ? fullName + "\n" + description
+                : fullName
+        }
+        if (descriptionWanted) {
             return description
         }
         return ""
     }
     PC3.ToolTip.visible: mouseArea.containsMouse && PC3.ToolTip.text.length > 0
-    PC3.ToolTip.delay: Kirigami.Units.toolTipDelay
+                         && !root.removalPlaceholderActive
+                         && !dragHandler.active && !touchDragHandler.active
+    PC3.ToolTip.delay: Math.max(Kirigami.Units.toolTipDelay, 1000)
 
     background: Loader {
         active: (root.GridView?.isCurrentItem || root.ListView?.isCurrentItem) ?? false

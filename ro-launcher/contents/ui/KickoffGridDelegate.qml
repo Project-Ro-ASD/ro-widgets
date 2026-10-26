@@ -28,10 +28,23 @@ AbstractKickoffItemDelegate {
     icon.width: Kirigami.Units.iconSizes.large
     icon.height: Kirigami.Units.iconSizes.large
 
-    labelTruncated: label.truncated
+    // Sarmalı etikette label.truncated güvenilir değil: tam metni ayrı ölç.
+    labelTruncated: fullLabelMeasure.lineCount > label.maximumLineCount
+                    || fullLabelMeasure.contentWidth > fullLabelMeasure.width + 1
     descriptionVisible: false
 
     dragIconItem: iconItem
+
+    // Görünmez ölçüm: iki satır sınırını aşan tam adı yakalar.
+    Text {
+        id: fullLabelMeasure
+        visible: false
+        width: label.width
+        text: label.text
+        textFormat: label.textFormat
+        font: label.font
+        wrapMode: Text.Wrap
+    }
 
     contentItem: ColumnLayout {
         spacing: root.spacing
