@@ -74,6 +74,10 @@ msgstr "勿扰模式"
 msgid "General"
 msgstr "常规"
 
+#: contents/ui/KeyboardPage.qml:27 contents/ui/LayoutCards.qml:340 contents/ui/LayoutRo.qml:190
+msgid "Keyboard Layout"
+msgstr "键盘布局"
+
 #: contents/ui/ConfigGeneral.qml:20
 msgid "Layout:"
 msgstr "布局："

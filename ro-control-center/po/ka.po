@@ -74,6 +74,10 @@ msgstr "არ შემაწუხოთ"
 msgid "General"
 msgstr "ზოგადი"
 
+#: contents/ui/KeyboardPage.qml:27 contents/ui/LayoutCards.qml:340 contents/ui/LayoutRo.qml:190
+msgid "Keyboard Layout"
+msgstr "კლავიატურის განლაგება"
+
 #: contents/ui/ConfigGeneral.qml:20
 msgid "Layout:"
 msgstr "განლაგება:"

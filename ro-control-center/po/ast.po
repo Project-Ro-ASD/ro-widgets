@@ -74,6 +74,10 @@ msgstr "Non molestar"
 msgid "General"
 msgstr "Xeneral"
 
+#: contents/ui/KeyboardPage.qml:27 contents/ui/LayoutCards.qml:340 contents/ui/LayoutRo.qml:190
+msgid "Keyboard Layout"
+msgstr "Distribución del tecláu"
+
 #: contents/ui/ConfigGeneral.qml:20
 msgid "Layout:"
 msgstr "Distribución:"

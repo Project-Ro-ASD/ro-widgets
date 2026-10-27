@@ -93,6 +93,13 @@ Item {
     }
 
     Component {
+        id: keyboardPageComp
+        KeyboardPage {
+            backend: root.backend
+        }
+    }
+
+    Component {
         id: subPageWrapper
 
         ColumnLayout {
@@ -323,6 +330,24 @@ Item {
                             root.backend.setDarkMode(!root.backend.darkMode)
                         }
                     }
+                }
+
+                Tile {
+                    visible: root.backend ? root.backend.keyboardLayouts.length > 1 : false
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 52
+                    iconName: "input-keyboard-symbolic"
+                    label: i18n("Keyboard Layout")
+                    status: root.backend && root.backend.keyboardLayouts.length > root.backend.currentLayout
+                        ? root.backend.keyboardLayouts[root.backend.currentLayout].longName
+                        : ""
+                    hasDetails: true
+                    onClicked: {
+                        if (root.backend) {
+                            root.backend.nextLayout()
+                        }
+                    }
+                    onDetailsClicked: root.openSubPage(i18n("Keyboard Layout"), keyboardPageComp)
                 }
 
                 Tile {
