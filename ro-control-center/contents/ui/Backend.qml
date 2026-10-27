@@ -219,6 +219,9 @@ Item {
     readonly property var powerProfiles: powerProfilesControl.profiles
     readonly property string activeProfile: powerProfilesControl.activeProfile
     readonly property bool powerProfilesAvailable: powerProfilesControl.profiles.length > 0
+    // Profil engeli ve profili tutan uygulamalar (KDE PowerProfileItem).
+    readonly property string profileInhibitionReason: powerProfilesControl.inhibitionReason
+    readonly property var profileHolds: powerProfilesControl.profileHolds
 
     function setPowerProfile(profile) {
         if (!powerProfilesAvailable || profile === powerProfilesControl.activeProfile) {
@@ -235,6 +238,9 @@ Item {
     PulseObjectFilterModel {
         id: paSinkFilterModel
         filterOutInactiveDevices: true
+        // KDE'nin ses widget'ı gibi: AirPlay vb. ağ ve sanal çıkışlar listede görünmez
+        // (KDE'de "sanal cihazları göster" ayarı varsayılan kapalı).
+        filterVirtualDevices: true
         sourceModel: paSinkModel
     }
 
@@ -329,7 +335,34 @@ Item {
 
     BatteryControlModel { id: batteryControl }
 
+    // KDE BatteryItem'ın okuduğu roller bu modelden gelir.
+    property alias batteriesModel: batteryControl
+
     readonly property bool hasBattery: batteryControl.hasBatteries
     readonly property int batteryPercent: batteryControl.percent
     readonly property bool charging: batteryControl.state === BatteryControlModel.Charging
+    readonly property bool pluggedIn: batteryControl.pluggedIn
+    // KDE main.qml'deki gibi yumuşatılmış süre.
+    readonly property real remainingMsec: batteryControl.smoothedRemainingMsec
+    readonly property int chargeStopThreshold: batteryControl.chargeStopThreshold
+    readonly property bool hasInternalBatteries: batteryControl.hasInternalBatteries
+
+    // --- Uyku engeli ---
+
+    InhibitionControl { id: inhibitionControl }
+
+    readonly property bool manuallyInhibited: inhibitionControl.isManuallyInhibited
+    readonly property var requestedInhibitions: inhibitionControl.requestedInhibitions
+    readonly property bool isLidPresent: inhibitionControl.isLidPresent
+    readonly property bool triggersLidAction: inhibitionControl.triggersLidAction
+
+    function setManuallyInhibited(inhibit) {
+        // KDE main.qml: OSD yalnız popup kapalıyken; burada anahtarın kendisi geri bildirim.
+        inhibitionControl.isSilent = true;
+        if (inhibit) {
+            inhibitionControl.inhibit(i18nd("plasma_applet_org.kde.plasma.battery", "The battery applet has enabled suppressing sleep and screen locking"));
+        } else {
+            inhibitionControl.uninhibit();
+        }
+    }
 }
