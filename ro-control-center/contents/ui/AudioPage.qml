@@ -8,8 +8,12 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
+import org.kde.kcmutils as KCMUtils
+import org.kde.config as KConfig
 
 ColumnLayout {
+    // Renk seti popup'tan açıkça kalıtılsın; yazılmayınca Style örnekleri Kirigami.Theme'i siyah okuyor (ro-launcher ile aynı sorun).
+    Kirigami.Theme.inherit: true
     id: root
 
     property var backend
@@ -19,6 +23,33 @@ ColumnLayout {
     }
 
     spacing: 8
+
+    RowLayout {
+        Layout.fillWidth: true
+
+        PC3.Label {
+            Layout.fillWidth: true
+            text: i18n("Audio")
+            font.pointSize: Kirigami.Theme.defaultFont.pointSize * 1.15
+            color: Kirigami.Theme.textColor
+        }
+
+        // KDE plasma-pa main.qml'deki ses ayarları.
+        PC3.ToolButton {
+            icon.name: "configure"
+            visible: KConfig.KAuthorized.authorizeControlModule("kcm_pulseaudio")
+            onClicked: {
+                KCMUtils.KCMLauncher.openSystemSettings("kcm_pulseaudio");
+                if (root.backend) {
+                    root.backend.requestClose();
+                }
+            }
+
+            PC3.ToolTip {
+                text: i18nd("plasma_applet_org.kde.plasma.volume", "&Configure Audio Devices…")
+            }
+        }
+    }
 
     RowLayout {
         Layout.fillWidth: true

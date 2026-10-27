@@ -16,6 +16,13 @@ PlasmoidItem {
         id: backend
     }
 
+    Connections {
+        target: backend
+        function onCloseRequested() {
+            root.expanded = false;
+        }
+    }
+
     Plasmoid.icon: "preferences-system"
 
     compactRepresentation: Item {
@@ -34,6 +41,8 @@ PlasmoidItem {
     }
 
     fullRepresentation: Item {
+        // Renk seti popup'tan açıkça kalıtılsın; yazılmayınca Style örnekleri Kirigami.Theme'i siyah okuyor (ro-launcher ile aynı sorun).
+        Kirigami.Theme.inherit: true
         // Düzen kendi boyutunu verir; popup ondan küçülmesin.
         Layout.minimumWidth: loader.item ? loader.item.implicitWidth : 420
         Layout.minimumHeight: loader.item ? loader.item.implicitHeight : 480

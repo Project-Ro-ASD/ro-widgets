@@ -10,6 +10,8 @@ import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
 
 Item {
+    // Renk seti popup'tan açıkça kalıtılsın; yazılmayınca Style örnekleri Kirigami.Theme'i siyah okuyor (ro-launcher ile aynı sorun).
+    Kirigami.Theme.inherit: true
     id: root
 
     property var backend
@@ -27,7 +29,8 @@ Item {
         { id: "bluetooth", icon: "bluetooth-disabled-symbolic", label: i18n("Bluetooth") },
         { id: "ses", icon: "audio-volume-high-symbolic", label: i18n("Audio") },
         { id: "ekran", icon: "display-brightness-symbolic", label: i18n("Display") },
-        { id: "guc", icon: "power-profile-balanced-symbolic", label: i18n("Power") }
+        { id: "guc", icon: "power-profile-balanced-symbolic", label: i18n("Power") },
+        { id: "pano", icon: "klipper-symbolic", label: i18n("Clipboard") }
     ]
 
     function tabIndex(id) {
@@ -103,10 +106,12 @@ Item {
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: 300
+            // Sabit 300 sekmeler ve Rahatsız etme düğmesine yetmiyordu; alt düğmelerin üstüne taşıyordu.
+            Layout.preferredHeight: Math.max(sideColumn.implicitHeight, 360)
             spacing: 8
 
             ColumnLayout {
+                id: sideColumn
                 Layout.preferredWidth: 48
                 Layout.fillHeight: true
                 spacing: 6
@@ -173,24 +178,62 @@ Item {
                     anchors.margins: 12
                     currentIndex: root.tabIndex(root.currentTab)
 
-                    NetworkPage {
-                        backend: root.backend
+                    Loader {
+                        // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                        property bool visited: false
+                        active: visited || root.currentTab === "ag"
+                        onActiveChanged: if (active) visited = true
+                        sourceComponent: NetworkPage {
+                            backend: root.backend
+                        }
                     }
 
-                    BluetoothPage {
-                        backend: root.backend
+                    Loader {
+                        // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                        property bool visited: false
+                        active: visited || root.currentTab === "bluetooth"
+                        onActiveChanged: if (active) visited = true
+                        sourceComponent: BluetoothPage {
+                            backend: root.backend
+                        }
                     }
 
-                    AudioPage {
-                        backend: root.backend
+                    Loader {
+                        // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                        property bool visited: false
+                        active: visited || root.currentTab === "ses"
+                        onActiveChanged: if (active) visited = true
+                        sourceComponent: AudioPage {
+                            backend: root.backend
+                        }
                     }
 
-                    DisplayPage {
-                        backend: root.backend
+                    Loader {
+                        // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                        property bool visited: false
+                        active: visited || root.currentTab === "ekran"
+                        onActiveChanged: if (active) visited = true
+                        sourceComponent: DisplayPage {
+                            backend: root.backend
+                        }
                     }
 
-                    PowerPage {
-                        backend: root.backend
+                    Loader {
+                        // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                        property bool visited: false
+                        active: visited || root.currentTab === "guc"
+                        onActiveChanged: if (active) visited = true
+                        sourceComponent: PowerPage {
+                            backend: root.backend
+                        }
+                    }
+
+                    // Pano yalnız sekmesi açılınca yüklenir: KDE'nin pano arka ucu (Klipper) gereksiz başlamasın.
+                    Loader {
+                        active: root.currentTab === "pano"
+                        sourceComponent: ClipboardPage {
+                            backend: root.backend
+                        }
                     }
                 }
             }

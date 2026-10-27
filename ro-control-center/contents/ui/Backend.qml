@@ -13,6 +13,7 @@ import org.kde.bluezqt as BluezQt
 import org.kde.plasma.private.bluetooth as PlasmaBt
 import org.kde.notificationmanager as NotificationManager
 import org.kde.plasma.private.brightnesscontrolplugin
+import org.kde.plasma.workspace.keyboardlayout
 import org.kde.plasma.workspace.dbus as DBus
 import org.kde.plasma.private.batterymonitor
 import org.kde.plasma.private.battery
@@ -24,6 +25,12 @@ import org.kde.plasma.private.volume
 Item {
     id: backend
     visible: false
+
+    // Sayfalardaki ayar düğmeleri popup'ı kapatsın diye main.qml'e iletilir.
+    signal closeRequested()
+    function requestClose() {
+        closeRequested();
+    }
 
     // --- Wi-Fi ---
 
@@ -44,12 +51,19 @@ Item {
     // Model değişince SSID bağlaması yeniden hesaplansın diye sayaç.
     property int _networkRevision: 0
 
+    // Tarama sırasında model sürekli değişir; SSID her değişimde değil, değişimler durulunca bir kez hesaplansın.
+    Timer {
+        id: networkRevisionTimer
+        interval: 300
+        onTriggered: backend._networkRevision++
+    }
+
     Connections {
         target: appletProxyModel
-        function onDataChanged() { backend._networkRevision++; }
-        function onModelReset() { backend._networkRevision++; }
-        function onRowsInserted() { backend._networkRevision++; }
-        function onRowsRemoved() { backend._networkRevision++; }
+        function onDataChanged() { networkRevisionTimer.restart(); }
+        function onModelReset() { networkRevisionTimer.restart(); }
+        function onRowsInserted() { networkRevisionTimer.restart(); }
+        function onRowsRemoved() { networkRevisionTimer.restart(); }
     }
 
     // Bağlı Wi-Fi satırının SSID'si; ayrı bir özellik yok, modelden okunur.
@@ -219,6 +233,9 @@ Item {
     readonly property var powerProfiles: powerProfilesControl.profiles
     readonly property string activeProfile: powerProfilesControl.activeProfile
     readonly property bool powerProfilesAvailable: powerProfilesControl.profiles.length > 0
+    // Profil engeli ve profili tutan uygulamalar (KDE PowerProfileItem).
+    readonly property string profileInhibitionReason: powerProfilesControl.inhibitionReason
+    readonly property var profileHolds: powerProfilesControl.profileHolds
 
     function setPowerProfile(profile) {
         if (!powerProfilesAvailable || profile === powerProfilesControl.activeProfile) {
@@ -235,6 +252,9 @@ Item {
     PulseObjectFilterModel {
         id: paSinkFilterModel
         filterOutInactiveDevices: true
+        // KDE'nin ses widget'ı gibi: AirPlay vb. ağ ve sanal çıkışlar listede görünmez
+        // (KDE'de "sanal cihazları göster" ayarı varsayılan kapalı).
+        filterVirtualDevices: true
         sourceModel: paSinkModel
     }
 
@@ -325,11 +345,97 @@ Item {
             Math.round(display.maxBrightness * Math.max(0, Math.min(1, value))));
     }
 
+    // --- Klavye arka ışığı ve rengi ---
+
+    KeyboardBrightnessControl { id: keyboardBrightnessControl }
+    KeyboardColorControl { id: keyboardColorControl }
+
+    readonly property bool keyboardBrightnessAvailable: keyboardBrightnessControl.isBrightnessAvailable
+    readonly property real keyboardBrightness: keyboardBrightnessControl.brightnessMax > 0
+        ? Math.max(0, Math.min(1, keyboardBrightnessControl.brightness / keyboardBrightnessControl.brightnessMax))
+        : 0
+
+    function setKeyboardBrightness(value) {
+        if (!keyboardBrightnessAvailable || keyboardBrightnessControl.brightnessMax <= 0) {
+            return;
+        }
+        // OSD gereksiz: değişiklik arayüzde görünüyor (KDE'nin isSilent bayrağı).
+        keyboardBrightnessControl.isSilent = true;
+        keyboardBrightnessControl.brightness = Math.round(keyboardBrightnessControl.brightnessMax
+            * Math.max(0, Math.min(1, value)));
+    }
+
+    // Vurgu rengini izleme anahtarı (KDE KeyboardColorItem).
+    readonly property bool keyboardColorAvailable: keyboardColorControl.supported
+    readonly property bool keyboardColorFollowsAccent: keyboardColorControl.enabled
+
+    function setKeyboardColorFollowsAccent(enable) {
+        keyboardColorControl.enabled = enable;
+    }
+
+    // --- Klavye düzeni ---
+
+    KeyboardLayout { id: keyboardLayout }
+
+    // KDE'nin layoutsList'i: her öğe { shortName, longName }.
+    readonly property var keyboardLayouts: {
+        const list = keyboardLayout.layoutsList;
+        const layouts = [];
+        for (let i = 0; i < list.length; ++i) {
+            layouts.push({ shortName: list[i].shortName, longName: list[i].longName });
+        }
+        return layouts;
+    }
+
+    readonly property int currentLayout: keyboardLayout.layout
+
+    readonly property string currentLayoutShortName: {
+        const list = keyboardLayout.layoutsList;
+        return (currentLayout >= 0 && currentLayout < list.length) ? list[currentLayout].shortName : "";
+    }
+
+    function setLayout(index) {
+        if (index >= 0 && index < keyboardLayout.layoutsList.length) {
+            keyboardLayout.layout = index;
+        }
+    }
+
+    function nextLayout() {
+        keyboardLayout.switchToNextLayout();
+    }
+
     // --- Pil ---
 
     BatteryControlModel { id: batteryControl }
 
+    // KDE BatteryItem'ın okuduğu roller bu modelden gelir.
+    property alias batteriesModel: batteryControl
+
     readonly property bool hasBattery: batteryControl.hasBatteries
     readonly property int batteryPercent: batteryControl.percent
     readonly property bool charging: batteryControl.state === BatteryControlModel.Charging
+    readonly property bool pluggedIn: batteryControl.pluggedIn
+    // KDE main.qml'deki gibi yumuşatılmış süre.
+    readonly property real remainingMsec: batteryControl.smoothedRemainingMsec
+    readonly property int chargeStopThreshold: batteryControl.chargeStopThreshold
+    readonly property bool hasInternalBatteries: batteryControl.hasInternalBatteries
+
+    // --- Uyku engeli ---
+
+    InhibitionControl { id: inhibitionControl }
+
+    readonly property bool manuallyInhibited: inhibitionControl.isManuallyInhibited
+    readonly property var requestedInhibitions: inhibitionControl.requestedInhibitions
+    readonly property bool isLidPresent: inhibitionControl.isLidPresent
+    readonly property bool triggersLidAction: inhibitionControl.triggersLidAction
+
+    function setManuallyInhibited(inhibit) {
+        // KDE main.qml: OSD yalnız popup kapalıyken; burada anahtarın kendisi geri bildirim.
+        inhibitionControl.isSilent = true;
+        if (inhibit) {
+            inhibitionControl.inhibit(i18nd("plasma_applet_org.kde.plasma.battery", "The battery applet has enabled suppressing sleep and screen locking"));
+        } else {
+            inhibitionControl.uninhibit();
+        }
+    }
 }

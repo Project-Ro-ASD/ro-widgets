@@ -9,8 +9,11 @@ import QtQuick.Layouts
 import QtQuick.Controls as QQC2
 import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
+import org.kde.coreaddons as KCoreAddons
 
 Item {
+    // Renk seti popup'tan açıkça kalıtılsın; yazılmayınca Style örnekleri Kirigami.Theme'i siyah okuyor (ro-launcher ile aynı sorun).
+    Kirigami.Theme.inherit: true
     id: root
 
     property var backend
@@ -42,6 +45,18 @@ Item {
         root.backend.setPowerProfile(next)
     }
 
+    // Genel görünümdeki pil özeti: "%64 · 0:52".
+    function batterySummary() {
+        if (!root.backend || !root.backend.hasBattery) {
+            return ""
+        }
+        const percent = root.backend.batteryPercent + "%"
+        if (root.backend.remainingMsec > 0) {
+            return percent + " · " + KCoreAddons.Format.formatDuration(root.backend.remainingMsec, KCoreAddons.FormatTypes.HideSeconds)
+        }
+        return percent
+    }
+
     function openSubPage(titleText, pageComp) {
         stackView.push(subPageWrapper, {
             pageTitle: titleText,
@@ -66,6 +81,20 @@ Item {
     Component {
         id: audioPageComp
         AudioPage {
+            backend: root.backend
+        }
+    }
+
+    Component {
+        id: powerPageComp
+        PowerPage {
+            backend: root.backend
+        }
+    }
+
+    Component {
+        id: keyboardPageComp
+        KeyboardPage {
             backend: root.backend
         }
     }
@@ -176,6 +205,51 @@ Item {
                 }
             }
 
+            Rectangle {
+                visible: root.backend ? root.backend.hasBattery : false
+                Layout.fillWidth: true
+                Layout.preferredHeight: 40
+                radius: st.radiusCard
+                color: batteryMouse.containsMouse ? st.hover : st.glass
+                border.width: st.borderWidth
+                border.color: st.glassBorder
+
+                RowLayout {
+                    anchors.fill: parent
+                    anchors.margins: 8
+                    spacing: 8
+
+                    Kirigami.Icon {
+                        Layout.preferredWidth: 16
+                        Layout.preferredHeight: 16
+                        source: root.backend && root.backend.charging ? "battery-good-charging-symbolic" : "battery-good-symbolic"
+                        isMask: true
+                        color: Kirigami.Theme.textColor
+                    }
+
+                    PC3.Label {
+                        Layout.fillWidth: true
+                        text: root.batterySummary()
+                        color: Kirigami.Theme.textColor
+                    }
+
+                    Kirigami.Icon {
+                        Layout.preferredWidth: 14
+                        Layout.preferredHeight: 14
+                        source: "go-next-symbolic"
+                        isMask: true
+                        color: st.textMuted
+                    }
+                }
+
+                MouseArea {
+                    id: batteryMouse
+                    anchors.fill: parent
+                    hoverEnabled: true
+                    onClicked: root.openSubPage(i18n("Power"), powerPageComp)
+                }
+            }
+
             GridLayout {
                 Layout.fillWidth: true
                 columns: 2
@@ -256,6 +330,24 @@ Item {
                             root.backend.setDarkMode(!root.backend.darkMode)
                         }
                     }
+                }
+
+                Tile {
+                    visible: root.backend ? root.backend.keyboardLayouts.length > 1 : false
+                    Layout.fillWidth: true
+                    Layout.preferredHeight: 52
+                    iconName: "input-keyboard-symbolic"
+                    label: i18n("Keyboard Layout")
+                    status: root.backend && root.backend.keyboardLayouts.length > root.backend.currentLayout
+                        ? root.backend.keyboardLayouts[root.backend.currentLayout].longName
+                        : ""
+                    hasDetails: true
+                    onClicked: {
+                        if (root.backend) {
+                            root.backend.nextLayout()
+                        }
+                    }
+                    onDetailsClicked: root.openSubPage(i18n("Keyboard Layout"), keyboardPageComp)
                 }
 
                 Tile {

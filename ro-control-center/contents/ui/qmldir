@@ -12,7 +12,9 @@ BluetoothPage 1.0 BluetoothPage.qml
 AudioPage 1.0 AudioPage.qml
 DisplayPage 1.0 DisplayPage.qml
 PowerPage 1.0 PowerPage.qml
+KeyboardPage 1.0 KeyboardPage.qml
 LayoutRo 1.0 LayoutRo.qml
 LayoutCards 1.0 LayoutCards.qml
 LayoutRing 1.0 LayoutRing.qml
 LayoutSideTabs 1.0 LayoutSideTabs.qml
+ClipboardPage 1.0 ClipboardPage.qml
