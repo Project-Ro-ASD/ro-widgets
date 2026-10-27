@@ -67,6 +67,10 @@ msgstr ""
 msgid "General"
 msgstr ""
 
+#: contents/ui/KeyboardPage.qml:27 contents/ui/LayoutCards.qml:340 contents/ui/LayoutRo.qml:190
+msgid "Keyboard Layout"
+msgstr ""
+
 #: contents/ui/ConfigGeneral.qml:20
 msgid "Layout:"
 msgstr ""
@@ -128,11 +132,11 @@ msgid "Ring"
 msgstr ""
 
 #: contents/ui/ConfigGeneral.qml:24
-msgid "Ro (tabs and tiles)"
+msgid "Classic"
 msgstr ""
 
 #: contents/ui/ConfigGeneral.qml:27
-msgid "Side tabs"
+msgid "Panel"
 msgstr ""
 
 #: contents/ui/LayoutRing.qml:476 contents/ui/LayoutRing.qml:477

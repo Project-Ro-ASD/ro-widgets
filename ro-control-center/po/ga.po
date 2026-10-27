@@ -1,0 +1,163 @@
+# Ro Control Center translations (ga).
+# SPDX-FileCopyrightText: 2026 Project Ro-ASD
+# SPDX-License-Identifier: GPL-2.0-or-later
+#
+# Strings that KDE's own applets also use come from KDE's catalogs; the rest were translated for Ro.
+msgid ""
+msgstr ""
+"Project-Id-Version: plasma_applet_org.ro.controlcenter\n"
+"PO-Revision-Date: 2026-10-26 23:00+0300\n"
+"Last-Translator: Project Ro-ASD\n"
+"Language-Team: Project Ro-ASD\n"
+"Language: ga\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+#: contents/ui/LayoutRo.qml:170
+msgid "Airplane Mode"
+msgstr "Mód Eitleáin"
+
+#: contents/ui/NetworkPage.qml:143
+msgid "Airplane mode"
+msgstr "Mód eitleáin"
+
+#: contents/ui/LayoutCards.qml:152 contents/ui/LayoutRing.qml:496 contents/ui/LayoutRo.qml:29 contents/ui/LayoutSideTabs.qml:28
+msgid "Audio"
+msgstr "Fuaim"
+
+#: contents/ui/LayoutCards.qml:32 contents/ui/LayoutRing.qml:34 contents/ui/PowerSelector.qml:34
+msgid "Balanced"
+msgstr "Cothromaithe"
+
+#: contents/ui/BluetoothPage.qml:29 contents/ui/LayoutCards.qml:207 contents/ui/LayoutCards.qml:216 contents/ui/LayoutRing.qml:394 contents/ui/LayoutRing.qml:403 contents/ui/LayoutRo.qml:28 contents/ui/LayoutRo.qml:112 contents/ui/LayoutSideTabs.qml:27
+msgid "Bluetooth"
+msgstr "Bluetooth"
+
+#: contents/ui/LayoutRing.qml:301
+msgid "Brightness"
+msgstr "Gile"
+
+#: contents/ui/PowerPage.qml:50
+msgid "Charging"
+msgstr "Á Luchtú"
+
+#: contents/ui/BluetoothPage.qml:104
+msgid "Connected"
+msgstr "Ceangailte"
+
+#: contents/ui/NetworkPage.qml:47
+msgid "Connected to %1"
+msgstr "Ceangailte le %1"
+
+#: contents/ui/LayoutCards.qml:252 contents/ui/LayoutRing.qml:433 contents/ui/LayoutRo.qml:157 contents/ui/LayoutSideTabs.qml:218
+msgid "Dark"
+msgstr "Dorcha"
+
+#: contents/ui/DisplayPage.qml:77 contents/ui/LayoutCards.qml:251 contents/ui/LayoutRing.qml:432 contents/ui/LayoutRo.qml:156 contents/ui/LayoutSideTabs.qml:217
+msgid "Dark Theme"
+msgstr "Téama Dorcha"
+
+#: contents/ui/PowerPage.qml:50
+msgid "Discharging"
+msgstr "Á Díluchtú"
+
+#: contents/ui/LayoutRo.qml:30 contents/ui/LayoutSideTabs.qml:29
+msgid "Display"
+msgstr "Scáileán"
+
+#: contents/ui/LayoutCards.qml:223 contents/ui/LayoutRing.qml:408 contents/ui/LayoutRo.qml:128 contents/ui/LayoutSideTabs.qml:157
+msgid "Do Not Disturb"
+msgstr "Ná Cuir As Dom"
+
+#: contents/config/config.qml:12 contents/ui/LayoutRo.qml:26
+msgid "General"
+msgstr "Ginearálta"
+
+#: contents/ui/KeyboardPage.qml:27 contents/ui/LayoutCards.qml:340 contents/ui/LayoutRo.qml:190
+msgid "Keyboard Layout"
+msgstr "Leagan Amach Méarchláir"
+
+#: contents/ui/ConfigGeneral.qml:20
+msgid "Layout:"
+msgstr "Leagan amach:"
+
+#: contents/ui/LayoutCards.qml:252 contents/ui/LayoutRing.qml:433 contents/ui/LayoutRo.qml:157 contents/ui/LayoutSideTabs.qml:218
+msgid "Light"
+msgstr "Geal"
+
+#: contents/ui/LayoutRo.qml:27 contents/ui/LayoutSideTabs.qml:26
+msgid "Network"
+msgstr "Líonra"
+
+#: contents/ui/DisplayPage.qml:49 contents/ui/LayoutCards.qml:237 contents/ui/LayoutRing.qml:420 contents/ui/LayoutRo.qml:142 contents/ui/LayoutSideTabs.qml:205
+msgid "Night Light"
+msgstr "Solas Oíche"
+
+#: contents/ui/BluetoothPage.qml:48
+msgid "No Bluetooth adapter"
+msgstr "Gan cuibheoir Bluetooth"
+
+#: contents/ui/BluetoothPage.qml:104 contents/ui/NetworkPage.qml:48
+msgid "Not connected"
+msgstr "Gan cheangal"
+
+#: contents/ui/LayoutCards.qml:192 contents/ui/LayoutCards.qml:208 contents/ui/LayoutCards.qml:224 contents/ui/LayoutCards.qml:238 contents/ui/LayoutRing.qml:381 contents/ui/LayoutRing.qml:395 contents/ui/LayoutRing.qml:409 contents/ui/LayoutRing.qml:421 contents/ui/LayoutRo.qml:97 contents/ui/LayoutRo.qml:113 contents/ui/LayoutRo.qml:129 contents/ui/LayoutRo.qml:143 contents/ui/LayoutRo.qml:171 contents/ui/LayoutSideTabs.qml:206
+msgid "Off"
+msgstr "As"
+
+#: contents/ui/LayoutCards.qml:191 contents/ui/LayoutCards.qml:208 contents/ui/LayoutCards.qml:224 contents/ui/LayoutCards.qml:238 contents/ui/LayoutRing.qml:380 contents/ui/LayoutRing.qml:395 contents/ui/LayoutRing.qml:409 contents/ui/LayoutRing.qml:421 contents/ui/LayoutRo.qml:96 contents/ui/LayoutRo.qml:113 contents/ui/LayoutRo.qml:129 contents/ui/LayoutRo.qml:143 contents/ui/LayoutRo.qml:171 contents/ui/LayoutSideTabs.qml:206
+msgid "On"
+msgstr "Air"
+
+#: contents/ui/LayoutCards.qml:30 contents/ui/LayoutRing.qml:32 contents/ui/PowerSelector.qml:37
+msgid "Performance"
+msgstr "Feidhmíocht"
+
+#: contents/ui/LayoutRo.qml:31 contents/ui/LayoutSideTabs.qml:30
+msgid "Power"
+msgstr "Cumhacht"
+
+#: contents/ui/LayoutCards.qml:265 contents/ui/LayoutRing.qml:444
+msgid "Power Profile"
+msgstr "Próifíl Chumhachta"
+
+#: contents/ui/LayoutCards.qml:27 contents/ui/LayoutRing.qml:29 contents/ui/PowerSelector.qml:31
+msgid "Power Save"
+msgstr "Sábháil Cumhachta"
+
+#: contents/ui/LayoutRo.qml:187 contents/ui/PowerPage.qml:25
+msgid "Power profile"
+msgstr "Próifíl chumhachta"
+
+#: contents/ui/LayoutCards.qml:122 contents/ui/LayoutRing.qml:201 contents/ui/LayoutRo.qml:53 contents/ui/LayoutSideTabs.qml:99
+msgid "Quick Settings"
+msgstr "Socruithe Tapa"
+
+#: contents/ui/ConfigGeneral.qml:26
+msgid "Ring"
+msgstr "Fáinne"
+
+#: contents/ui/ConfigGeneral.qml:24
+msgid "Classic"
+msgstr "Clasaiceach"
+
+#: contents/ui/ConfigGeneral.qml:27
+msgid "Panel"
+msgstr "Painéal"
+
+#: contents/ui/LayoutRing.qml:476 contents/ui/LayoutRing.qml:477
+msgid "Speaker"
+msgstr "Callaire"
+
+#: contents/ui/ConfigGeneral.qml:25
+msgid "Tiles"
+msgstr "Tíleanna"
+
+#: contents/ui/LayoutRing.qml:301
+msgid "Volume"
+msgstr "Airde"
+
+#: contents/ui/LayoutCards.qml:189 contents/ui/LayoutCards.qml:200 contents/ui/LayoutRing.qml:378 contents/ui/LayoutRing.qml:389 contents/ui/LayoutRo.qml:94 contents/ui/NetworkPage.qml:29
+msgid "Wi-Fi"
+msgstr "Wi-Fi"
