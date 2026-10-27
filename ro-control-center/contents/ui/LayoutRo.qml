@@ -10,6 +10,8 @@ import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
 
 Item {
+    // Renk seti popup'tan açıkça kalıtılsın; yazılmayınca Style örnekleri Kirigami.Theme'i siyah okuyor (ro-launcher ile aynı sorun).
+    Kirigami.Theme.inherit: true
     id: root
 
     property var backend

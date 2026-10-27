@@ -128,11 +128,11 @@ msgid "Ring"
 msgstr ""
 
 #: contents/ui/ConfigGeneral.qml:24
-msgid "Ro (tabs and tiles)"
+msgid "Classic"
 msgstr ""
 
 #: contents/ui/ConfigGeneral.qml:27
-msgid "Side tabs"
+msgid "Panel"
 msgstr ""
 
 #: contents/ui/LayoutRing.qml:476 contents/ui/LayoutRing.qml:477
