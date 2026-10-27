@@ -106,10 +106,12 @@ Item {
 
         RowLayout {
             Layout.fillWidth: true
-            Layout.preferredHeight: 300
+            // Sabit 300 sekmeler ve Rahatsız etme düğmesine yetmiyordu; alt düğmelerin üstüne taşıyordu.
+            Layout.preferredHeight: Math.max(sideColumn.implicitHeight, 360)
             spacing: 8
 
             ColumnLayout {
+                id: sideColumn
                 Layout.preferredWidth: 48
                 Layout.fillHeight: true
                 spacing: 6
