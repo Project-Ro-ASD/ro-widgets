@@ -238,6 +238,9 @@ Item {
     PulseObjectFilterModel {
         id: paSinkFilterModel
         filterOutInactiveDevices: true
+        // KDE'nin ses widget'ı gibi: AirPlay vb. ağ ve sanal çıkışlar listede görünmez
+        // (KDE'de "sanal cihazları göster" ayarı varsayılan kapalı).
+        filterVirtualDevices: true
         sourceModel: paSinkModel
     }
 
