@@ -29,7 +29,8 @@ Item {
         { id: "bluetooth", icon: "bluetooth-disabled-symbolic", label: i18n("Bluetooth") },
         { id: "ses", icon: "audio-volume-high-symbolic", label: i18n("Audio") },
         { id: "ekran", icon: "display-brightness-symbolic", label: i18n("Display") },
-        { id: "guc", icon: "power-profile-balanced-symbolic", label: i18n("Power") }
+        { id: "guc", icon: "power-profile-balanced-symbolic", label: i18n("Power") },
+        { id: "pano", icon: "klipper-symbolic", label: i18n("Clipboard") }
     ]
 
     function tabIndex(id) {
@@ -193,6 +194,14 @@ Item {
 
                     PowerPage {
                         backend: root.backend
+                    }
+
+                    // Pano yalnız sekmesi açılınca yüklenir: KDE'nin pano arka ucu (Klipper) gereksiz başlamasın.
+                    Loader {
+                        active: root.currentTab === "pano"
+                        sourceComponent: ClipboardPage {
+                            backend: root.backend
+                        }
                     }
                 }
             }

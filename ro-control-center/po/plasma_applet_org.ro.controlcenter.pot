@@ -87,9 +87,11 @@ msgstr ""
 msgid "Night Light"
 msgstr ""
 
+
 #: contents/ui/BluetoothPage.qml:48
 msgid "No Bluetooth adapter"
 msgstr ""
+
 
 #: contents/ui/BluetoothPage.qml:104 contents/ui/NetworkPage.qml:48
 msgid "Not connected"
@@ -153,4 +155,8 @@ msgstr ""
 
 #: contents/ui/LayoutCards.qml:189 contents/ui/LayoutCards.qml:200 contents/ui/LayoutRing.qml:378 contents/ui/LayoutRing.qml:389 contents/ui/LayoutRo.qml:94 contents/ui/NetworkPage.qml:29
 msgid "Wi-Fi"
+msgstr ""
+
+#: contents/ui/LayoutRo.qml:35 contents/ui/LayoutSideTabs.qml:33
+msgid "Clipboard"
 msgstr ""

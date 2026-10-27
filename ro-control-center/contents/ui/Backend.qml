@@ -26,6 +26,12 @@ Item {
     id: backend
     visible: false
 
+    // Sayfalardaki ayar düğmeleri popup'ı kapatsın diye main.qml'e iletilir.
+    signal closeRequested()
+    function requestClose() {
+        closeRequested();
+    }
+
     // --- Wi-Fi ---
 
     PlasmaNM.EnabledConnections { id: enabledConnections }

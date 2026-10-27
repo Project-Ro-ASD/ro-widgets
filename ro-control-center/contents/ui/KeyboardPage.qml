@@ -8,6 +8,8 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
+import org.kde.kcmutils as KCMUtils
+import org.kde.config as KConfig
 
 ColumnLayout {
     // Renk seti popup'tan açıkça kalıtılsın; yazılmayınca Style örnekleri Kirigami.Theme'i siyah okuyor (ro-launcher ile aynı sorun).
@@ -22,11 +24,31 @@ ColumnLayout {
 
     spacing: 8
 
-    PC3.Label {
+    RowLayout {
         Layout.fillWidth: true
-        text: i18n("Keyboard Layout")
-        font.pointSize: Kirigami.Theme.defaultFont.pointSize * 1.15
-        color: Kirigami.Theme.textColor
+
+        PC3.Label {
+            Layout.fillWidth: true
+            text: i18n("Keyboard Layout")
+            font.pointSize: Kirigami.Theme.defaultFont.pointSize * 1.15
+            color: Kirigami.Theme.textColor
+        }
+
+        // KDE keyboardlayout configGeneral.qml'deki düzen ayarları.
+        PC3.ToolButton {
+            icon.name: "configure"
+            visible: KConfig.KAuthorized.authorizeControlModule("kcm_keyboard")
+            onClicked: {
+                KCMUtils.KCMLauncher.openSystemSettings("kcm_keyboard", "--tab=layouts");
+                if (root.backend) {
+                    root.backend.requestClose();
+                }
+            }
+
+            PC3.ToolTip {
+                text: i18ndc("plasma_applet_org.kde.plasma.keyboardlayout", "@action:button opens kcm_keyboard", "Configure…")
+            }
+        }
     }
 
     Rectangle {
