@@ -13,6 +13,7 @@ import org.kde.bluezqt as BluezQt
 import org.kde.plasma.private.bluetooth as PlasmaBt
 import org.kde.notificationmanager as NotificationManager
 import org.kde.plasma.private.brightnesscontrolplugin
+import org.kde.plasma.workspace.keyboardlayout
 import org.kde.plasma.workspace.dbus as DBus
 import org.kde.plasma.private.batterymonitor
 import org.kde.plasma.private.battery
@@ -329,6 +330,65 @@ Item {
         screenBrightnessControl.isSilent = true;
         screenBrightnessControl.setBrightness(display.displayName,
             Math.round(display.maxBrightness * Math.max(0, Math.min(1, value))));
+    }
+
+    // --- Klavye arka ışığı ve rengi ---
+
+    KeyboardBrightnessControl { id: keyboardBrightnessControl }
+    KeyboardColorControl { id: keyboardColorControl }
+
+    readonly property bool keyboardBrightnessAvailable: keyboardBrightnessControl.isBrightnessAvailable
+    readonly property real keyboardBrightness: keyboardBrightnessControl.brightnessMax > 0
+        ? Math.max(0, Math.min(1, keyboardBrightnessControl.brightness / keyboardBrightnessControl.brightnessMax))
+        : 0
+
+    function setKeyboardBrightness(value) {
+        if (!keyboardBrightnessAvailable || keyboardBrightnessControl.brightnessMax <= 0) {
+            return;
+        }
+        // OSD gereksiz: değişiklik arayüzde görünüyor (KDE'nin isSilent bayrağı).
+        keyboardBrightnessControl.isSilent = true;
+        keyboardBrightnessControl.brightness = Math.round(keyboardBrightnessControl.brightnessMax
+            * Math.max(0, Math.min(1, value)));
+    }
+
+    // Vurgu rengini izleme anahtarı (KDE KeyboardColorItem).
+    readonly property bool keyboardColorAvailable: keyboardColorControl.supported
+    readonly property bool keyboardColorFollowsAccent: keyboardColorControl.enabled
+
+    function setKeyboardColorFollowsAccent(enable) {
+        keyboardColorControl.enabled = enable;
+    }
+
+    // --- Klavye düzeni ---
+
+    KeyboardLayout { id: keyboardLayout }
+
+    // KDE'nin layoutsList'i: her öğe { shortName, longName }.
+    readonly property var keyboardLayouts: {
+        const list = keyboardLayout.layoutsList;
+        const layouts = [];
+        for (let i = 0; i < list.length; ++i) {
+            layouts.push({ shortName: list[i].shortName, longName: list[i].longName });
+        }
+        return layouts;
+    }
+
+    readonly property int currentLayout: keyboardLayout.layout
+
+    readonly property string currentLayoutShortName: {
+        const list = keyboardLayout.layoutsList;
+        return (currentLayout >= 0 && currentLayout < list.length) ? list[currentLayout].shortName : "";
+    }
+
+    function setLayout(index) {
+        if (index >= 0 && index < keyboardLayout.layoutsList.length) {
+            keyboardLayout.layout = index;
+        }
+    }
+
+    function nextLayout() {
+        keyboardLayout.switchToNextLayout();
     }
 
     // --- Pil ---

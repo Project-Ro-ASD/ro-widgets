@@ -47,6 +47,10 @@ Item {
     }
 
     function tabIndex(id) {
+        // Klavye düzeni sekme değil, Genel'deki kartın okundan açılan gizli sayfa.
+        if (id === "klavye") {
+            return tabList.length
+        }
         for (let i = 0; i < tabList.length; ++i) {
             if (tabList[i].id === id) {
                 return i
@@ -179,6 +183,24 @@ Item {
                         }
 
                         Tile {
+                            visible: root.backend ? root.backend.keyboardLayouts.length > 1 : false
+                            Layout.fillWidth: true
+                            Layout.preferredHeight: 52
+                            iconName: "input-keyboard-symbolic"
+                            label: i18n("Keyboard Layout")
+                            status: root.backend && root.backend.keyboardLayouts.length > root.backend.currentLayout
+                                ? root.backend.keyboardLayouts[root.backend.currentLayout].longName
+                                : ""
+                            hasDetails: true
+                            onClicked: {
+                                if (root.backend) {
+                                    root.backend.nextLayout()
+                                }
+                            }
+                            onDetailsClicked: root.currentTab = "klavye"
+                        }
+
+                        Tile {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 52
                             iconName: "airplane-mode-symbolic"
@@ -303,6 +325,10 @@ Item {
                 }
 
                 PowerPage {
+                    backend: root.backend
+                }
+
+                KeyboardPage {
                     backend: root.backend
                 }
             }

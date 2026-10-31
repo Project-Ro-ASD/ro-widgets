@@ -74,6 +74,10 @@ msgstr "Không làm phiền"
 msgid "General"
 msgstr "Chung"
 
+#: contents/ui/KeyboardPage.qml:27 contents/ui/LayoutCards.qml:340 contents/ui/LayoutRo.qml:190
+msgid "Keyboard Layout"
+msgstr "Bố cục bàn phím"
+
 #: contents/ui/ConfigGeneral.qml:20
 msgid "Layout:"
 msgstr "Bố cục:"
