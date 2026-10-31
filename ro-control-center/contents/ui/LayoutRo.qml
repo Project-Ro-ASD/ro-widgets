@@ -8,6 +8,7 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
+import org.kde.coreaddons as KCoreAddons
 
 Item {
     // Renk seti popup'tan açıkça kalıtılsın; yazılmayınca Style örnekleri Kirigami.Theme'i siyah okuyor (ro-launcher ile aynı sorun).
@@ -32,6 +33,18 @@ Item {
         { id: "ekran", icon: "display-brightness-symbolic", label: i18n("Display") },
         { id: "guc", icon: "power-profile-balanced-symbolic", label: i18n("Power") }
     ]
+
+    // Genel sekmesindeki pil özeti: "%64 · 0:52".
+    function batterySummary() {
+        if (!root.backend || !root.backend.hasBattery) {
+            return ""
+        }
+        const percent = root.backend.batteryPercent + "%"
+        if (root.backend.remainingMsec > 0) {
+            return percent + " · " + KCoreAddons.Format.formatDuration(root.backend.remainingMsec, KCoreAddons.FormatTypes.HideSeconds)
+        }
+        return percent
+    }
 
     function tabIndex(id) {
         for (let i = 0; i < tabList.length; ++i) {
@@ -195,6 +208,51 @@ Item {
                             Layout.fillWidth: true
                             Layout.preferredHeight: 36
                             backend: root.backend
+                        }
+                    }
+
+                    Rectangle {
+                        visible: root.backend ? root.backend.hasBattery : false
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: 40
+                        radius: st.radiusCard
+                        color: batteryMouse.containsMouse ? st.hover : st.glass
+                        border.width: st.borderWidth
+                        border.color: st.glassBorder
+
+                        RowLayout {
+                            anchors.fill: parent
+                            anchors.margins: 8
+                            spacing: 8
+
+                            Kirigami.Icon {
+                                Layout.preferredWidth: 16
+                                Layout.preferredHeight: 16
+                                source: root.backend && root.backend.charging ? "battery-good-charging-symbolic" : "battery-good-symbolic"
+                                isMask: true
+                                color: Kirigami.Theme.textColor
+                            }
+
+                            PC3.Label {
+                                Layout.fillWidth: true
+                                text: root.batterySummary()
+                                color: Kirigami.Theme.textColor
+                            }
+
+                            Kirigami.Icon {
+                                Layout.preferredWidth: 14
+                                Layout.preferredHeight: 14
+                                source: "go-next-symbolic"
+                                isMask: true
+                                color: st.textMuted
+                            }
+                        }
+
+                        MouseArea {
+                            id: batteryMouse
+                            anchors.fill: parent
+                            hoverEnabled: true
+                            onClicked: root.currentTab = "guc"
                         }
                     }
 
