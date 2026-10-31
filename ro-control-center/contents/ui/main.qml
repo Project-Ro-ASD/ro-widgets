@@ -16,6 +16,13 @@ PlasmoidItem {
         id: backend
     }
 
+    Connections {
+        target: backend
+        function onCloseRequested() {
+            root.expanded = false;
+        }
+    }
+
     Plasmoid.icon: "preferences-system"
 
     compactRepresentation: Item {

@@ -8,6 +8,8 @@ import QtQuick
 import QtQuick.Layouts
 import org.kde.plasma.components as PC3
 import org.kde.kirigami as Kirigami
+import org.kde.kcmutils as KCMUtils
+import org.kde.config as KConfig
 import org.kde.coreaddons as KCoreAddons
 import org.kde.kitemmodels as KItemModels
 
@@ -193,6 +195,33 @@ ColumnLayout {
     }
 
     spacing: 8
+
+    RowLayout {
+        Layout.fillWidth: true
+
+        PC3.Label {
+            Layout.fillWidth: true
+            text: i18n("Power")
+            font.pointSize: Kirigami.Theme.defaultFont.pointSize * 1.15
+            color: Kirigami.Theme.textColor
+        }
+
+        // KDE batterymonitor main.qml'deki güç yönetimi ayarları.
+        PC3.ToolButton {
+            icon.name: "configure"
+            visible: KConfig.KAuthorized.authorizeControlModule("kcm_powerdevilprofilesconfig")
+            onClicked: {
+                KCMUtils.KCMLauncher.openSystemSettings("kcm_powerdevilprofilesconfig");
+                if (root.backend) {
+                    root.backend.requestClose();
+                }
+            }
+
+            PC3.ToolTip {
+                text: i18nd("plasma_applet_org.kde.plasma.battery", "&Configure Power Management…")
+            }
+        }
+    }
 
     PC3.Label {
         Layout.fillWidth: true
@@ -446,6 +475,20 @@ ColumnLayout {
                                 wrapMode: Text.WordWrap
                             }
                         }
+                    }
+                }
+            }
+
+            // KDE batterymonitor: enerji bilgisi ayrı KCM'de açılır.
+            PC3.Button {
+                visible: KConfig.KAuthorized.authorizeControlModule("kcm_energyinfo")
+                Layout.fillWidth: true
+                icon.name: "documentinfo"
+                text: i18nd("plasma_applet_org.kde.plasma.battery", "&Show Energy Information…")
+                onClicked: {
+                    KCMUtils.KCMLauncher.openInfoCenter("kcm_energyinfo");
+                    if (root.backend) {
+                        root.backend.requestClose();
                     }
                 }
             }

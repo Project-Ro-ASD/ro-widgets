@@ -26,6 +26,12 @@ Item {
     id: backend
     visible: false
 
+    // Sayfalardaki ayar düğmeleri popup'ı kapatsın diye main.qml'e iletilir.
+    signal closeRequested()
+    function requestClose() {
+        closeRequested();
+    }
+
     // --- Wi-Fi ---
 
     PlasmaNM.EnabledConnections { id: enabledConnections }
@@ -45,12 +51,19 @@ Item {
     // Model değişince SSID bağlaması yeniden hesaplansın diye sayaç.
     property int _networkRevision: 0
 
+    // Tarama sırasında model sürekli değişir; SSID her değişimde değil, değişimler durulunca bir kez hesaplansın.
+    Timer {
+        id: networkRevisionTimer
+        interval: 300
+        onTriggered: backend._networkRevision++
+    }
+
     Connections {
         target: appletProxyModel
-        function onDataChanged() { backend._networkRevision++; }
-        function onModelReset() { backend._networkRevision++; }
-        function onRowsInserted() { backend._networkRevision++; }
-        function onRowsRemoved() { backend._networkRevision++; }
+        function onDataChanged() { networkRevisionTimer.restart(); }
+        function onModelReset() { networkRevisionTimer.restart(); }
+        function onRowsInserted() { networkRevisionTimer.restart(); }
+        function onRowsRemoved() { networkRevisionTimer.restart(); }
     }
 
     // Bağlı Wi-Fi satırının SSID'si; ayrı bir özellik yok, modelden okunur.

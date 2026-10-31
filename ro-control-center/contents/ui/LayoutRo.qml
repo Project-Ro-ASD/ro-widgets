@@ -31,7 +31,8 @@ Item {
         { id: "bluetooth", icon: "bluetooth-disabled-symbolic", label: i18n("Bluetooth") },
         { id: "ses", icon: "audio-volume-high-symbolic", label: i18n("Audio") },
         { id: "ekran", icon: "display-brightness-symbolic", label: i18n("Display") },
-        { id: "guc", icon: "power-profile-balanced-symbolic", label: i18n("Power") }
+        { id: "guc", icon: "power-profile-balanced-symbolic", label: i18n("Power") },
+        { id: "pano", icon: "klipper-symbolic", label: i18n("Clipboard") }
     ]
 
     // Genel sekmesindeki pil özeti: "%64 · 0:52".
@@ -308,28 +309,72 @@ Item {
                     }
                 }
 
-                NetworkPage {
-                    backend: root.backend
+                Loader {
+                    // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                    property bool visited: false
+                    active: visited || root.currentTab === "ag"
+                    onActiveChanged: if (active) visited = true
+                    sourceComponent: NetworkPage {
+                        backend: root.backend
+                    }
                 }
 
-                BluetoothPage {
-                    backend: root.backend
+                Loader {
+                    // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                    property bool visited: false
+                    active: visited || root.currentTab === "bluetooth"
+                    onActiveChanged: if (active) visited = true
+                    sourceComponent: BluetoothPage {
+                        backend: root.backend
+                    }
                 }
 
-                AudioPage {
-                    backend: root.backend
+                Loader {
+                    // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                    property bool visited: false
+                    active: visited || root.currentTab === "ses"
+                    onActiveChanged: if (active) visited = true
+                    sourceComponent: AudioPage {
+                        backend: root.backend
+                    }
                 }
 
-                DisplayPage {
-                    backend: root.backend
+                Loader {
+                    // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                    property bool visited: false
+                    active: visited || root.currentTab === "ekran"
+                    onActiveChanged: if (active) visited = true
+                    sourceComponent: DisplayPage {
+                        backend: root.backend
+                    }
                 }
 
-                PowerPage {
-                    backend: root.backend
+                Loader {
+                    // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                    property bool visited: false
+                    active: visited || root.currentTab === "guc"
+                    onActiveChanged: if (active) visited = true
+                    sourceComponent: PowerPage {
+                        backend: root.backend
+                    }
                 }
 
-                KeyboardPage {
-                    backend: root.backend
+                // Pano yalnız sekmesi açılınca yüklenir: KDE'nin pano arka ucu (Klipper) gereksiz başlamasın.
+                Loader {
+                    active: root.currentTab === "pano"
+                    sourceComponent: ClipboardPage {
+                        backend: root.backend
+                    }
+                }
+
+                Loader {
+                    // Sekme ilk açılınca yüklenir, sonra bellekte kalır (popup hızlı açılsın).
+                    property bool visited: false
+                    active: visited || root.currentTab === "klavye"
+                    onActiveChanged: if (active) visited = true
+                    sourceComponent: KeyboardPage {
+                        backend: root.backend
+                    }
                 }
             }
         }

@@ -94,9 +94,11 @@ msgstr "Желі"
 msgid "Night Light"
 msgstr "Түнгі жарық"
 
+
 #: contents/ui/BluetoothPage.qml:48
 msgid "No Bluetooth adapter"
 msgstr "Bluetooth адаптері жоқ"
+
 
 #: contents/ui/BluetoothPage.qml:104 contents/ui/NetworkPage.qml:48
 msgid "Not connected"
@@ -161,3 +163,7 @@ msgstr "Дыбыс деңгейі"
 #: contents/ui/LayoutCards.qml:189 contents/ui/LayoutCards.qml:200 contents/ui/LayoutRing.qml:378 contents/ui/LayoutRing.qml:389 contents/ui/LayoutRo.qml:94 contents/ui/NetworkPage.qml:29
 msgid "Wi-Fi"
 msgstr "Wi-Fi"
+
+#: contents/ui/LayoutRo.qml:35 contents/ui/LayoutSideTabs.qml:33
+msgid "Clipboard"
+msgstr "Алмасу буфері"
