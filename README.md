@@ -35,7 +35,7 @@ python3 -m unittest discover -s tests # servis menüsü betiği birim testleri
 tools/sync-tokens                   # Ro-Theme token'ları değişince: RoTokens.qml kopyalarını ../Ro-Theme'den güncelle
 tools/sync-tokens --check           # kopyalar Ro-Theme main ile aynı mı (CI'da uyarı)
 tools/project-ci                    # CI: sözleşme + QML sözdizimi + RPM (Fedora 44 konteyneri)
-tools/build-rpm 0.1.7 noarch out/   # ro-widgets RPM ve SRPM
+tools/build-rpm 0.2.0 noarch out/   # ro-widgets RPM ve SRPM
 ```
 
 Yerel deneme (yalnız kendi kullanıcınız):
