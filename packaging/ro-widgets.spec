@@ -2,7 +2,7 @@
 %global ro_userunitdir %{_prefix}/lib/systemd/user
 
 Name:           ro-widgets
-Version:        %{?ro_version}%{!?ro_version:0.1.7}
+Version:        %{?ro_version}%{!?ro_version:0.2.0}
 Release:        1%{?dist}
 Summary:        Ro Desktop Plasma widgets
 License:        GPL-3.0-or-later AND GPL-2.0-or-later AND LGPL-2.0-or-later AND CC-BY-SA-4.0
@@ -93,6 +93,15 @@ cat plasma_applet_org.ro.controlcenter.lang >> plasma_applet_org.ro.launcher.lan
 %{ro_userunitdir}/default.target.wants/ro-launcher-servicemenu.path
 
 %changelog
+* Tue Nov 03 2026 Project Ro-ASD - 0.2.0-1
+- New widget: Ro Control Center (org.ro.controlcenter), quick settings with
+  four layouts (Classic, Cards, Ring, Panel): network with Wi-Fi password,
+  Bluetooth with pairing, audio, display, power (remaining time, battery
+  health, sleep block), keyboard layout and backlight, clipboard, and links to
+  System Settings. Built on KDE's own QML modules; 61 languages.
+- ro-launcher: show the full name in a tooltip when it does not fit.
+- RoTokens synced with Ro-Theme 2.0.3.
+
 * Fri Oct 23 2026 Project Ro-ASD - 0.1.7-1
 - ro-launcher: user categories survive removing and re-adding the widget and
   reapplying the theme (a backup of them is kept in

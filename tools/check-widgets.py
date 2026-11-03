@@ -63,7 +63,7 @@ for w in sorted(widgets):
     tokens = ui / 'RoTokens.qml'
     if tokens.is_file():
         text = tokens.read_text(encoding='utf-8')
-        if 'pragma Singleton' not in text or 'generate-theme.sh' not in text:
+        if 'pragma Singleton' not in text or './ro generate' not in text:
             err(f'{name}: RoTokens.qml Ro-Theme çıktısı değil; tools/sync-tokens ile kopyalayın')
         if not qmldir.is_file() or not re.search(r'^singleton RoTokens \S+ RoTokens\.qml$', qmldir.read_text(encoding='utf-8'), re.M):
             err(f'{name}: RoTokens qmldir içinde singleton olarak kayıtlı değil (WGT-08)')
