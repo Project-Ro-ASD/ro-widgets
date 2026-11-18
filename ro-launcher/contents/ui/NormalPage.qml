@@ -62,7 +62,9 @@ Item {
     // 0 = ana ekran (kompakt favori kartı), 1 = sekmeler/arama (tam kart). Kart yüksekliği ve
     // içeriğin kayarak/solarak gelmesi buna bağlı.
     property real expandProgress: (root.useClassicView || root.isExpanded) ? 1 : 0
+    // Kapanırken animasyon yok: popup gizlenirken arkada oynayıp hemen yeniden açılınca yarım kalmış görünmesin
     Behavior on expandProgress {
+        enabled: kickoff.expanded
         NumberAnimation { duration: root.st.durationLong; easing.type: Easing.OutCubic }
     }
 
@@ -125,15 +127,6 @@ Item {
         root.launch(directSearchView.model, index);
     }
     //END
-
-    Connections {
-        target: kickoff
-        function onExpandedChanged() {
-            if (!kickoff.expanded) {
-                root.resetToHome();
-            }
-        }
-    }
 
     function openSubPages() {
         if (root.useClassicView) return;
