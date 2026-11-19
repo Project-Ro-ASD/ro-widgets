@@ -39,8 +39,10 @@ Item {
     }
 
     // Profil fotoğrafı sistem ayarlarından değişince dosya aynı yolda kalır (AccountsService / ~/.face.icon): hem KUser hem
-    // Image önbelleği eski değeri tutar. Launcher her açılışta KUser'ı yeniden kurar ve adrese revizyon ekler.
+    // Image önbelleği eski değeri tutar. Launcher açılınca KUser'ı yeniden kurar ve adrese revizyon ekler; Super'a art arda
+    // basınca her açılışta fotoğrafı yeniden çözmesin diye en çok dakikada bir.
     property int faceRevision: 0
+    property double lastUserRefresh: 0
     Component {
         id: kuserComponent
         KCoreAddons.KUser {}
@@ -55,6 +57,11 @@ Item {
         return url.length > 0 ? url + "?v=" + faceRevision : "";
     }
     function refreshUser() {
+        const now = Date.now();
+        if (now - lastUserRefresh < 60000) {
+            return;
+        }
+        lastUserRefresh = now;
         faceRevision++;
         kuserLoader.active = false;
         kuserLoader.active = true;
@@ -102,6 +109,9 @@ Item {
                     anchors.fill: parent
                     source: root.faceUrl
                     cache: false
+                    asynchronous: true
+                    sourceSize.width: width * Screen.devicePixelRatio
+                    sourceSize.height: height * Screen.devicePixelRatio
                     fillMode: Image.PreserveAspectCrop
                     visible: false
                 }
